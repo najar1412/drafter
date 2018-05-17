@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>three.js webgl - fly controls - earth</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style>
+			body {
+				background:#000;
+				color: #eee;
+				padding:0;
+				margin:0;
+				font-weight:bold;
+				overflow:hidden;
+
+				font-family:Monospace;
+				font-size:13px;
+				text-align:center;
+			}
+
+			#info {
+				position: absolute;
+				top: 0px; width: 100%;
+				padding: 5px;
+				z-index:100;
+			}
+
+			a {
+
+				color: #0080ff;
+			}
+
+			b { color:orange }
+		</style>
+
+        <script src="/static/js/three.js"></script>
+        <script src="/static/js/OBJLoader.js"></script>
+        <script src="/static/js/Sky.js"></script>
+        <script src="/static/js/dat.gui.js"></script>
+
+        <script src="/static/js/FlyControls.js"></script>
+
+		<script src="/static/js/CopyShader.js"></script>
+		<script src="/static/js/FilmShader.js"></script>
+
+		<script src="/static/js/EffectComposer.js"></script>
+		<script src="/static/js/ShaderPass.js"></script>
+		<script src="/static/js/MaskPass.js"></script>
+		<script src="/static/js/RenderPass.js"></script>
+		<script src="/static/js/FilmPass.js"></script>
+
+		<script src="/static/js/Detector.js"></script>
+		<script src="/static/js/stats.js"></script>
+
+	</head>
+
+	<body>
+
+		<div id="info"><a href="http://threejs.org" target="_blank" rel="noopener">three.js</a> - earth [fly controls]<br/><br/>
+		<b>WASD</b> move, <b>R|F</b> up | down, <b>Q|E</b> roll, <b>up|down</b> pitch, <b>left|right</b> yaw<br/>
+		</div>
+
+		<script>
+
+			if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+
+			var radius = 6371;
+			var tilt = 0.41;
+			var rotationSpeed = 0.02;
+
+			var MARGIN = 0;
+			var SCREEN_HEIGHT = window.innerHeight - MARGIN * 2;
+			var SCREEN_WIDTH  = window.innerWidth;
+
+			var camera, controls, scene, renderer, stats;
+			var dirLight;
+
+            var textureLoader = new THREE.TextureLoader();
+            var loader = new THREE.OBJLoader();
+
+			var d, dPlanet, dMoon, dMoonVec = new THREE.Vector3();
+
+            var clock = new THREE.Clock();
+            
+            var sky, sunSphere;
+
+            renderer = new THREE.WebGLRenderer( { antialias: true } );
+
+			init();
+            animate();
+            
+            function initSky() {
+				// Add Sky
+				sky = new THREE.Sky();
+				sky.scale.setScalar( 450000 );
+				scene.add( sky );
+				// Add Sun Helper
+				sunSphere = new THREE.Mesh(
+					new THREE.SphereBufferGeometry( 20000, 16, 8 ),
+					new THREE.MeshBasicMaterial( { color: 0xffffff } )
+				);
+				sunSphere.position.y = - 700000;
+				sunSphere.visible = false;
+				scene.add( sunSphere );
+				/// GUI
+				var effectController  = {
+					turbidity: 10,
+					rayleigh: 2,
+					mieCoefficient: 0.005,
+					mieDirectionalG: 0.8,
+					luminance: 1,
+					inclination: 0.49, // elevation / inclination
+					azimuth: 0.25, // Facing front,
+					sun: ! true
+				};
+				var distance = 400000;
+				function guiChanged() {
+					var uniforms = sky.material.uniforms;
+					uniforms.turbidity.value = effectController.turbidity;
+					uniforms.rayleigh.value = effectController.rayleigh;
+					uniforms.luminance.value = effectController.luminance;
+					uniforms.mieCoefficient.value = effectController.mieCoefficient;
+					uniforms.mieDirectionalG.value = effectController.mieDirectionalG;
+					var theta = Math.PI * ( effectController.inclination - 0.5 );
+					var phi = 2 * Math.PI * ( effectController.azimuth - 0.5 );
+					sunSphere.position.x = distance * Math.cos( phi );
+					sunSphere.position.y = distance * Math.sin( phi ) * Math.sin( theta );
+					sunSphere.position.z = distance * Math.sin( phi ) * Math.cos( theta );
+					sunSphere.visible = effectController.sun;
+					uniforms.sunPosition.value.copy( sunSphere.position );
+					renderer.render( scene, camera );
+				}
+				var gui = new dat.GUI();
+				gui.add( effectController, "turbidity", 1.0, 20.0, 0.1 ).onChange( guiChanged );
+				gui.add( effectController, "rayleigh", 0.0, 4, 0.001 ).onChange( guiChanged );
+				gui.add( effectController, "mieCoefficient", 0.0, 0.1, 0.001 ).onChange( guiChanged );
+				gui.add( effectController, "mieDirectionalG", 0.0, 1, 0.001 ).onChange( guiChanged );
+				gui.add( effectController, "luminance", 0.0, 2 ).onChange( guiChanged );
+				gui.add( effectController, "inclination", 0, 1, 0.0001 ).onChange( guiChanged );
+				gui.add( effectController, "azimuth", 0, 1, 0.0001 ).onChange( guiChanged );
+				gui.add( effectController, "sun" ).onChange( guiChanged );
+				guiChanged();
+			}
+
+			function init() {
+
+				camera = new THREE.PerspectiveCamera( 25, SCREEN_WIDTH / SCREEN_HEIGHT, 50, 1e7 );
+                camera.position.z = 0;
+                camera.position.x = 0;
+                camera.position.y = 0;
+
+				scene = new THREE.Scene();
+				scene.fog = new THREE.FogExp2( 0x000000, 0.00000025 );
+
+				dirLight = new THREE.DirectionalLight( 0xffffff );
+				dirLight.position.set( -1, 0, 1 ).normalize();
+                scene.add( dirLight );
+                
+                initSky();
+
+                
+                // landmass
+                var landmass = loader.load('static/mesh/landmass.obj', function (object) {
+                        scene.add( object );
+                    }
+                );
+
+                var nyc_parks = loader.load(
+                    // resource URL
+                    'static/mesh/nyc_parks.obj',
+                    // called when resource is loaded
+                    function ( object ) {
+                        scene.add( object );
+                    },
+                    // called when loading is in progresses
+                    function ( xhr ) {
+                        console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+                    },
+                    // called when loading has errors
+                    function ( error ) {
+                        console.log( 'An error happened' );
+                    }
+                );
+                var hy_ery = loader.load(
+                    // resource URL
+                    'static/mesh/hy_ery.obj',
+                    // called when resource is loaded
+                    function ( object ) {
+                        scene.add( object );
+                    },
+                    // called when loading is in progresses
+                    function ( xhr ) {
+                        console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+                    },
+                    // called when loading has errors
+                    function ( error ) {
+                        console.log( 'An error happened' );
+                    }
+                );
+
+                var hy_hy = loader.load(
+                    // resource URL
+                    'static/mesh/hy_hy.obj',
+                    // called when resource is loaded
+                    function ( object ) {
+                        scene.add( object );
+                    },
+                    // called when loading is in progresses
+                    function ( xhr ) {
+                        console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+                    }
+                );
+                var nyc_blocks = loader.load(
+                    // resource URL
+                    'static/mesh/nyc_blocks.obj',
+                    // called when resource is loaded
+                    function ( object ) {
+                        scene.add( object );
+                    },
+                    // called when loading is in progresses
+                    function ( xhr ) {
+                        console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+                    }
+                );
+                var nyc_named = loader.load(
+                    // resource URL
+                    'static/mesh/nyc_named.obj',
+                    // called when resource is loaded
+                    function ( object ) {
+                        scene.add( object );
+                    },
+                    // called when loading is in progresses
+                    function ( xhr ) {
+                        console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+                    }
+                );
+
+                var helper = new THREE.GridHelper( 10000, 2, 0xffffff, 0xffffff );
+				scene.add( helper );
+
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
+				document.body.appendChild( renderer.domElement );
+
+                //
+                
+                //controls = new THREE.TrackballControls( camera, renderer.domElement );
+
+				controls = new THREE.FlyControls(camera, renderer.domElement);
+
+				controls.movementSpeed = 1000;
+				controls.domElement = renderer.domElement;
+				controls.rollSpeed = Math.PI / 24;
+				controls.autoForward = false;
+				controls.dragToLook = true;
+
+				stats = new Stats();
+				document.body.appendChild( stats.dom );
+
+				window.addEventListener( 'resize', onWindowResize, false );
+
+			}
+
+			function onWindowResize( event ) {
+
+				SCREEN_HEIGHT = window.innerHeight;
+				SCREEN_WIDTH  = window.innerWidth;
+
+				renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
+
+				camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
+				camera.updateProjectionMatrix();
+
+
+			}
+
+			function animate() {
+
+				requestAnimationFrame( animate );
+
+				render();
+				stats.update();
+
+			}
+
+			function render() {
+
+				// rotate the planet and clouds
+
+				var delta = clock.getDelta();
+
+				controls.movementSpeed = 10000;
+				controls.update( delta );
+                
+                renderer.render(scene, camera)
+
+			}
+
+		</script>
+	</body>
+</html>
