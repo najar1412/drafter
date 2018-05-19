@@ -28,7 +28,8 @@
 
 			var MARGIN = 0;
 			var SCREEN_HEIGHT = window.innerHeight - MARGIN * 2;
-			var SCREEN_WIDTH  = window.innerWidth;
+            var SCREEN_WIDTH  = window.innerWidth;
+            var WORLD_ROOT = 80.0;
 
 			var camera, controls, scene, renderer, stats;
             var dl_sun;
@@ -88,22 +89,15 @@
                 
 
                 var landmass = objLoader.load('static/mesh/landmass.obj', function (object) {
-                        var g_landmass = new THREE.Group();
-                        for (i=0; i < object.children.length; i++) {
-                            var box_mesh = object.children[i];
-                            box_mesh.receiveShadow = true;
-                            // box_mesh.material = groundMaterial;
-                            
-                            g_landmass.add(box_mesh);
-                            
-                        };
-                        scene.add( g_landmass );
+                    var g_landmass = new THREE.Group();
+                    for (i=0; i < object.children.length; i++) {
+                        var childMesh = object.children[i];
+                        childMesh.receiveShadow = true;
+                        childMesh.rotation.y = WORLD_ROOT;
                         
-                    }
-                );
-
-                var nyc_parks = objLoader.load('static/mesh/nyc_parks.obj', function ( object ) {
-                        scene.add( object );
+                        g_landmass.add(childMesh);
+                    };
+                    scene.add( g_landmass );
                     },
                     // called when loading is in progresses
                     function ( xhr ) {
@@ -114,6 +108,31 @@
                         console.log( 'An error happened' );
                     }
                 );
+                
+
+                var nyc_parks = objLoader.load('static/mesh/nyc_parks.obj', function ( object ) {
+                    var g_nyc_parks = new THREE.Group();
+                    for (i=0;i<object.children.length;i++) {
+                        var childMesh = object.children[i];
+                        childMesh.receiveShadow = true;
+                        childMesh.castShadow = true;
+                        childMesh.rotation.y = WORLD_ROOT;
+
+                        g_nyc_parks.add(childMesh);
+                    };
+                    scene.add(g_nyc_parks);
+
+                    },
+                    // called when loading is in progresses
+                    function ( xhr ) {
+                        console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+                    },
+                    // called when loading has errors
+                    function ( error ) {
+                        console.log( 'An error happened' );
+                    }
+                );
+                
 
                 var hy_ery = objLoader.load('static/mesh/hy_ery.obj', function ( object ) {
                     var g_hy_ery = new THREE.Group();
@@ -121,10 +140,12 @@
                         var childMesh = object.children[i];
                         childMesh.receiveShadow = true;
                         childMesh.castShadow = true;
+                        childMesh.rotation.y = WORLD_ROOT;
 
                         g_hy_ery.add(childMesh)
                     };
-                        scene.add( g_hy_ery );
+                    scene.add( g_hy_ery );
+
                     },
                     // called when loading is in progresses
                     function ( xhr ) {
@@ -142,32 +163,42 @@
                         var childMesh = object.children[i];
                         childMesh.receiveShadow = true;
                         childMesh.castShadow = true;
+                        childMesh.rotation.y = WORLD_ROOT;
 
                         g_hy_hy.add(childMesh);
                     };
-                        scene.add( g_hy_hy );
+                    scene.add( g_hy_hy );
                     },
                     // called when loading is in progresses
                     function ( xhr ) {
                         console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+                    },
+                    // called when loading has errors
+                    function ( error ) {
+                        console.log( 'An error happened' );
                     }
                 );
 
                 var nyc_blocks = objLoader.load('static/mesh/nyc_blocks.obj', function ( object ) {
-                        var g_blocks = new THREE.Group();
-                        for (i=0; i < object.children.length; i++) {
-                            var obj = object.children[i];
-                            obj.castShadow = true;
-                            obj.receiveShadow = true;
-                            // obj.material = material;
+                    var g_blocks = new THREE.Group();
+                    for (i=0; i < object.children.length; i++) {
+                        var childMesh = object.children[i];
+                        childMesh.castShadow = true;
+                        childMesh.receiveShadow = true;
+                        childMesh.rotation.y = WORLD_ROOT;
 
-                            g_blocks.add(obj);
-                        };
-                        scene.add( g_blocks );
+                        g_blocks.add(obj);
+                    };
+                    scene.add(g_blocks);
+
                     },
                     // called when loading is in progresses
                     function ( xhr ) {
                         console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+                    },
+                    // called when loading has errors
+                    function ( error ) {
+                        console.log( 'An error happened' );
                     }
                 );
 
@@ -175,22 +206,24 @@
                     var g_nyc_named = new THREE.Group();
                     for (i=0; i< object.children.length; i++) {
                         var childMesh = object.children[i];
-                            childMesh.castShadow = true;
-                            childMesh.receiveShadow = true;
-                            // obj.material = material;
+                        childMesh.castShadow = true;
+                        childMesh.receiveShadow = true;
+                        childMesh.rotation.y = WORLD_ROOT;
 
-                            g_nyc_named.add(childMesh);
+                        g_nyc_named.add(childMesh);
                     };
-                        scene.add( g_nyc_named );
+                    scene.add( g_nyc_named );
+
                     },
                     // called when loading is in progresses
                     function ( xhr ) {
                         console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+                    },
+                    // called when loading has errors
+                    function ( error ) {
+                        console.log( 'An error happened' );
                     }
                 );
-
-                var helper = new THREE.GridHelper( 10000, 2, 0xffffff, 0xffffff );
-				scene.add( helper );
 
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );

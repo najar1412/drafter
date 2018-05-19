@@ -26,13 +26,11 @@ THREE.Sky = function () {
 	} );
 
 	THREE.Mesh.call( this, new THREE.BoxBufferGeometry( 1, 1, 1 ), material );
-
 };
 
 THREE.Sky.prototype = Object.create( THREE.Mesh.prototype );
 
 THREE.Sky.SkyShader = {
-
 	uniforms: {
 		luminance: { value: 1 },
 		turbidity: { value: 2 },
