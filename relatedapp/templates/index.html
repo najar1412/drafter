@@ -31,7 +31,8 @@
 			var SCREEN_WIDTH  = window.innerWidth;
 
 			var camera, controls, scene, renderer, stats;
-			var dl_sun;
+            var dl_sun;
+            var angle= 0;
 
             var clock = new THREE.Clock();
             var textureLoader = new THREE.TextureLoader();
@@ -64,7 +65,7 @@
                 dl_sun.shadow.mapSize.width = 512;  // default
                 dl_sun.shadow.mapSize.height = 512; // default
                 dl_sun.shadow.camera.near = 0.5;    // default
-                dl_sun.shadow.camera.far = 1500;     // default
+                dl_sun.shadow.camera.far = 700000;     // default
 
                 dl_sun.shadow.camera.left = -1000;
                 dl_sun.shadow.camera.right = 1000;
@@ -82,7 +83,9 @@
                 scene.add( ambLight );
                 
                 
-                // initSky(scene, camera, renderer);
+                initSky(scene, camera, renderer);
+                
+                
 
                 var landmass = objLoader.load('static/mesh/landmass.obj', function (object) {
                         var g_landmass = new THREE.Group();
@@ -198,7 +201,7 @@
                 controls.lookSpeed = .3;
                 controls.movementSpeed = 300;
                 controls.noFly = false;
-                controls.mouseDragOn = false;
+
 
 				stats = new Stats();
 				document.body.appendChild( stats.dom );
@@ -219,7 +222,14 @@
 
 
 			function animate() {
-				requestAnimationFrame( animate );
+                requestAnimationFrame( animate );
+                // angle-=0.1;
+  
+                //dl_sun.position.x =10+10*Math.sin(angle);
+                //dl_sun.position.y =10+10*Math.cos(angle);
+                dl_sun.position.set(sunSphere.position.x, sunSphere.position.y, sunSphere.position.z)
+
+
 				render();
 				stats.update();
 			}
