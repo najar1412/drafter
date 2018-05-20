@@ -16,6 +16,7 @@
         <script src="/static/js/dat.gui.js"></script>
         
         <script src="/static/js/engine/environment.js"></script>
+        <script src="/static/js/engine/utils.js"></script>
 
 	</head>
 
@@ -37,7 +38,6 @@
 
             var clock = new THREE.Clock();
             var textureLoader = new THREE.TextureLoader();
-            var objLoader = new THREE.OBJLoader();
 
             var material = new THREE.MeshStandardMaterial( { color: 0xff0000 } );
             var groundMaterial = new THREE.MeshStandardMaterial( { color: 0xffff00 } );
@@ -83,148 +83,15 @@
                 var ambLight = new THREE.AmbientLight( 0x404040 ); // soft white light
                 scene.add( ambLight );
                 
-                
+                // Init scene geometry
                 initSky(scene, camera, renderer);
+                var landmass = objsLoader("landmass.obj", scene, WORLD_ROOT);
+                var nyc_parks = objsLoader("nyc_parks.obj", scene, WORLD_ROOT);
+                var hy_ery = objsLoader("hy_ery.obj", scene, WORLD_ROOT);
+                var hy_hy = objsLoader("hy_hy.obj", scene, WORLD_ROOT);
+                var nyc_blocks = objsLoader("nyc_blocks.obj", scene, WORLD_ROOT);
+                var nyc_named = objsLoader("nyc_named.obj", scene, WORLD_ROOT);
                 
-                
-
-                var landmass = objLoader.load('static/mesh/landmass.obj', function (object) {
-                    var g_landmass = new THREE.Group();
-                    for (i=0; i < object.children.length; i++) {
-                        var childMesh = object.children[i];
-                        childMesh.receiveShadow = true;
-                        childMesh.rotation.y = WORLD_ROOT;
-                        
-                        g_landmass.add(childMesh);
-                    };
-                    scene.add( g_landmass );
-                    },
-                    // called when loading is in progresses
-                    function ( xhr ) {
-                        console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-                    },
-                    // called when loading has errors
-                    function ( error ) {
-                        console.log( 'An error happened' );
-                    }
-                );
-                
-
-                var nyc_parks = objLoader.load('static/mesh/nyc_parks.obj', function ( object ) {
-                    var g_nyc_parks = new THREE.Group();
-                    for (i=0;i<object.children.length;i++) {
-                        var childMesh = object.children[i];
-                        childMesh.receiveShadow = true;
-                        childMesh.castShadow = true;
-                        childMesh.rotation.y = WORLD_ROOT;
-
-                        g_nyc_parks.add(childMesh);
-                    };
-                    scene.add(g_nyc_parks);
-
-                    },
-                    // called when loading is in progresses
-                    function ( xhr ) {
-                        console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-                    },
-                    // called when loading has errors
-                    function ( error ) {
-                        console.log( 'An error happened' );
-                    }
-                );
-                
-
-                var hy_ery = objLoader.load('static/mesh/hy_ery.obj', function ( object ) {
-                    var g_hy_ery = new THREE.Group();
-                    for (i=0; i<object.children.length; i++) {
-                        var childMesh = object.children[i];
-                        childMesh.receiveShadow = true;
-                        childMesh.castShadow = true;
-                        childMesh.rotation.y = WORLD_ROOT;
-
-                        g_hy_ery.add(childMesh)
-                    };
-                    scene.add( g_hy_ery );
-
-                    },
-                    // called when loading is in progresses
-                    function ( xhr ) {
-                        console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-                    },
-                    // called when loading has errors
-                    function ( error ) {
-                        console.log( 'An error happened' );
-                    }
-                );
-
-                var hy_hy = objLoader.load('static/mesh/hy_hy.obj', function ( object ) {
-                    var g_hy_hy = new THREE.Group();
-                    for (i=0; i<object.children.length; i++) {
-                        var childMesh = object.children[i];
-                        childMesh.receiveShadow = true;
-                        childMesh.castShadow = true;
-                        childMesh.rotation.y = WORLD_ROOT;
-
-                        g_hy_hy.add(childMesh);
-                    };
-                    scene.add( g_hy_hy );
-                    },
-                    // called when loading is in progresses
-                    function ( xhr ) {
-                        console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-                    },
-                    // called when loading has errors
-                    function ( error ) {
-                        console.log( 'An error happened' );
-                    }
-                );
-
-                var nyc_blocks = objLoader.load('static/mesh/nyc_blocks.obj', function ( object ) {
-                    var g_blocks = new THREE.Group();
-                    for (i=0; i < object.children.length; i++) {
-                        var childMesh = object.children[i];
-                        childMesh.castShadow = true;
-                        childMesh.receiveShadow = true;
-                        childMesh.rotation.y = WORLD_ROOT;
-
-                        g_blocks.add(obj);
-                    };
-                    scene.add(g_blocks);
-
-                    },
-                    // called when loading is in progresses
-                    function ( xhr ) {
-                        console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-                    },
-                    // called when loading has errors
-                    function ( error ) {
-                        console.log( 'An error happened' );
-                    }
-                );
-
-                var nyc_named = objLoader.load('static/mesh/nyc_named.obj', function ( object ) {
-                    var g_nyc_named = new THREE.Group();
-                    for (i=0; i< object.children.length; i++) {
-                        var childMesh = object.children[i];
-                        childMesh.castShadow = true;
-                        childMesh.receiveShadow = true;
-                        childMesh.rotation.y = WORLD_ROOT;
-
-                        g_nyc_named.add(childMesh);
-                    };
-                    scene.add( g_nyc_named );
-
-                    },
-                    // called when loading is in progresses
-                    function ( xhr ) {
-                        console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-                    },
-                    // called when loading has errors
-                    function ( error ) {
-                        console.log( 'An error happened' );
-                    }
-                );
-
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
 				document.body.appendChild( renderer.domElement );
@@ -276,9 +143,10 @@
             
             
             function cameraStart(mainCamera) {
-                mainCamera.position.z = 0;
-                mainCamera.position.x = 0;
-                mainCamera.position.y = 200;
+                mainCamera.position.z = 1800;
+                mainCamera.position.x = 400;
+                mainCamera.position.y = 400;
+                mainCamera.rotation.x = 90 * Math.PI / 180;
             }
 
 		</script>

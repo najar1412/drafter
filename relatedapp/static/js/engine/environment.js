@@ -15,13 +15,13 @@ function initSky(scene, camera, renderer) {
 
     /// GUI
     var effectController  = {
-        turbidity: 10,
-        rayleigh: 2,
-        mieCoefficient: 0.005,
-        mieDirectionalG: 0.8,
-        luminance: 1,
-        inclination: 0.49, // elevation / inclination
-        azimuth: 0.25, // Facing front,
+        turbidity: 8.8,
+        rayleigh: 1.639,
+        mieCoefficient: 0.050,
+        mieDirectionalG: 1,
+        luminance: 0.1,
+        inclination: 0.6591, // elevation / inclination
+        azimuth: 0.7675, // Facing front,
         sun: ! true
     };
 
