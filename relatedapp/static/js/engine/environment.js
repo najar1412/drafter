@@ -9,19 +9,19 @@ function initSky(scene, camera, renderer) {
         new THREE.SphereBufferGeometry( 20000, 16, 8 ),
         new THREE.MeshBasicMaterial( { color: 0xffffff } )
     );
-    sunSphere.position.y = - 700000;
+    sunSphere.position.y = -700000;
     sunSphere.visible = false;
     scene.add( sunSphere );
 
     /// GUI
     var effectController  = {
-        turbidity: 8.8,
-        rayleigh: 1.639,
-        mieCoefficient: 0.050,
-        mieDirectionalG: 1,
-        luminance: 0.1,
-        inclination: 0.6591, // elevation / inclination
-        azimuth: 0.7675, // Facing front,
+        turbidity: 1,
+        rayleigh: 0.382,
+        mieCoefficient: 0.01,
+        mieDirectionalG: 0.486,
+        luminance: 0.52,
+        inclination: 0.7675, // elevation / inclination
+        azimuth: 0.8325, // Facing front,
         sun: ! true
     };
 

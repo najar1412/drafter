@@ -10,8 +10,16 @@
         <script src="/static/js/OBJLoader.js"></script>
         <script src="/static/js/Sky.js"></script>
         <script src="/static/js/FirstPersonControls.js"></script>
+
+        <script src="/static/js/RGBELoader.js"></script>
+		<script src="/static/js/HDRCubeTextureLoader.js"></script>
+
+
         <script src="/static/js/Detector.js"></script>
         <script src="/static/js/stats.js"></script>
+
+        <script src="/static/js/PMREMGenerator.js"></script>
+		<script src="/static/js/PMREMCubeUVPacker.js"></script>
 
         <script src="/static/js/dat.gui.js"></script>
         
@@ -25,7 +33,13 @@
 
 		<script>
 
-			if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+            if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+            var params = {
+				envMap: 'HDR',
+				roughness: 0.0,
+				metalness: 0.0,
+				exposure: 1.0
+			};
 
 			var MARGIN = 0;
 			var SCREEN_HEIGHT = window.innerHeight - MARGIN * 2;
@@ -34,6 +48,10 @@
 
 			var camera, controls, scene, renderer, stats;
             var dl_sun;
+
+            var m_hy, floorMaterial;
+			var ldrCubeRenderTarget, hdrCubeRenderTarget, rgbmCubeRenderTarget;
+
             var angle= 0;
 
             var clock = new THREE.Clock();
@@ -43,7 +61,8 @@
 
             renderer = new THREE.WebGLRenderer( { antialias: true } );
             renderer.shadowMap.enabled = true;
-            renderer.shadowMap.type = THREE.PCFShadowMap;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            renderer.toneMapping = THREE.LinearToneMapping;
             
 			init();
             animate();
@@ -53,25 +72,24 @@
                 cameraStart(camera)
 
 				scene = new THREE.Scene();
-				scene.fog = new THREE.FogExp2( 0x000000, 0.00000025 );
+                scene.fog = new THREE.FogExp2( 0xF2F5F8, 0.0005 );
+                scene.fog.density = 0.00002;
 
-				dl_sun = new THREE.DirectionalLight(0xDDDDDD, .8);
-                dl_sun.position.set(500, 1000, 0 );
+				dl_sun = new THREE.DirectionalLight(0xffffff, 1);
                 dl_sun.target = scene;
                 dl_sun.castShadow = true;
-                dl_sun.physicallyCorrectLights = true;
 
                 //Set up shadow properties for the light
-                dl_sun.shadow.mapSize.width = 512;  // default
-                dl_sun.shadow.mapSize.height = 512; // default
-                dl_sun.shadow.camera.near = 0.5;    // default
-                dl_sun.shadow.camera.far = 700000;     // default
+                dl_sun.shadow.mapSize.width = 2048;  // default
+                dl_sun.shadow.mapSize.height = 2048; // default
+                dl_sun.shadow.camera.near = 100;    // default
+                dl_sun.shadow.camera.far = 500000;     // default
 
                 dl_sun.shadow.camera.left = -1000;
                 dl_sun.shadow.camera.right = 1000;
                 dl_sun.shadow.camera.top = 1000;
                 dl_sun.shadow.camera.bottom = -1000;
-                
+
                 var dl_sun_helper = new THREE.DirectionalLightHelper( dl_sun, 1000 );
                 scene.add( dl_sun_helper );
                 scene.add( dl_sun );
@@ -79,22 +97,22 @@
                 dl_sun_shadowbox_helper = new THREE.CameraHelper( dl_sun.shadow.camera );
                 scene.add( dl_sun_shadowbox_helper );
 
-                var hemi = new THREE.HemisphereLight( 0x66ccff, 0xe6e6e6, .2 );
+                var hemi = new THREE.HemisphereLight( 0x66ccff, 0xe6e6e6, .1 );
                 scene.add( hemi );
                 
                 // Init scene geometry
                 initSky(scene, camera, renderer);
 
                 var m_hy = new THREE.MeshStandardMaterial({
-                    color: 0x93e0fd,
+                    color: 0x6AD4EB,
                     roughness: .8,
-                    metalness: .2,
-                    emissive: new THREE.Color( 0xffffff ),
-                    emissiveIntensity: .05,
+                    metalness: .2
                 });
 
-                var m_gray = new THREE.MeshLambertMaterial({
-                    color: 0xC9C8C8
+                var m_gray = new THREE.MeshStandardMaterial({
+                    color: 0xE2E2E2,
+                    roughness: 1,
+                    metalness: 0
                 });
 
                 var hy_ery = objsLoader("hy_ery.obj", m_hy, scene, WORLD_ROOT);
@@ -103,6 +121,36 @@
                 var nyc_parks = objsLoader("nyc_parks.obj", m_gray, scene, WORLD_ROOT);
                 var nyc_blocks = objsLoader("nyc_blocks.obj", m_gray, scene, WORLD_ROOT);
                 var nyc_named = objsLoader("nyc_named.obj", m_gray, scene, WORLD_ROOT);
+
+                // ground
+                var surface = new THREE.PlaneBufferGeometry( 700000, 700000, 16 );
+                var m_surface = new THREE.MeshLambertMaterial( {color: 0xffffff, side: THREE.DoubleSide} );
+                var mesh_surface = new THREE.Mesh( surface, m_surface );
+                mesh_surface.rotation.x = Math.PI / 2;
+                mesh_surface.position.y = -500;
+                scene.add( mesh_surface );
+
+                var genCubeUrls = function( prefix, postfix ) {
+					return [
+						prefix + 'px' + postfix, prefix + 'nx' + postfix,
+						prefix + 'py' + postfix, prefix + 'ny' + postfix,
+						prefix + 'pz' + postfix, prefix + 'nz' + postfix
+					];
+                };
+                
+                var hdrUrls = genCubeUrls( 'static/textures/', '.hdr' );
+				var envText = new THREE.HDRCubeTextureLoader().load( THREE.UnsignedByteType, hdrUrls, function ( hdrCubeMap ) {
+					var pmremGenerator = new THREE.PMREMGenerator( hdrCubeMap );
+					pmremGenerator.update( renderer );
+					var pmremCubeUVPacker = new THREE.PMREMCubeUVPacker( pmremGenerator.cubeLods );
+					pmremCubeUVPacker.update( renderer );
+					hdrCubeRenderTarget = pmremCubeUVPacker.CubeUVRenderTarget;
+					hdrCubeMap.dispose();
+					pmremGenerator.dispose();
+					pmremCubeUVPacker.dispose();
+                } );
+                
+                m_hy.envMap = envText;
                 
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
@@ -114,9 +162,12 @@
                 controls.movementSpeed = 300;
                 controls.noFly = false;
 
-
 				stats = new Stats();
-				document.body.appendChild( stats.dom );
+                document.body.appendChild( stats.dom );
+                
+                //renderer.toneMapping = THREE.ReinhardToneMapping;
+				renderer.gammaInput = true; // ???
+				renderer.gammaOutput = true;
 
 				window.addEventListener( 'resize', onWindowResize, false );
 			}
@@ -148,7 +199,15 @@
 
 
 			function render() {
-				var delta = clock.getDelta();
+                
+
+
+                var delta = clock.getDelta();
+
+
+                renderer.toneMappingExposure = params.exposure;
+
+
 				controls.update( delta );
                 renderer.render(scene, camera);
             }
@@ -158,7 +217,6 @@
                 mainCamera.position.z = 1800;
                 mainCamera.position.x = 400;
                 mainCamera.position.y = 400;
-                mainCamera.rotation.x = 90 * Math.PI / 180;
             }
 
 		</script>
