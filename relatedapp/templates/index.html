@@ -39,7 +39,6 @@
             var clock = new THREE.Clock();
             var textureLoader = new THREE.TextureLoader();
 
-            var material = new THREE.MeshStandardMaterial( { color: 0xff0000 } );
             var groundMaterial = new THREE.MeshStandardMaterial( { color: 0xffff00 } );
 
             renderer = new THREE.WebGLRenderer( { antialias: true } );
@@ -79,18 +78,31 @@
 
                 dl_sun_shadowbox_helper = new THREE.CameraHelper( dl_sun.shadow.camera );
                 scene.add( dl_sun_shadowbox_helper );
-                
-                var ambLight = new THREE.AmbientLight( 0x404040 ); // soft white light
-                scene.add( ambLight );
+
+                var hemi = new THREE.HemisphereLight( 0x66ccff, 0xe6e6e6, .2 );
+                scene.add( hemi );
                 
                 // Init scene geometry
                 initSky(scene, camera, renderer);
-                var landmass = objsLoader("landmass.obj", scene, WORLD_ROOT);
-                var nyc_parks = objsLoader("nyc_parks.obj", scene, WORLD_ROOT);
-                var hy_ery = objsLoader("hy_ery.obj", scene, WORLD_ROOT);
-                var hy_hy = objsLoader("hy_hy.obj", scene, WORLD_ROOT);
-                var nyc_blocks = objsLoader("nyc_blocks.obj", scene, WORLD_ROOT);
-                var nyc_named = objsLoader("nyc_named.obj", scene, WORLD_ROOT);
+
+                var m_hy = new THREE.MeshStandardMaterial({
+                    color: 0x93e0fd,
+                    roughness: .8,
+                    metalness: .2,
+                    emissive: new THREE.Color( 0xffffff ),
+                    emissiveIntensity: .05,
+                });
+
+                var m_gray = new THREE.MeshLambertMaterial({
+                    color: 0xC9C8C8
+                });
+
+                var hy_ery = objsLoader("hy_ery.obj", m_hy, scene, WORLD_ROOT);
+                var hy_hy = objsLoader("hy_hy.obj", m_hy, scene, WORLD_ROOT);
+                var landmass = objsLoader("landmass.obj", m_gray, scene, WORLD_ROOT);
+                var nyc_parks = objsLoader("nyc_parks.obj", m_gray, scene, WORLD_ROOT);
+                var nyc_blocks = objsLoader("nyc_blocks.obj", m_gray, scene, WORLD_ROOT);
+                var nyc_named = objsLoader("nyc_named.obj", m_gray, scene, WORLD_ROOT);
                 
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );

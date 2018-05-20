@@ -1,6 +1,6 @@
 var objStorage = "static/mesh/"
 
-function objsLoader(objFile, scene, WORLD_ROOT) {
+function objsLoader(objFile, material, scene, WORLD_ROOT) {
     var objGroup = new THREE.Group();
     var objMesh = new THREE.OBJLoader();
     objMesh.load(objStorage + objFile, function (mesh) {
@@ -9,6 +9,7 @@ function objsLoader(objFile, scene, WORLD_ROOT) {
             childMesh.receiveShadow = true;
             childMesh.castShadow = true;
             childMesh.rotation.y = WORLD_ROOT;
+            childMesh.material = material;
             
             objGroup.add(childMesh);
         };
