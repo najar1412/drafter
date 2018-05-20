@@ -1,15 +1,20 @@
 var objStorage = "static/mesh/"
 
-function objsLoader(objFile, material, scene, WORLD_ROOT) {
+function objsLoader(objFile, material, scene, WORLD_ROOT, castshadow=true) {
     var objGroup = new THREE.Group();
     var objMesh = new THREE.OBJLoader();
     objMesh.load(objStorage + objFile, function (mesh) {
         for (i=0; i < mesh.children.length; i++) {
             var childMesh = mesh.children[i];
             childMesh.receiveShadow = true;
-            childMesh.castShadow = true;
             childMesh.rotation.y = WORLD_ROOT;
             childMesh.material = material;
+
+            if (castshadow) {
+                childMesh.castShadow = true;
+            } else {
+                childMesh.castShadow = false;
+            };
             
             objGroup.add(childMesh);
         };
