@@ -1,7 +1,11 @@
 var objStorage = "static/mesh/"
 
+
+
+
+
 function objsLoader(objFile, material, scene, WORLD_ROOT, castshadow=true) {
-    var objGroup = new THREE.Group();
+
     var objMesh = new THREE.OBJLoader();
     objMesh.load(objStorage + objFile, function (mesh) {
         for (i=0; i < mesh.children.length; i++) {
@@ -16,9 +20,9 @@ function objsLoader(objFile, material, scene, WORLD_ROOT, castshadow=true) {
                 childMesh.castShadow = false;
             };
             
-            objGroup.add(childMesh);
+    
         };
-        scene.add( objGroup );
+        scene.add( mesh );
         },
         // called when loading is in progresses
         function ( xhr ) {
@@ -30,6 +34,5 @@ function objsLoader(objFile, material, scene, WORLD_ROOT, castshadow=true) {
         }
     );
 
-    return objGroup;
 
 };
