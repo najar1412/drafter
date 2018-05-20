@@ -2,9 +2,7 @@ var objStorage = "static/mesh/"
 
 
 
-
-
-function objsLoader(objFile, material, scene, WORLD_ROOT, castshadow=true) {
+function objsLoader(objFile, material, scene, WORLD_ROOT, envmap=false, castshadow=true) {
 
     var objMesh = new THREE.OBJLoader();
     objMesh.load(objStorage + objFile, function (mesh) {
@@ -13,14 +11,16 @@ function objsLoader(objFile, material, scene, WORLD_ROOT, castshadow=true) {
             childMesh.receiveShadow = true;
             childMesh.rotation.y = WORLD_ROOT;
             childMesh.material = material;
+            
+            if (envmap !== false) {
+                childMesh.material.envMap = envmap;
+            };
 
             if (castshadow) {
                 childMesh.castShadow = true;
             } else {
                 childMesh.castShadow = false;
             };
-            
-    
         };
         scene.add( mesh );
         },
