@@ -6,22 +6,22 @@
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 
 
-        <script src="/static/js/three.js"></script>
-        <script src="/static/js/OBJLoader2.js"></script>
-        <script src="/static/js/Sky.js"></script>
-        <script src="/static/js/FirstPersonControls.js"></script>
+        <script src="/static/js/threejs/three.js"></script>
+        <script src="/static/js/threejs/OBJLoader2.js"></script>
+        <script src="/static/js/threejs/Sky.js"></script>
+        <script src="/static/js/threejs/FirstPersonControls.js"></script>
 
-        <script src="/static/js/RGBELoader.js"></script>
-		<script src="/static/js/HDRCubeTextureLoader.js"></script>
+        <script src="/static/js/threejs/RGBELoader.js"></script>
+		<script src="/static/js/threejs/HDRCubeTextureLoader.js"></script>
 
 
-        <script src="/static/js/Detector.js"></script>
-        <script src="/static/js/stats.js"></script>
+        <script src="/static/js/threejs/Detector.js"></script>
+        <script src="/static/js/threejs/stats.js"></script>
 
-        <script src="/static/js/PMREMGenerator.js"></script>
-		<script src="/static/js/PMREMCubeUVPacker.js"></script>
+        <script src="/static/js/threejs/PMREMGenerator.js"></script>
+		<script src="/static/js/threejs/PMREMCubeUVPacker.js"></script>
 
-        <script src="/static/js/dat.gui.js"></script>
+        <script src="/static/js/threejs/dat.gui.js"></script>
         
         <script src="/static/js/engine/environment.js"></script>
         <script src="/static/js/engine/utils.js"></script>
@@ -173,10 +173,6 @@
 
 				stats = new Stats();
                 document.body.appendChild( stats.dom );
-                
-                //renderer.toneMapping = THREE.ReinhardToneMapping;
-				renderer.gammaInput = true; // ???
-				renderer.gammaOutput = true;
 
 				window.addEventListener( 'resize', onWindowResize, false );
 			}
