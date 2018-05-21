@@ -23,6 +23,7 @@ function objsLoader(objFile, material, scene, WORLD_ROOT, envmap=false, castshad
             };
         };
         scene.add( mesh );
+
         },
         // called when loading is in progresses
         function ( xhr ) {
@@ -32,7 +33,9 @@ function objsLoader(objFile, material, scene, WORLD_ROOT, envmap=false, castshad
         function ( error ) {
             console.log( 'An error happened' );
         }
+
     );
 
+    
 
 };

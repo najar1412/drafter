@@ -68,7 +68,7 @@
             animate();
             
 			function init() {
-				camera = new THREE.PerspectiveCamera( 25, SCREEN_WIDTH / SCREEN_HEIGHT, 50, 1e7 );
+				camera = new THREE.PerspectiveCamera( 50, SCREEN_WIDTH / SCREEN_HEIGHT, 50, 1e7 );
                 cameraStart(camera)
 
 				scene = new THREE.Scene();
@@ -80,10 +80,10 @@
                 dl_sun.castShadow = true;
 
                 //Set up shadow properties for the light
-                dl_sun.shadow.mapSize.width = 2048;  // default
-                dl_sun.shadow.mapSize.height = 2048; // default
+                dl_sun.shadow.mapSize.width = 512;  // default
+                dl_sun.shadow.mapSize.height = 512; // default
                 dl_sun.shadow.camera.near = 100;    // default
-                dl_sun.shadow.camera.far = 500000;     // default
+                dl_sun.shadow.camera.far = 600000;     // default
 
                 dl_sun.shadow.camera.left = -1000;
                 dl_sun.shadow.camera.right = 1000;
@@ -98,27 +98,27 @@
                 scene.add( dl_sun_shadowbox_helper );
 
                 var hemi = new THREE.HemisphereLight( 0x66ccff, 0xe6e6e6, .1 );
-                //scene.add( hemi );
+                scene.add( hemi );
                 
                 // Init scene geometry
                 initSky(scene, camera, renderer);
 
                 var m_hy = new THREE.MeshStandardMaterial({
                     color: 0x6AD4EB,
-                    roughness: .5,
-                    metalness: .5
+                    roughness: 1.0,
+                    metalness: .3
                 });
 
                 var m_context = new THREE.MeshStandardMaterial({
                     color: 0xE2E2E2,
-                    roughness: 1,
-                    metalness: .001
+                    roughness: 1.0,
+                    metalness: 0
                 });
 
                 var m_land = new THREE.MeshStandardMaterial({
                     color: 0xE2E2E2,
                     roughness: .5,
-                    metalness: .5
+                    metalness: .1
                 });
 
                 // ground
@@ -146,16 +146,20 @@
 					hdrCubeRenderTarget = pmremCubeUVPacker.CubeUVRenderTarget;
 					hdrCubeMap.dispose();
 					pmremGenerator.dispose();
-					pmremCubeUVPacker.dispose();
+                    pmremCubeUVPacker.dispose();
+                    
+                    return hdrCubeRenderTarget;
+                    
                 } );
 
-                var hy_ery = objsLoader("hy_ery.obj", m_hy, scene, WORLD_ROOT, envmap=envText);
-                var hy_hy = objsLoader("hy_hy.obj", m_hy, scene, WORLD_ROOT, envmap=envText);
-                var landmass = objsLoader("landmass.obj", m_land, scene, WORLD_ROOT, castshadow=false, envmap=envText);
-                landmass.position.y = 300;
-                var nyc_parks = objsLoader("nyc_parks.obj", m_context, scene, WORLD_ROOT, envmap=envText);
-                var nyc_blocks = objsLoader("nyc_blocks.obj", m_context, scene, WORLD_ROOT, envmap=envText);
-                var nyc_named = objsLoader("nyc_named.obj", m_context, scene, WORLD_ROOT, envmap=envText);
+                var hy_ery = objsLoader("hy_ery.obj", m_hy, scene, WORLD_ROOT, envmap=envText.texture);
+                var hy_hy = objsLoader("hy_hy.obj", m_hy, scene, WORLD_ROOT, envmap=envText.texture);
+                var landmass = objsLoader("landmass.obj", m_land, scene, WORLD_ROOT, castshadow=false, envmap=envText.texture);
+                var nyc_parks = objsLoader("nyc_parks.obj", m_context, scene, WORLD_ROOT, envmap=envText.texture);
+                var nyc_blocks = objsLoader("nyc_blocks.obj", m_context, scene, WORLD_ROOT, envmap=envText.texture);
+                var nyc_named = objsLoader("nyc_named.obj", m_context, scene, WORLD_ROOT, envmap=envText.texture);
+
+                newEnvMap = hdrCubeRenderTarget ? hdrCubeRenderTarget.texture : null;
 
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
