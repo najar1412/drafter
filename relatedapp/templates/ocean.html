@@ -61,9 +61,9 @@
             });
 
             var m_land = new THREE.MeshStandardMaterial({
-                color: 0xE2E2E2,
-                roughness: 1,
-                metalness: 0
+                color: 0xc7c7c7,
+                roughness: .99,
+                metalness: 0.01
             });
 
             var clock = new THREE.Clock();
@@ -87,12 +87,12 @@
 				camera = new THREE.PerspectiveCamera( 55, window.innerWidth / window.innerHeight, 1, 20000 );
 				cameraStart(camera)
 				//
-                light = new THREE.DirectionalLight( 0xffffff, 0.8 );
+                light = new THREE.DirectionalLight( 0xffffff, 0.4 );
                 light.castShadow = true;
 
                 //Set up shadow properties for the light
-                light.shadow.mapSize.width = 5124;  // default
-                light.shadow.mapSize.height = 5124; // default
+                light.shadow.mapSize.width = 2048;  // default
+                light.shadow.mapSize.height = 2048; // default
                 light.shadow.camera.near = 0;    // default
                 light.shadow.camera.far = 600000;     // default
 
@@ -105,7 +105,11 @@
                 scene.add( light_shadowbox_helper );
 
 
-				scene.add( light );
+                scene.add( light );
+                
+
+                var am_light = new THREE.AmbientLight( 0x404040, 2 ); // soft white light
+                scene.add( am_light );
 				// Water
 				var waterGeometry = new THREE.PlaneBufferGeometry( 100000, 100000 );
 				water = new THREE.Water(
