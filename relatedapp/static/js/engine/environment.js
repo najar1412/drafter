@@ -1,60 +1,28 @@
-function initSky(scene, camera, renderer) {
-    // Add Sky
-    sky = new THREE.Sky();
-    sky.scale.setScalar( 450000 );
-    scene.add( sky );
+function buildEnvSun(scene) {
+    light = new THREE.DirectionalLight( 0x404040, 4 );
+    light.castShadow = true;
 
-    // Add Sun Helper
-    sunSphere = new THREE.Mesh(
-        new THREE.SphereBufferGeometry( 20000, 16, 8 ),
-        new THREE.MeshBasicMaterial( { color: 0xffffff } )
-    );
-    sunSphere.position.y = -700000;
-    sunSphere.visible = false;
-    scene.add( sunSphere );
+    //Set up shadow properties for the light
+    light.shadow.mapSize.width = 1024;  // default
+    light.shadow.mapSize.height = 1024; // default
+    light.shadow.camera.near = 0;    // default
+    light.shadow.camera.far = 600000;     // default
 
-    /// GUI
-    var effectController  = {
-        turbidity: 1,
-        rayleigh: 0.382,
-        mieCoefficient: 0.01,
-        mieDirectionalG: 0.486,
-        luminance: 0.52,
-        inclination: 0.7675, // elevation / inclination
-        azimuth: 0.8325, // Facing front,
-        sun: ! true
-    };
+    light.shadow.camera.left = -1000;
+    light.shadow.camera.right = 1000;
+    light.shadow.camera.top = 1000;
+    light.shadow.camera.bottom = -1000;
 
-    var distance = 400000;
+    light_shadowbox_helper = new THREE.CameraHelper( light.shadow.camera );
+    // scene.add( light_shadowbox_helper );
+    scene.add( light );
 
-    function guiChanged() {
-        var uniforms = sky.material.uniforms;
-        uniforms.turbidity.value = effectController.turbidity;
-        uniforms.rayleigh.value = effectController.rayleigh;
-        uniforms.luminance.value = effectController.luminance;
-        uniforms.mieCoefficient.value = effectController.mieCoefficient;
-        uniforms.mieDirectionalG.value = effectController.mieDirectionalG;
+    return light;
+};
 
-        var theta = Math.PI * ( effectController.inclination - 0.5 );
-        var phi = 2 * Math.PI * ( effectController.azimuth - 0.5 );
-        sunSphere.position.x = distance * Math.cos( phi );
-        sunSphere.position.y = distance * Math.sin( phi ) * Math.sin( theta );
-        sunSphere.position.z = distance * Math.sin( phi ) * Math.cos( theta );
-        sunSphere.visible = effectController.sun;
-        uniforms.sunPosition.value.copy( sunSphere.position );
+function buildEnvAmbient() {
+    var am_light = new THREE.AmbientLight( 0x404040, 1 ); // soft white light
+    scene.add( am_light );
 
-        renderer.render( scene, camera );
-    }
-
-    var gui = new dat.GUI();
-    gui.add( effectController, "turbidity", 1.0, 20.0, 0.1 ).onChange( guiChanged );
-    gui.add( effectController, "rayleigh", 0.0, 4, 0.001 ).onChange( guiChanged );
-    gui.add( effectController, "mieCoefficient", 0.0, 0.1, 0.001 ).onChange( guiChanged );
-    gui.add( effectController, "mieDirectionalG", 0.0, 1, 0.001 ).onChange( guiChanged );
-    gui.add( effectController, "luminance", 0.0, 2 ).onChange( guiChanged );
-    gui.add( effectController, "inclination", 0, 1, 0.0001 ).onChange( guiChanged );
-    gui.add( effectController, "azimuth", 0, 1, 0.0001 ).onChange( guiChanged );
-    gui.add( effectController, "sun" ).onChange( guiChanged );
-
-    guiChanged();
-}
+    return am_light;
+};

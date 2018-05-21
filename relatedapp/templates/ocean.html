@@ -24,61 +24,38 @@
 
 		<div id="container"></div>
 
-		<script src="static/js/three.js"></script>
+		<script src="static/js/threejs/three.js"></script>
 
-		<script src="/static/js/FirstPersonControls.js"></script>
-		<script src="static/js/Water.js"></script>
-        <script src="static/js/Sky.js"></script>
-        <script src="static/js/OBJLoader.js"></script>
+		<script src="static/js/threejs/FirstPersonControls.js"></script>
+		<script src="static/js/threejs/Water.js"></script>
+        <script src="static/js/threejs/Sky.js"></script>
+        <script src="static/js/threejs/OBJLoader.js"></script>
 
-		<script src="static/js/Detector.js"></script>
+		<script src="static/js/threejs/Detector.js"></script>
 		<script src="static/js/stats.js"></script>
         <script src="static/js/dat.gui.js"></script>
 
-        <script src="static/js/CopyShader.js"></script>
-		<script src="static/js/SSAOShader.js"></script>
+        <script src="static/js/threejs/CopyShader.js"></script>
+		<script src="static/js/threejs/SSAOShader.js"></script>
 		
-		<script src="static/js/EffectComposer.js"></script>
-		<script src="static/js/RenderPass.js"></script>
-		<script src="static/js/MaskPass.js"></script>
-		<script src="static/js/ShaderPass.js"></script>
+		<script src="static/js/threejs/EffectComposer.js"></script>
+		<script src="static/js/threejs/RenderPass.js"></script>
+		<script src="static/js/threejs/MaskPass.js"></script>
+		<script src="static/js/threejs/ShaderPass.js"></script>
         
-        <script src="/static/js/engine/utils.js"></script>
+		<script src="static/js/engine/utils.js"></script>
+		<Script src="static/js/engine/materials.js"></Script>
+		<Script src="static/js/engine/environment.js"></Script>
 
 		<script>
-            // trying to imp, ssoa:
-            // http://mrdoob.com/projects/htmleditor/#B/tRfbbptI9Nn9iln3oaQh4KQbbdeXrBLn0oemieJU1arqwwCDmQYYdmaI41T+9565gMEmVaNtLdlmzn3OnfEfp1fT23+vz1Ais/Toxdj89cYJwRH898YZkRiFCeaCyEm/lPHe275GCLlMiXrqBSxaom/qqRfg8G7OWZlHeyFLGR+ilwP9GWl0hvmc5kNkj+ye8DhliyFKaBSRXENXSrhfSR/71pKx0mIUh5wWEgkeTvqJlMXQ9zMeMRZ4cyqTMvBClvky4YR4X4UflDSN7DGjOYD6RyBey1Dini+RPOCsSInw4VkkOCJc+FNWLGf6eUvBL5A+mx1fPSH9/ykomJAFZyERguZz/yyOSSinLAP4r73JhqIbksNlrrEQv1HJJRZ3v1mFCUqnkrWeoxcqrX0fLRi/w7o4UMw4FBVnGUFBOYf8N1aELCLenLF5SrQNha+JaJn5VIgSbIigHGn6D40mbw7/fjt4Ge4fKOk0Rg5a0DxiC4/mOeGfaCQTNJlM0ADtoG9dOFRgTnLZgI1aZO8InSdyg84AR2ilC7in79m7x3AbnBGOXSRCkhMXcR1hwkcVXnWFoj5FpJDJJZaEU5y65ngLzYFIF4U2/0babzSn0tnRjDinGbCokzrGZR5KynJkSKADaZsqzWB4Thbo9t3N2Zn3iQQX728sxoqrKT1obTP6SDo86HZ5xLJHLCwz5RjVmTxcFCBumkC3cerbexHLzlKiqCou/WOc1bLwGgq9gOqj92SqsQ7669DtiJvfYZKL9gfqOxhUaowGDxxJlY+8R1B2qNqwxuogtdTPFKTybE8Hq4W/Cr6CcW9OK99pCR6O4LKGuHk9HW8CyS35siVlWgbkwiIca7P6VtyKMbNZ0WK8JCI5wYKGVc44kNN2wgwe4liNGLRClf2qvBykpFEQMxjB31i5Rz3s7qqCWBtrlIL8LYVOfQl3bZW1tKc41u59AGYwLfE4hthkkI2v0Z9g0h46qGbfBsfy2RyPP8vBmcTdVnVSbVnSSbWlvUklQgwdS6lrHJftY5f5EPldtG8l6TwyKaXDUWnQv6t1wKCT6n7RzjcNMv0YFNmk1sf3NPiM+hp/c3Fy3EdfRm2ujzmFhMlEzVcBPkqaCi9MGZRGU4FXVhxVwrX6WbuwNEczbWOO56ojGMywJbiNcxEsSJI8dFE2MS6qDBpu3GhVN6umgV6QQoOCAVbf+AM7sSB7IXBye9Y1mpftz61rtleHdQes+1G1VEB81bx0GrzrbcCpxodtkDttB5sJ8VRjN9ifbOIuBALWwXOaSuVZ6wUCk05IA1Q1P/8hXrkYywqpcutcQ9Zer/OMaPd0JIa5tYXUa17Fb9jqdPuMXslT5YhX6It3j9NS9fCGZ55iEjDcahY17Z456bYlmvgofzRNsUMnB/CPGc87+eINNpNDt2wWwiaWA53kJXkqnayHG45ftbeEentYLwr/wUYljzUcKM45mOFUdFshlDTTOV/AO4sKcx4SL2cLp0lnWlir/xq212jgwYg6GHWRLTfJ9hsizaBVb0qcRqTRYloVvbHQmIeNamqtWXVhPSk/L9N0w9lWbMVaO7mx9459854G723qTfI7
-
 			if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 			var container, stats;
-			var camera, scene, renderer, light;
+			var camera, scene, renderer, envSun;
             var controls, water, sphere;
             var depthMaterial, depthTarget, composer;
             var WORLD_ROOT = 80.0;
 
-            // base materials
-            var m_hy = new THREE.MeshStandardMaterial({
-                color: 0x6AD4EB,
-                roughness: 0,
-                metalness: .2,
-                flatShading: true
-            });
-
-            var m_context = new THREE.MeshStandardMaterial({
-                color: 0xE2E2E2,
-                roughness: .1,
-                metalness: .2,
-                flatShading: true
-            });
-
-            var m_land = new THREE.MeshStandardMaterial({
-                color: 0xc7c7c7,
-                roughness: .9,
-                metalness: 0,
-                flatShading: true
-            });
-
-            var clock = new THREE.Clock();
+			var clock = new THREE.Clock();
 
 			init();
             animate();
@@ -100,29 +77,11 @@
 				//
 				camera = new THREE.PerspectiveCamera( 55, window.innerWidth / window.innerHeight, 1, 20000 );
 				cameraStart(camera)
-				//
-                light = new THREE.DirectionalLight( 0x404040, 4 );
-                light.castShadow = true;
 
-                //Set up shadow properties for the light
-                light.shadow.mapSize.width = 1024;  // default
-                light.shadow.mapSize.height = 1024; // default
-                light.shadow.camera.near = 0;    // default
-                light.shadow.camera.far = 600000;     // default
-
-                light.shadow.camera.left = -1000;
-                light.shadow.camera.right = 1000;
-                light.shadow.camera.top = 1000;
-                light.shadow.camera.bottom = -1000;
-
-                light_shadowbox_helper = new THREE.CameraHelper( light.shadow.camera );
-                // scene.add( light_shadowbox_helper );
-                scene.add( light );
+				// Environment
+				envSun = buildEnvSun(scene);
+				envAmbient = buildEnvAmbient();
                 
-
-                var am_light = new THREE.AmbientLight( 0x404040, 1 ); // soft white light
-                scene.add( am_light );
-
 				// Water
 				var waterGeometry = new THREE.PlaneBufferGeometry( 100000, 100000 );
 				water = new THREE.Water(
@@ -134,7 +93,7 @@
 							texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
 						}),
 						alpha: 1.0,
-						sunDirection: light.position.clone().normalize(),
+						sunDirection: envSun.position.clone().normalize(),
 						sunColor: 0xffffff,
 						waterColor: 0x001e0f,
 						distortionScale:  3.7,
@@ -167,19 +126,17 @@
 				function updateSun() {
 					var theta = Math.PI * ( parameters.inclination - 0.5 );
 					var phi = 2 * Math.PI * ( parameters.azimuth - 0.5 );
-					light.position.x = parameters.distance * Math.cos( phi );
-					light.position.y = parameters.distance * Math.sin( phi ) * Math.sin( theta );
-                    light.position.z = parameters.distance * Math.sin( phi ) * Math.cos( theta );
+					envSun.position.x = parameters.distance * Math.cos( phi );
+					envSun.position.y = parameters.distance * Math.sin( phi ) * Math.sin( theta );
+                    envSun.position.z = parameters.distance * Math.sin( phi ) * Math.cos( theta );
                     
-					sky.material.uniforms.sunPosition.value = light.position.copy( light.position );
-                    water.material.uniforms.sunDirection.value.copy( light.position ).normalize();
+					sky.material.uniforms.sunPosition.value = envSun.position.copy( envSun.position );
+                    water.material.uniforms.sunDirection.value.copy( envSun.position ).normalize();
                     
                     cubeCamera.update( renderer, scene );
-                    
 				}
+
 				updateSun();
-
-
 
                 var hy_ery = objsLoader("hy_ery.obj", m_hy, scene, WORLD_ROOT, envmap=cubeCamera.renderTarget.texture);
                 var hy_hy = objsLoader("hy_hy.obj", m_hy, scene, WORLD_ROOT, envmap=cubeCamera.renderTarget.texture);
@@ -188,100 +145,50 @@
                 var nyc_blocks = objsLoader("nyc_blocks.obj", m_context, scene, WORLD_ROOT, envmap=cubeCamera.renderTarget.texture);
                 var nyc_named = objsLoader("nyc_named.obj", m_context, scene, WORLD_ROOT, envmap=cubeCamera.renderTarget.texture);
 
-
-
-
-				//
                 controls = new THREE.FirstPersonControls(camera, renderer.domElement);
 
                 controls.lookSpeed = .3;
                 controls.movementSpeed = 400;
-                controls.noFly = false;
-
-				//
+				controls.noFly = false;
+				
 				stats = new Stats();
-                container.appendChild( stats.dom );
-                
+				container.appendChild( stats.dom );
+				
 				// GUI
 				var gui = new dat.GUI();
 				var folder = gui.addFolder( 'Sky' );
 				folder.add( parameters, 'inclination', -1, 1, 0.0001 ).onChange( updateSun );
 				folder.add( parameters, 'azimuth', 0, 1, 0.0001 ).onChange( updateSun );
 				folder.open();
+				
 				var uniforms = water.material.uniforms;
 				var folder = gui.addFolder( 'Water' );
 				folder.add( uniforms.distortionScale, 'value', 0, 8, 0.1 ).name( 'distortionScale' );
 				folder.add( uniforms.size, 'value', 0.1, 10, 0.1 ).name( 'size' );
 				folder.add( uniforms.alpha, 'value', 0.9, 1, .001 ).name( 'alpha' );
 				folder.open();
-                //
                 
 				window.addEventListener( 'resize', onWindowResize, false );
             }
-
-
-
-
-
-
-// depth
-				
-                var depthShader = THREE.ShaderLib[ "depthRGBA" ];
-				var depthUniforms = THREE.UniformsUtils.clone( depthShader.uniforms );
-
-				depthMaterial = new THREE.ShaderMaterial( { fragmentShader: depthShader.fragmentShader, vertexShader: depthShader.vertexShader, uniforms: depthUniforms } );
-				depthMaterial.blending = THREE.NoBlending;
-
-				// postprocessing
-				
-				composer = new THREE.EffectComposer( renderer );
-				composer.addPass( new THREE.RenderPass( scene, camera ) );
-
-				depthTarget = new THREE.WebGLRenderTarget( window.innerWidth, window.innerHeight, { minFilter: THREE.NearestFilter, magFilter: THREE.NearestFilter, format: THREE.RGBAFormat } );
-				
-				var effect = new THREE.ShaderPass( THREE.SSAOShader );
-				effect.uniforms[ 'tDepth' ].value = depthTarget;
-				effect.uniforms[ 'size' ].value.set( window.innerWidth, window.innerHeight );
-				effect.uniforms[ 'cameraNear' ].value = camera.near;
-				effect.uniforms[ 'cameraFar' ].value = camera.far;
-				effect.renderToScreen = true;
-				composer.addPass( effect );
-
+            
+			function animate() {
+				requestAnimationFrame( animate );
+				var delta = clock.getDelta();
+				var time = performance.now() * 0.001;
+                
+                water.material.uniforms.time.value += 1.0 / 60.0;
+                
+                controls.update( delta );
+				renderer.render( scene, camera);
+				stats.update();
+            }
+			
 			function onWindowResize() {
 				camera.aspect = window.innerWidth / window.innerHeight;
 				camera.updateProjectionMatrix();
 				renderer.setSize( window.innerWidth, window.innerHeight );
-            }
-            
-			function animate() {
-                requestAnimationFrame( animate );
-                
-                render();
-                composer.render();
-        
-				stats.update();
-            }
-            
-			function render() {
-				var time = performance.now() * 0.001;
-                water.material.uniforms.time.value += 1.0 / 60.0;
-                
+			}
 
-                var delta = clock.getDelta();
-
-                
-                controls.update( delta );
-                scene.overrideMaterial = depthMaterial;
-                renderer.render( scene, camera, depthTarget );
-                scene.overrideMaterial = null;
-
-            }
-            
-            function cameraStart(mainCamera) {
-                mainCamera.position.z = 1800;
-                mainCamera.position.x = 400;
-                mainCamera.position.y = 400;
-            }
 		</script>
 	</body>
 </html>
