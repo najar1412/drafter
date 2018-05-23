@@ -1,9 +1,6 @@
 var objStorage = "static/mesh/"
 
-
-
 function objsLoader(objFile, material, scene, WORLD_ROOT, envmap=false, castshadow=true) {
-
     var objMesh = new THREE.OBJLoader();
     objMesh.load(objStorage + objFile, function (mesh) {
         for (i=0; i < mesh.children.length; i++) {
@@ -39,3 +36,9 @@ function objsLoader(objFile, material, scene, WORLD_ROOT, envmap=false, castshad
     
 
 };
+
+function cameraStart(mainCamera) {
+    mainCamera.position.z = 1800;
+    mainCamera.position.x = 400;
+    mainCamera.position.y = 400;
+}
