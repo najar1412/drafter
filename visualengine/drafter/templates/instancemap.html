@@ -1,11 +1,19 @@
 {% extends "base.html" %}
 {% block content %}
 
+<small>
+home > <a href="/drafter/1/{{project.id}}">{{project.name}}</a> > {{map.name}}
+</small>
+
+
 <h1>{{map.name}}</h1>
 
 <small>
 {{map}}
 </small>
+
+<h3>tooling</h3>
+[cameras] [annotations]
 
 <hr>
 [interactive]<br>

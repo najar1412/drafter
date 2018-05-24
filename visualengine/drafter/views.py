@@ -36,9 +36,12 @@ def client(request, client_id):
 
 
 def project_map(request, client_id, project_id, instancemap_id):
-    instancemap = to_dict(InstanceMap.objects.get(pk=instancemap_id))
+    context = {
+        'map': to_dict(InstanceMap.objects.get(pk=project_id)),
+        'project': to_dict(Project.objects.get(pk=instancemap_id))
+    }
 
-    return render(request, 'instancemap.html', {'map': instancemap})
+    return render(request, 'instancemap.html', context)
 
 
 def project_geometries(request, client_id, project_id):

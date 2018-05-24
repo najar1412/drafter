@@ -4,9 +4,11 @@
 {% block content %}
 
 <h1>Project: {{project.name}}</h1>
-
 {{ project }}
 <hr>
+<h3>tooling</h3>
+[new map] [new geo]
+
 <h3>Maps</h1>
 {% for map in maps %}
 <a href="/drafter/1/{{project.id}}/map/{{map.id}}">{{map}}</a><br>
