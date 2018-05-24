@@ -40,6 +40,7 @@ class InstanceMap(models.Model):
     basemap = models.ForeignKey(BaseMap, null=True, on_delete=models.SET_NULL)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     image = models.CharField(max_length=200, default='default_instancemap_image.jpg')
+    # init_date = models.DateTimeField(timezone.now(), null=True)
 
 
     def __str__(self):

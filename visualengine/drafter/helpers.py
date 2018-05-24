@@ -95,7 +95,7 @@ class ProjectHandler():
         if not orderby and not quantity:
             projects = Project.objects.all()
             for project in projects:
-                result.append(self._to_dict(project))
+                result.append(self._to_dict(project).copy())
 
             return result
 
@@ -103,7 +103,7 @@ class ProjectHandler():
         elif not orderby and quantity:
             projects = Project.objects.all()[:quantity]
             for project in projects:
-                result.append(project)
+                result.append(project.copy())
 
             return result
 

@@ -1,17 +1,44 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>{{client.name}}</h1>
-<small>{{ client }}</small>
-<hr>
-<h3>tooling</h3>
-[new project] [filtering]
-<br><br>
-<h3>projects</h3>
+
+<div id="wrapper">
+        <div style="margin:20px;position:absolute; z-index:100">
+                <h1 style="background:rgba(255, 255, 255, .8); padding:10px;" class="display-4">{{client.name}}</h1>
+        </div>
+        <div id="overlay"></div>
+        <div style="background-position: center center; background-size: 100% auto; background-image: url(/static/drafter/img/{{client.image}});
+        height: 100%; position: absolute; width: 100%; z-index: 1;">
+        
+    </div>
+    
+    </div>
+
+
+
+<h1 style="padding:30px;" class="display-4">projects</h1>
+
+
+<div style="display:flex;">
+
 {% for proj in project %}
 
-<a href="/drafter/1/{{proj.id}}">{{proj}}</a>
+
+
+
+
+<div style="margin:15px;width:200px;height:200px;overflow:hidden;">
+        <a href="/drafter/{{client.id}}/{{proj.id}}">
+<div style="width:200px; height:200px;background-position: center center; background-size: 100% auto; background-image: url(/static/drafter/img/{{proj.image}});">
+    <div style="padding:15px;position:relative;">
+            {{proj.name}}<br>
+            <small>{{proj.init_date}}</small>
+        </div>
+</div>
+</a>
+</div>
+
 
 {% endfor %}
-
+</div>
 {% endblock %}
 

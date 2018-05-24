@@ -3,21 +3,83 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h1>Project: {{project.name}}</h1>
-{{ project }}
-<hr>
-<h3>tooling</h3>
-[new map] [new geo]
 
-<h3>Maps</h1>
-{% for map in maps %}
-<a href="/drafter/1/{{project.id}}/map/{{map.id}}">{{map}}</a><br>
-{% endfor %}
-<h3>geometry</h3>
-{% for geo in geometry %}
-<a href="/drafter/1/{{project.id}}/geometry/{{geo.id}}">{{geo}}</a><br>
-{% endfor %}
 
+
+<div id="wrapper">
+        <div style="margin:20px;position:absolute; z-index:100">
+                <small>
+                        <a href="/drafter/{{client.id}}">home</a> > {{project.name}}
+                    </small>
+
+                    <br>
+                    <br>
+
+                <h1 style="background:rgba(255, 255, 255, .8); padding:10px;" class="display-4">project: {{project.name}}</h1>
+             
+                
+        </div>
+        <div id="overlay"></div>
+        <div style="background-position: center center; background-size: 100% auto; background-image: url(/static/drafter/img/{{project.image}});
+        height: 100%; position: absolute; width: 100%; z-index: 1;">
+        
+    </div>
+    
+    </div>
+
+<h1 style="padding:30px;" class="display-4">maps</h1>
+
+
+
+    <div style="display:flex;">
+    {% for map in maps %}
+
+
+    <div style="margin:15px;width:200px;height:200px;overflow:hidden;">
+            <a href="/drafter/{{client.id}}/{{project.id}}/map/{{map.id}}">
+    <div style="width:200px; height:200px;background-position: center center; background-size: 100% auto; background-image: url(/static/drafter/img/{{map.image}});">
+        <div style="padding:15px;position:relative;">
+                {{map.name}}<br>
+                <small>{{map.init_date}}</small>
+            </div>
+    </div>
+    </a>
+    </div>
+
+
+
+
+    {% endfor %}
+
+</div>
+
+
+
+<h1 style="padding:30px;" class="display-4">hero geometry</h1>
+
+
+
+    <div style="display:flex;">
+    {% for geo in geometry %}
+
+
+    <div style="margin:15px;width:200px;height:200px;overflow:hidden;">
+            <a href="/drafter/{{client.id}}/{{project.id}}/geometry/{{geo.id}}">
+    <div style="width:200px; height:200px;background-position: center center; background-size: 100% auto; background-image: url(/static/drafter/img/{{geo.image}});">
+        <div style="padding:15px;position:relative;">
+                {{geo.obj_name}}<br>
+                <small>{{geo.init_date}}</small>
+            </div>
+    </div>
+    </a>
+    </div>
+
+
+
+
+    {% endfor %}
+
+</div>
 
 {% endblock %}
 

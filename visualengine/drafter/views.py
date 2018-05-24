@@ -58,20 +58,21 @@ def project_geometry(request, client_id, project_id, geometry_id):
 
 
 def projects(request, client_id):
-    latest_projects = ProjectHandler().all(orderby='init_date', quantity=5)
-    context = {'latest_projects': latest_projects}
+    context = {
+        'projects': ProjectHandler().all(orderby='init_date', quantity=5),
+        'client': ClientHandler().get(pk=client_id)
+        }
 
     return render(request, 'projects.html', context)
 
 
 def project(request, client_id, project_id):
     context = {
+        'client': ClientHandler().get(pk=client_id),
         'project': ProjectHandler().get(project_id),
         'maps': InstanceMapHandler().all(),
         'geometry': HeroGeometryHandler().all()
     }
-
-    # print(context['maps'])
 
     return render(request, 'project.html', context)
 

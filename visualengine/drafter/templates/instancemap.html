@@ -1,73 +1,70 @@
 {% extends "base.html" %}
 {% block content %}
 
-<small>
-home > <a href="/drafter/1/{{project.id}}">{{project.name}}</a> > {{map.name}}
-</small>
-
-<h1>{{map.name}}</h1>
-
-<small>
-{{map}}
-</small>
-<hr>
-<h3>tooling</h3>
-[cameras] [annotations]
-
 
 <div id="wrapper">
-    <div id="overlay"></div>
-    <div style="background-position: center center; background-size: 100% auto; background-image: url(/static/drafter/img/{{map.image}});
-    height: 100%; position: absolute; width: 100%; z-index: 1;">
-    
-</div>
+        <div style="margin:20px;position:absolute; z-index:100">
+                <small>
+                        <a href="/drafter/{{client.id}}">home</a> > <a href="/drafter/{{project.id}}">{{project.name}}</a> > {{map.name}}
+                    </small>
 
-</div>
+                    <br>
+                    <br>
+                <h1 style="background:rgba(255, 255, 255, .8); padding:10px;" class="display-4">map: {{map.name}}</h1>
+        </div>
+        <div id="overlay"></div>
+        <div style="background-position: center center; background-size: 100% auto; background-image: url(/static/drafter/img/{{project.image}});
+        height: 100%; position: absolute; width: 100%; z-index: 1;">
+        
+    </div>
+    
+    </div>
+
+    <h1 style="padding:30px;" class="display-4">comments</h1>
 
 <div class="content">
 
-
-
-
-<div style="width:100%;" class="card">
-    <div class="card-body">
-Comments
-<br>
-<br>
-            <div style="margin:5px;" class="card">
+        <div style="margin:5px;" class="card">
+                <div class="card-body">
+            <img style="width: 50px; height: 50px;"src="/static/drafter/img/default_user_image.jpg">
+            
+                </div>
+              </div>
+              <div style="margin:5px;" class="card">
                     <div class="card-body">
                 <img style="width: 50px; height: 50px;"src="/static/drafter/img/default_user_image.jpg">
                 
                     </div>
                   </div>
-                
                   <div style="margin:5px;" class="card">
                         <div class="card-body">
                     <img style="width: 50px; height: 50px;"src="/static/drafter/img/default_user_image.jpg">
                     
                         </div>
                       </div>
-
-                      <div style="margin:5px;" class="card">
-                            <div class="card-body">
-                        <img style="width: 50px; height: 50px;"src="/static/drafter/img/default_user_image.jpg">
-                        
-                            </div>
-                      </div>
-
                       <div style="margin:5px;" class="card">
                             <div class="card-body">
                         <img style="width: 50px; height: 50px;"src="/static/drafter/img/default_user_image.jpg">
                         
                             </div>
                           </div>
+                          <div style="margin:5px;" class="card">
+                                <div class="card-body">
+                            <img style="width: 50px; height: 50px;"src="/static/drafter/img/default_user_image.jpg">
+                            
+                                </div>
+                              </div>
 
 
-                </div>
 
 
-    </div>
   </div>
+
+
+  <h3>tooling</h3>
+  [cameras] [annotations] [Request Quote]
+  
+  
 
 
 {% endblock %}
