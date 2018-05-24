@@ -1,0 +1,29 @@
+
+
+
+
+
+
+
+
+{% extends "base.html" %}
+{% block content %}
+
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'drafter:upload' %}" method="post">
+{% csrf_token %}
+{% for choice in upload_type %}
+    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice }}" />
+    <label for="choice{{ forloop.counter }}">{{ choice }}</label><br />
+{% endfor %}
+<input type="submit" value="Vote" />
+</form>
+
+
+
+
+
+{% endblock %}
+

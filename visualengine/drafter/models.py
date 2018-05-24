@@ -3,48 +3,56 @@ import datetime
 from django.db import models
 from django.utils import timezone
 
-"""
-class Question(models.Model):
-    question_text = models.CharField(max_length=200)
-    pub_date = models.DateTimeField('date published')
-
-
-class Choice(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    choice_text = models.CharField(max_length=200)
-    votes = models.IntegerField(default=0)
-"""
 
 class Client(models.Model):
+    """drafter client"""
     name = models.CharField(max_length=200)
+    image = models.CharField(max_length=200)
 
     def __str__(self):
-        return f'<Client: {self.name}>'
+        return f'{self.name}'
 
 
 class Project(models.Model):
+    """darfter project"""
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
     init_date = models.DateTimeField(timezone.now(), null=True)
+    image = models.CharField(max_length=200)
 
     def __str__(self):
-        return f'<Project: {self.name}>'
-
-
-class HeroGeometry(models.Model):
-    obj_name = models.CharField(max_length=200)
-    init_date = models.DateTimeField(timezone.now(), null=True)
-
-    def __str__(self):
-        return f'<HeroGeometry: {self.obj_name}>'
+        return f'{self.name}'
 
 
 class BaseMap(models.Model):
+    """premade maps"""
     name = models.CharField(max_length=200)
     init_date = models.DateTimeField(timezone.now(), null=True)
+    image = models.CharField(max_length=200)
+
+    def __str__(self):
+        return f'{self.name}'
+
+
+class InstanceMap(models.Model):
+    """client map, after customisation of a basemap"""
+    name = models.CharField(max_length=200)
+    basemap = models.ForeignKey(BaseMap, null=True, on_delete=models.SET_NULL)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    image = models.CharField(max_length=200)
 
 
     def __str__(self):
-        return f'<HeroGeometry: {self.obj_name}>'
+        return f'{self.name}'
 
 
+class HeroGeometry(models.Model):
+    """clients low poly schemes"""
+    obj_name = models.CharField(max_length=200)
+    init_date = models.DateTimeField(timezone.now(), null=True)
+    client = models.ForeignKey(Client, null=True, on_delete=models.SET_NULL)
+    instancemaps = models.ManyToManyField(InstanceMap)
+    image = models.CharField(max_length=200)
 
+    def __str__(self):
+        return f'{self.obj_name}'

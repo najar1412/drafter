@@ -1,5 +1,21 @@
+
+
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Project: {{project.name}}</h1>
+
 {{ project }}
-
 <hr>
+<h3>Maps</h1>
+{% for map in maps %}
+<a href="/drafter/1/{{project.id}}/map/{{map.id}}">{{map}}</a><br>
+{% endfor %}
+<h3>geometry</h3>
+{% for geo in geometry %}
+<a href="/drafter/1/{{project.id}}/geometry/{{geo.id}}">{{geo}}</a><br>
+{% endfor %}
 
-<li><a href="{% url 'drafter:project' project.id %}">{{ project.name }}</a></li>
+
+{% endblock %}
+

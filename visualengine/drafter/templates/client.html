@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{client.name}}</h1>
+<small>{{ client }}</small>
+<hr>
+
+<h3>projects</h3>
+{% for proj in project %}
+
+<a href="/drafter/1/{{proj.id}}">{{proj}}</a>
+
+{% endfor %}
+
+{% endblock %}
+

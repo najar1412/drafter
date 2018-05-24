@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title></title>
+
+    
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'drafter/style.css' %}" />
+
+
+</head>
+
+<body>
+    <a href="/drafter/1">home</a> <a href="/drafter/upload">upload</a> <a href="/drafter">logout</a>
+    <hr>
+    <div id="content">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
+
+
