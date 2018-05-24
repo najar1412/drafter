@@ -13,7 +13,6 @@ urlpatterns = [
     path('<int:client_id>/projects/', views.projects, name='projects'),
     path('<int:client_id>/<int:project_id>/', views.project, name='project'),
 
-    path('<int:client_id>/<int:project_id>/maps/', views.project_maps, name='project_maps'),
     path('<int:client_id>/<int:project_id>/map/<int:instancemap_id>/', views.project_map, name='project_map'),
 
     path('<int:client_id>/<int:project_id>/geometries/', views.project_geometries, name='project_geometries'),
