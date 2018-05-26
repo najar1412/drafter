@@ -36,7 +36,8 @@ def client(request, client_id):
 def project_map(request, client_id, project_id, instancemap_id):
     context = {
         'map': InstanceMapHandler().get(instancemap_id),
-        'project': ProjectHandler().get(project_id)
+        'project': ProjectHandler().get(project_id),
+        'client': ClientHandler().get(client_id)
     }
 
     return render(request, 'instancemap.html', context)
