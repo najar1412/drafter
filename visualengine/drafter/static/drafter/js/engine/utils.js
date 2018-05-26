@@ -34,11 +34,44 @@ function objsLoader(objFile, material, scene, WORLD_ROOT, envmap=false, castshad
     );
 
     
-
 };
 
-function cameraStart(mainCamera) {
-    mainCamera.position.z = 1800;
-    mainCamera.position.x = 400;
-    mainCamera.position.y = 400;
-}
+function makeWater(scene, envSun) {
+
+				
+    // Water
+    var waterGeometry = new THREE.PlaneBufferGeometry( 100000, 100000 );
+    water = new THREE.Water(
+        waterGeometry,
+        {
+            textureWidth: 512,
+            textureHeight: 512,
+            waterNormals: new THREE.TextureLoader().load( '/static/drafter/textures/waternormals.jpg', function ( texture ) {
+                texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+            }),
+            alpha: 1.0,
+            sunDirection: envSun.position.clone().normalize(),
+            sunColor: 0xffffff,
+            waterColor: 0x001e0f,
+            distortionScale:  3.7,
+            fog: scene.fog
+        }
+    );
+    water.rotation.x = - Math.PI / 2;
+    scene.add( water );
+
+    return water;
+    
+};
+
+function buildDefaultRenderer(document) {
+    renderer = new THREE.WebGLRenderer( { antialias: true } );
+    renderer.setPixelRatio( window.devicePixelRatio );
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+    document.body.appendChild( renderer.domElement );
+
+    return renderer;
+};

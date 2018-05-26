@@ -7,6 +7,9 @@ from .helpers import ClientHandler, ProjectHandler, InstanceMapHandler, HeroGeom
 def index(request):
     return render(request, 'index.html')
 
+def dev_engine(request):
+    return render(request, 'dev_engine.html')
+
 
 def upload(request):
     if 'POST' in request:

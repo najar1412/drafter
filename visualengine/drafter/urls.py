@@ -6,6 +6,7 @@ from . import views
 app_name = 'drafter'
 urlpatterns = [
     path('', views.index, name='index'),
+    path('dev_engine', views.dev_engine, name='dev_engine'),
     path('upload/', views.upload, name='upload'),
 
     path('<int:client_id>/', views.client, name='client'),
