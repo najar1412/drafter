@@ -1,0 +1,169 @@
+
+		<div style="width:100%; height:500px; overflow:hidden;" id="container"></div>
+
+		<script src="/static/drafter/js/threejs/three.js"></script>
+
+		<script src="/static/drafter/js/threejs/FirstPersonControls.js"></script>
+		<script src="/static/drafter/js/threejs/Water.js"></script>
+        <script src="/static/drafter/js/threejs/Sky.js"></script>
+        <script src="/static/drafter/js/threejs/OBJLoader.js"></script>
+
+		<script src="/static/drafter/js/threejs/Detector.js"></script>
+		<script src="/static/drafter/js/stats.js"></script>
+        <script src="/static/drafter/js/dat.gui.js"></script>
+
+        <script src="/static/drafter/js/threejs/CopyShader.js"></script>
+		<script src="/static/drafter/js/threejs/SSAOShader.js"></script>
+		
+		<script src="/static/drafter/js/threejs/EffectComposer.js"></script>
+		<script src="/static/drafter/js/threejs/RenderPass.js"></script>
+		<script src="/static/drafter/js/threejs/MaskPass.js"></script>
+		<script src="/static/drafter/js/threejs/ShaderPass.js"></script>
+        
+		<script src="/static/drafter/js/engine/utils.js"></script>
+		<Script src="/static/drafter/js/engine/materials.js"></Script>
+		<Script src="/static/drafter/js/engine/environment.js"></Script>
+
+		<script>
+			if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+			var container, stats;
+			var camera, scene, renderer, envSun;
+            var controls, water, sphere;
+            var depthMaterial, depthTarget, composer;
+            var WORLD_ROOT = 80.0;
+
+			var clock = new THREE.Clock();
+
+			init();
+            animate();
+            
+			function init() {
+				container = document.getElementById( 'container' );
+				//
+				renderer = new THREE.WebGLRenderer({antialias:true});
+				renderer.setPixelRatio( window.devicePixelRatio );
+                renderer.setSize( container.width, container.height );
+                renderer.shadowMap.enabled = true;
+                renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+				container.appendChild( renderer.domElement );
+				//
+                scene = new THREE.Scene();
+                scene.fog = new THREE.FogExp2( 0xF2F5F8, 0.0005 );
+                scene.fog.density = 0.0001;
+				//
+				camera = new THREE.PerspectiveCamera( 55, window.innerWidth / window.innerHeight, 1, 20000 );
+				cameraStart(camera)
+
+				// Environment
+				envSun = buildEnvSun(scene);
+				envAmbient = buildEnvAmbient();
+                
+				// Water
+				var waterGeometry = new THREE.PlaneBufferGeometry( 100000, 100000 );
+				water = new THREE.Water(
+					waterGeometry,
+					{
+						textureWidth: 512,
+						textureHeight: 512,
+						waterNormals: new THREE.TextureLoader().load( '/static/drafter/textures/waternormals.jpg', function ( texture ) {
+							texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+						}),
+						alpha: 1.0,
+						sunDirection: envSun.position.clone().normalize(),
+						sunColor: 0xffffff,
+						waterColor: 0x001e0f,
+						distortionScale:  3.7,
+						fog: scene.fog
+					}
+				);
+				water.rotation.x = - Math.PI / 2;
+                scene.add( water );
+                
+				// Skybox
+				var sky = new THREE.Sky();
+				sky.scale.setScalar( 10000 );
+                scene.add( sky );
+                
+				var uniforms = sky.material.uniforms;
+				uniforms.turbidity.value = 10;
+				uniforms.rayleigh.value = 2;
+				uniforms.luminance.value = 1;
+				uniforms.mieCoefficient.value = 0.005;
+				uniforms.mieDirectionalG.value = 0.8;
+				var parameters = {
+					distance: 400,
+					inclination: -0.1749,
+					azimuth: 0.214
+                };
+                
+				var cubeCamera = new THREE.CubeCamera( 1, 20000, 256 );
+                cubeCamera.renderTarget.texture.minFilter = THREE.LinearMipMapLinearFilter;
+                
+				function updateSun() {
+					var theta = Math.PI * ( parameters.inclination - 0.5 );
+					var phi = 2 * Math.PI * ( parameters.azimuth - 0.5 );
+					envSun.position.x = parameters.distance * Math.cos( phi );
+					envSun.position.y = parameters.distance * Math.sin( phi ) * Math.sin( theta );
+                    envSun.position.z = parameters.distance * Math.sin( phi ) * Math.cos( theta );
+                    
+					sky.material.uniforms.sunPosition.value = envSun.position.copy( envSun.position );
+                    water.material.uniforms.sunDirection.value.copy( envSun.position ).normalize();
+                    
+                    cubeCamera.update( renderer, scene );
+				}
+
+				updateSun();
+
+                var hy_ery = objsLoader("hy_ery.obj", m_hy, scene, WORLD_ROOT, envmap=cubeCamera.renderTarget.texture);
+                var hy_hy = objsLoader("hy_hy.obj", m_hy, scene, WORLD_ROOT, envmap=cubeCamera.renderTarget.texture);
+                var landmass = objsLoader("landmass.obj", m_land, scene, WORLD_ROOT, castshadow=false, envmap=cubeCamera.renderTarget.texture);
+                // var nyc_parks = objsLoader("nyc_parks.obj", m_context, scene, WORLD_ROOT, envmap=cubeCamera.renderTarget.texture);
+                // nyc_blocks = objsLoader("test_blocks.obj", m_context, scene, WORLD_ROOT, envmap=cubeCamera.renderTarget.texture);
+                var nyc_named = objsLoader("nyc_named.obj", m_context, scene, WORLD_ROOT, envmap=cubeCamera.renderTarget.texture);
+
+                controls = new THREE.FirstPersonControls(camera, renderer.domElement);
+
+                controls.lookSpeed = .3;
+                controls.movementSpeed = 400;
+				controls.noFly = false;
+				
+				// stats = new Stats();
+				// container.appendChild( stats.dom );
+				
+				// GUI
+				//  var gui = new dat.GUI();
+				//  var folder = gui.addFolder( 'Sky' );
+				//  folder.add( parameters, 'inclination', -1, 1, 0.0001 ).onChange( updateSun );
+				//  folder.add( parameters, 'azimuth', 0, 1, 0.0001 ).onChange( updateSun );
+				//  folder.open();
+				
+				//  var uniforms = water.material.uniforms;
+				//  var folder = gui.addFolder( 'Water' );
+				//  folder.add( uniforms.distortionScale, 'value', 0, 8, 0.1 ).name( 'distortionScale' );
+				//  folder.add( uniforms.size, 'value', 0.1, 10, 0.1 ).name( 'size' );
+				//  folder.add( uniforms.alpha, 'value', 0.9, 1, .001 ).name( 'alpha' );
+				// folder.open();
+                
+				window.addEventListener( 'resize', onWindowResize, false );
+            }
+            
+			function animate() {
+				requestAnimationFrame( animate );
+				var delta = clock.getDelta();
+				var time = performance.now() * 0.001;
+                
+                water.material.uniforms.time.value += 1.0 / 60.0;
+                
+                controls.update( delta );
+				renderer.render( scene, camera);
+				// stats.update();
+            }
+			
+			function onWindowResize() {
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+				renderer.setSize( window.innerWidth, window.innerHeight );
+			}
+
+		</script>

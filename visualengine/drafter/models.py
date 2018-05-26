@@ -8,6 +8,7 @@ class Client(models.Model):
     """drafter client"""
     name = models.CharField(max_length=200)
     image = models.CharField(max_length=200, default='default_client_image.jpg')
+    image_thumb = models.CharField(max_length=200, default='default_client_image_thumb.jpg')
 
     def __str__(self):
         return f'{self.name}'
@@ -19,6 +20,7 @@ class Project(models.Model):
     name = models.CharField(max_length=200)
     init_date = models.DateTimeField(timezone.now(), null=True)
     image = models.CharField(max_length=200, default='default_project_image.jpg')
+    image_thumb = models.CharField(max_length=200, default='default_project_image_thumb.jpg')
 
     def __str__(self):
         return f'{self.name}'
@@ -29,6 +31,7 @@ class BaseMap(models.Model):
     name = models.CharField(max_length=200)
     init_date = models.DateTimeField(timezone.now(), null=True)
     image = models.CharField(max_length=200, default='default_basemap_image.jpg')
+    image_thumb = models.CharField(max_length=200, default='default_basemap_image_thumb.jpg')
 
     def __str__(self):
         return f'{self.name}'
@@ -40,7 +43,8 @@ class InstanceMap(models.Model):
     basemap = models.ForeignKey(BaseMap, null=True, on_delete=models.SET_NULL)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     image = models.CharField(max_length=200, default='default_instancemap_image.jpg')
-    # init_date = models.DateTimeField(timezone.now(), null=True)
+    image_thumb = models.CharField(max_length=200, default='default_instancemap_image_thumb.jpg')
+    init_date = models.DateTimeField(timezone.now(), null=True)
 
 
     def __str__(self):
@@ -54,6 +58,7 @@ class HeroGeometry(models.Model):
     client = models.ForeignKey(Client, null=True, on_delete=models.SET_NULL)
     instancemaps = models.ManyToManyField(InstanceMap)
     image = models.CharField(max_length=200, default='default_herogeometry_image.jpg')
+    image_thumb = models.CharField(max_length=200, default='default_herogeometry_image_thumb.jpg')
 
     def __str__(self):
         return f'{self.obj_name}'
