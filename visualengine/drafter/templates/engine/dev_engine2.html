@@ -1,155 +1,200 @@
 {% include 'engine/engine_imports.html' %}
 
-		<div id="blocker">
+<div id="blocker">
 
-			<div id="instructions">
-				<span style="font-size:40px">Click to play</span>
-				<br />
-				(W, A, S, D = Move, SPACE = Jump, MOUSE = Look around)
-			</div>
+	<div id="instructions">
+		<span style="font-size:40px">click to exit menu</span>
+		<br /> menu test
+		<br> (W, A, S, D = Move. R, F = Up and Down. MOUSE = Look around)
+	</div>
 
-		</div>
+</div>
 
-		<script>
-			var camera, scene, renderer, controls;
-			var envSun, water, sphere;
-			var WORLD_ROOT = 80.0;
+<script>
+	var camera, scene, renderer, controls;
+	var envSun, water, sphere;
+	var WORLD_ROOT = 80.0;
 
-			var clock = new THREE.Clock();
+	var controlsEnabled = false;
+	var moveForward = false;
+	var moveBackward = false;
+	var moveLeft = false;
+	var moveRight = false;
+	var moveUp = false;
+	var moveDown = false;
+	var canJump = false;
 
-			// dom elements
-			var blocker = document.getElementById( 'blocker' );
-			var instructions = document.getElementById( 'instructions' );
-			
-			var havePointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
+	var clock = new THREE.Clock();
+	var prevTime = performance.now();
+	var velocity = new THREE.Vector3();
+	var direction = new THREE.Vector3();
 
-if ( havePointerLock ) {
+	// dom elements
+	var blocker = document.getElementById('blocker');
+	var instructions = document.getElementById('instructions');
 
-	var element = document.body;
+	// Cursor Locking
+	var havePointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
+	if (havePointerLock) {
+		var element = document.body;
+		var pointerlockchange = function (event) {
+			if (document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element) {
+				controlsEnabled = true;
+				controls.enabled = true;
+				blocker.style.display = 'none';
+			} else {
+				controls.enabled = false;
+				blocker.style.display = 'block';
+				instructions.style.display = '';
+			}
+		};
 
-	var pointerlockchange = function ( event ) {
-		if ( document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element ) {
-			controlsEnabled = true;
-			controls.enabled = true;
-			blocker.style.display = 'none';
-		} else {
-			controls.enabled = false;
-			blocker.style.display = 'block';
+		var pointerlockerror = function (event) {
 			instructions.style.display = '';
+		};
+
+		// Hook pointer lock state change events
+		document.addEventListener('pointerlockchange', pointerlockchange, false);
+		document.addEventListener('mozpointerlockchange', pointerlockchange, false);
+		document.addEventListener('webkitpointerlockchange', pointerlockchange, false);
+		document.addEventListener('pointerlockerror', pointerlockerror, false);
+		document.addEventListener('mozpointerlockerror', pointerlockerror, false);
+		document.addEventListener('webkitpointerlockerror', pointerlockerror, false);
+		instructions.addEventListener('click', function (event) {
+			instructions.style.display = 'none';
+			// Ask the browser to lock the pointer
+			element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
+			element.requestPointerLock();
+		}, false);
+
+	} else {
+		instructions.innerHTML = 'Your browser doesn\'t seem to support Pointer Lock API';
+	}
+
+
+	init();
+	animate();
+
+	function init() {
+		// params
+		var sunPosParams = {
+			distance: 400,
+			inclination: -0.1749,
+			azimuth: 0.214
+		};
+
+		var sceneParams = {
+			sceneFogColor: 0xF2F5F8,
+			sceneFogDensity: 0.0001,
+			sceneSkyLightColor: 0x404040,
+			sceneSkyLightIntensity: 1
+		};
+
+		var rendererParams = {
+			antialias: true,
+			enableShadowMap: true,
+		};
+
+		var skyParams = {};
+		var sunParams = {
+			enableShadows: true,
+		};
+		var waterParams = {
+			alpha: 1.0,
+			distortionScale: 3.7,
+			size: .1
+		};
+
+		var userCameraParams = {
+			fov: 55
+		};
+
+		var defaultGeometry = {
+			landmass: 'landmass.obj',
+			named: 'nyc_named.obj',
+			// blocks: 'test_blocks.obj',
+			parks: 'nyc_parks.obj'
+		};
+
+		var heroGeometry = {
+			ery: 'hy_ery.obj',
+			hy: 'hy_hy.obj'
+		};
+
+		var materialParams = {
+			defaultHero: {
+				color: 0x6AD4EB,
+				roughness: 0,
+				metalness: 0.2,
+				flatShading: true
+			},
+			defaultContext: {
+				color: 0xE2E2E2,
+				roughness: .1,
+				metalness: .2,
+				flatShading: true
+			},
+			defaultLandMass: {
+				color: 0xc7c7c7,
+				roughness: .9,
+				metalness: 0,
+				flatShading: true
+			},
+		};
+
+		// default Environment
+		renderer = buildDefaultRenderer(document, rendererParams)
+		keyBindings(document)
+
+		scene = buildDefaultScene(sceneParams);
+		sky = buildDefaultSky(scene)
+		envSun = buildSun(scene, sunParams);
+		var waterGeometry = buildDefaultWater(scene, envSun, waterParams);
+
+		var cubeCamera = new THREE.CubeCamera(1, 20000, 256);
+		cubeCamera.renderTarget.texture.minFilter = THREE.LinearMipMapLinearFilter;
+
+		updateSun(scene, renderer, cubeCamera, envSun, sky, water, sunPosParams);
+
+		camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 1, 20000);
+		controls = new THREE.PointerLockControls(camera);
+		scene.add(controls.getObject());
+
+		parseGeometryParams(defaultGeometry, m_context, scene, WORLD_ROOT, envmap=cubeCamera.renderTarget.texture);
+		parseGeometryParams(heroGeometry, m_hy, scene, WORLD_ROOT, envmap=cubeCamera.renderTarget.texture);
+
+		window.addEventListener('resize', onWindowResize(camera), false);
+	}
+
+
+	function animate() {
+		requestAnimationFrame(animate);
+		water.material.uniforms.time.value += 1.0 / 60.0;
+
+		if (controlsEnabled === true) {
+			var time = performance.now();
+			var delta = (time - prevTime) / 1000;
+
+			velocity.x -= velocity.x * 5.0 * delta;
+			velocity.z -= velocity.z * 5.0 * delta;
+			velocity.y -= velocity.y * 5.0 * delta;
+			//velocity.y -= 9.8 * 1 * delta; // 100.0 = mass
+			direction.z = Number(moveForward) - Number(moveBackward);
+			direction.x = Number(moveLeft) - Number(moveRight);
+			direction.y = Number(moveUp) - Number(moveDown);
+			direction.normalize(); // this ensures consistent movements in all directions
+
+			if (moveForward || moveBackward) velocity.z -= direction.z * 400.0 * delta;
+			if (moveLeft || moveRight) velocity.x -= direction.x * 400.0 * delta;
+			if (moveUp || moveDown) velocity.y -= direction.y * 400.0 * delta;
+
+			controls.getObject().translateX(velocity.x * delta);
+			controls.getObject().translateY(velocity.y * delta);
+			controls.getObject().translateZ(velocity.z * delta);
+
+			prevTime = time;
 		}
-	};
 
-	var pointerlockerror = function ( event ) {
-		instructions.style.display = '';
-	};
-
-	// Hook pointer lock state change events
-	document.addEventListener( 'pointerlockchange', pointerlockchange, false );
-	document.addEventListener( 'mozpointerlockchange', pointerlockchange, false );
-	document.addEventListener( 'webkitpointerlockchange', pointerlockchange, false );
-	document.addEventListener( 'pointerlockerror', pointerlockerror, false );
-	document.addEventListener( 'mozpointerlockerror', pointerlockerror, false );
-	document.addEventListener( 'webkitpointerlockerror', pointerlockerror, false );
-	instructions.addEventListener( 'click', function ( event ) {
-		instructions.style.display = 'none';
-		// Ask the browser to lock the pointer
-		element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
-		element.requestPointerLock();
-	}, false );
-
-} else {
-	instructions.innerHTML = 'Your browser doesn\'t seem to support Pointer Lock API';
-}
-
-			var controlsEnabled = false;
-			var moveForward = false;
-			var moveBackward = false;
-			var moveLeft = false;
-			var moveRight = false;
-			var moveUp = false;
-			var moveDown = false;
-			var canJump = false;
-
-			var prevTime = performance.now();
-			
-			var velocity = new THREE.Vector3();
-			var direction = new THREE.Vector3();
-
-
-			init();
-			animate();
-
-			function init() {
-				// params
-				var sunPosParams = {
-					distance: 400,
-					inclination: -0.1749,
-					azimuth: 0.214
-                };
-				
-				// default Environment
-				renderer = buildDefaultRenderer(document)
-				keyBindings(document)
-				
-				scene = buildDefaultScene();
-				sky = buildDefaultSky(scene)
-				envSun = buildEnvSun(scene);
-				var waterGeometry = makeWater(scene, envSun);
-
-				var cubeCamera = new THREE.CubeCamera( 1, 20000, 256 );
-				cubeCamera.renderTarget.texture.minFilter = THREE.LinearMipMapLinearFilter;
-
-				updateSun(scene, renderer, cubeCamera, envSun, sky, water, sunPosParams);
-
-				camera = new THREE.PerspectiveCamera( 55, window.innerWidth / window.innerHeight, 1, 20000 );
-				controls = new THREE.PointerLockControls( camera );
-				scene.add( controls.getObject() );
-
-				// custom geometry
-                var hy_ery = objsLoader("hy_ery.obj", m_hy, scene, WORLD_ROOT, envmap=cubeCamera.renderTarget.texture);
-                var hy_hy = objsLoader("hy_hy.obj", m_hy, scene, WORLD_ROOT, envmap=cubeCamera.renderTarget.texture);
-                var landmass = objsLoader("landmass.obj", m_land, scene, WORLD_ROOT, castshadow=false, envmap=cubeCamera.renderTarget.texture);
-                // var nyc_parks = objsLoader("nyc_parks.obj", m_context, scene, WORLD_ROOT, envmap=cubeCamera.renderTarget.texture);
-            	// nyc_blocks = objsLoader("test_blocks.obj", m_context, scene, WORLD_ROOT, envmap=cubeCamera.renderTarget.texture);
-                var nyc_named = objsLoader("nyc_named.obj", m_context, scene, WORLD_ROOT, envmap=cubeCamera.renderTarget.texture);
-				
-				// general settings
-				window.addEventListener( 'resize', onWindowResize(camera), false );
-			}
-
-
-			function animate() {
-				requestAnimationFrame( animate );
-				water.material.uniforms.time.value += 1.0 / 60.0;
-
-				if ( controlsEnabled === true ) {
-					var time = performance.now();
-					var delta = ( time - prevTime ) / 1000;
-
-					velocity.x -= velocity.x * 5.0 * delta;
-					velocity.z -= velocity.z * 5.0 * delta;
-					velocity.y -= velocity.y * 5.0 * delta;
-					//velocity.y -= 9.8 * 1 * delta; // 100.0 = mass
-					direction.z = Number( moveForward ) - Number( moveBackward );
-					direction.x = Number( moveLeft ) - Number( moveRight );
-					direction.y = Number( moveUp ) - Number( moveDown );
-					direction.normalize(); // this ensures consistent movements in all directions
-
-					if ( moveForward || moveBackward ) velocity.z -= direction.z * 400.0 * delta;
-					if ( moveLeft || moveRight ) velocity.x -= direction.x * 400.0 * delta;
-					if ( moveUp || moveDown ) velocity.y -= direction.y * 400.0 * delta;
-
-					controls.getObject().translateX( velocity.x * delta );
-					controls.getObject().translateY( velocity.y * delta );
-					controls.getObject().translateZ( velocity.z * delta );
-
-					prevTime = time;
-				}
-
-				renderer.render( scene, camera );
-			}
-		</script>
-
-
-
-
+		renderer.render(scene, camera);
+	}
+</script>

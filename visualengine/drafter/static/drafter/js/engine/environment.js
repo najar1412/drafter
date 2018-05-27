@@ -1,6 +1,6 @@
-function buildEnvSun(scene) {
+function buildSun(scene, params) {
     light = new THREE.DirectionalLight( 0x404040, 4 );
-    light.castShadow = true;
+    light.castShadow = params.enableShadows;
 
     //Set up shadow properties for the light
     light.shadow.mapSize.width = 1024;  // default
@@ -37,30 +37,51 @@ function buildDefaultSky(scene) {
 };
 
 
-function buildDefaultScene() {
+function buildDefaultScene(params) {
     scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2( params.sceneFogColor, params.sceneFogDensity );
 
-    // buildDefaultSky(scene);
-
-    scene.fog = new THREE.FogExp2( 0xF2F5F8, 0.0005 );
-    scene.fog.density = 0.0001;
-
-    var skyLight = new THREE.AmbientLight( 0x404040, 1 ); // soft white light
+    var skyLight = new THREE.AmbientLight( params.sceneSkyLightColor, params.sceneSkyLightIntensity ); // soft white light
     scene.add( skyLight );
 
     return scene;
 
 };
 
-function updateSun(scene, renderer, cubeCamera, envSun, sky, water, params) {
+function updateSun(scene, renderer, cubeCamera, lightSource, sky, water, params) {
     var theta = Math.PI * ( params.inclination - 0.5 );
     var phi = 2 * Math.PI * ( params.azimuth - 0.5 );
-    envSun.position.x = params.distance * Math.cos( phi );
-    envSun.position.y = params.distance * Math.sin( phi ) * Math.sin( theta );
-    envSun.position.z = params.distance * Math.sin( phi ) * Math.cos( theta );
+    lightSource.position.x = params.distance * Math.cos( phi );
+    lightSource.position.y = params.distance * Math.sin( phi ) * Math.sin( theta );
+    lightSource.position.z = params.distance * Math.sin( phi ) * Math.cos( theta );
     
-    sky.material.uniforms.sunPosition.value = envSun.position.copy( envSun.position );
-    water.material.uniforms.sunDirection.value.copy( envSun.position ).normalize();
+    sky.material.uniforms.sunPosition.value = lightSource.position.copy( lightSource.position );
+    water.material.uniforms.sunDirection.value.copy( lightSource.position ).normalize();
     
     cubeCamera.update( renderer, scene );
-}
+};
+
+function buildDefaultWater(scene, lightSource, params) {
+    var waterGeometry = new THREE.PlaneBufferGeometry( 100000, 100000 );
+    water = new THREE.Water(waterGeometry,
+        {
+            textureWidth: 512,
+            textureHeight: 512,
+            waterNormals: new THREE.TextureLoader().load( '/static/drafter/textures/waternormals.jpg', function ( texture ) {
+                texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+            }),
+            alpha: params.alpha,
+            sunDirection: lightSource.position.clone().normalize(),
+            sunColor: 0xffffff,
+            waterColor: 0x001e0f,
+            distortionScale:  params.distortionScale,
+            fog: scene.fog
+        }
+    );
+    //water.material.uniforms.size = params.size;
+    water.rotation.x = - Math.PI / 2;
+    scene.add( water );
+
+    return water;
+    
+};
