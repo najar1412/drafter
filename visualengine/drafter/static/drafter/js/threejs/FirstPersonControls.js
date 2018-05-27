@@ -13,7 +13,7 @@ THREE.FirstPersonControls = function ( object, domElement ) {
 
 	this.enabled = true;
 
-	this.movementSpeed = 1.0;
+	this.movementSpeed = 1100;
 	this.lookSpeed = 0.005;
 
 	this.lookVertical = true;
@@ -44,6 +44,8 @@ THREE.FirstPersonControls = function ( object, domElement ) {
 	this.moveBackward = false;
 	this.moveLeft = false;
 	this.moveRight = false;
+	this.moveUp = false;
+	this.moveDown = false;
 
 	this.mouseDragOn = false;
 
@@ -138,7 +140,7 @@ THREE.FirstPersonControls = function ( object, domElement ) {
 
 	this.onKeyDown = function ( event ) {
 
-		//event.preventDefault();
+		event.preventDefault();
 
 		switch ( event.keyCode ) {
 
