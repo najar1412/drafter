@@ -36,11 +36,10 @@ function geometryHandler(objFile, material, scene, WORLD_ROOT, envmap=false, cas
     
 };
 
-
-function buildDefaultRenderer(document, params) {
+function buildDefaultRenderer(document, width, height, params) {
     renderer = new THREE.WebGLRenderer( { antialias: params.antialias } );
     renderer.setPixelRatio( window.devicePixelRatio );
-    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.setSize( width, height );
     renderer.shadowMap.enabled = params.enableShadowMap;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
@@ -111,11 +110,6 @@ function keyBindings(document) {
     document.addEventListener( 'keyup', onKeyUp, false );
 };
 
-function onWindowResize(camera) {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize( window.innerWidth, window.innerHeight );
-}
 
 function parseGeometryParams(params, material, scene, WORLD_ROOT, envmap) {
     for (var k in params) {

@@ -1,5 +1,6 @@
 {% include 'engine/engine_imports.html' %}
 
+
 <div id="blocker">
 
 	<div id="instructions">
@@ -32,6 +33,7 @@
 	// dom elements
 	var blocker = document.getElementById('blocker');
 	var instructions = document.getElementById('instructions');
+
 
 	// Cursor Locking
 	var havePointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
@@ -142,8 +144,16 @@
 			},
 		};
 
+		// regular used container sizes with aspect.
+		// visualcontainers.exampleRes = [width, height, aspect]
+		//
+		//visualContainers = {
+		//	fullScreen = [window.innerWidth, window.innerHeight, window.innerWidth / window.innerHeight],
+		//	mapPage = [width.innerWidth, 500, window.innerWidth / window.innerHeight]
+		//};
+
 		// default Environment
-		renderer = buildDefaultRenderer(document, rendererParams)
+		renderer = buildDefaultRenderer(document, window.innerWidth, 500, rendererParams)
 		keyBindings(document)
 
 		scene = buildDefaultScene(sceneParams);
@@ -163,9 +173,14 @@
 		parseGeometryParams(defaultGeometry, m_context, scene, WORLD_ROOT, envmap=cubeCamera.renderTarget.texture);
 		parseGeometryParams(heroGeometry, m_hy, scene, WORLD_ROOT, envmap=cubeCamera.renderTarget.texture);
 
-		window.addEventListener('resize', onWindowResize(camera), false);
-	}
+				window.addEventListener( 'resize', onWindowResize, false );
+			}
 
+			function onWindowResize() {
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+				renderer.setSize( window.innerWidth, window.innerHeight );
+			}
 
 	function animate() {
 		requestAnimationFrame(animate);
