@@ -1,15 +1,8 @@
-{% include 'engine/engine_imports.html' %}
 
 
-<div id="blocker">
 
-	<div id="instructions">
-		<span style="font-size:40px">click to exit menu</span>
-		<br /> menu test
-		<br> (W, A, S, D = Move. R, F = Up and Down. MOUSE = Look around)
-	</div>
 
-</div>
+
 
 <script>
 	var camera, scene, renderer, controls;
@@ -33,6 +26,8 @@
 	// dom elements
 	var blocker = document.getElementById('blocker');
 	var instructions = document.getElementById('instructions');
+	var rendererTarget = document.getElementById('webgltarget');
+	rendererTarget.width=window.innerWidth;
 
 
 	// Cursor Locking
@@ -153,7 +148,7 @@
 		//};
 
 		// default Environment
-		renderer = buildDefaultRenderer(document, window.innerWidth, 500, rendererParams)
+		renderer = buildDefaultRenderer(document, rendererTarget, rendererParams)
 		keyBindings(document)
 
 		scene = buildDefaultScene(sceneParams);

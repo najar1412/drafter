@@ -1,7 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
 
+{% include 'engine/engine_imports.html' %}
 
+<div id="interactive">
+<div id="webgltarget"></div>
+
+<div id="blocker">
+        <div id="instructions">
+                <span style="font-size:40px">click to exit menu</span>
+                <br /> menu test
+                <br> (W, A, S, D = Move. R, F = Up and Down. MOUSE = Look around)
+        </div>
+</div>
+
+
+</div>
+
+{% include 'engine/dev_engine2.html' %}
+
+
+<!--
 <div id="wrapper">
         <div style="margin:20px;position:absolute; z-index:100">
                 <small style="background:white;">
@@ -47,19 +66,26 @@
 
         </div>
 
-
+-->
 
 <!--
         <div id="overlay"></div>
 -->
 
-        <div>
 
 
-{% include 'engine_instance.html' %}
+
+<!-- 
+
+<div>
+        <canvas id="rendererTarget"></canvas>
+              
+        
+
+
 
         </div>
-
+-->
 <!--
 
 
@@ -69,7 +95,7 @@
     
     
 
-
+<!--
 
     </div>
     
@@ -102,6 +128,11 @@
 
 <hr>
 
+
+
+
+
+
 <div class="content">
 
 
@@ -125,7 +156,7 @@
   <h3>tooling</h3>
   [cameras] [annotations] [Request Quote]
   
-  
+   -->
 
 
 {% endblock %}

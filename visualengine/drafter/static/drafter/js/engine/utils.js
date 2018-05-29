@@ -36,14 +36,17 @@ function geometryHandler(objFile, material, scene, WORLD_ROOT, envmap=false, cas
     
 };
 
-function buildDefaultRenderer(document, width, height, params) {
+function buildDefaultRenderer(document, container, params) {
+    console.log(container);
     renderer = new THREE.WebGLRenderer( { antialias: params.antialias } );
     renderer.setPixelRatio( window.devicePixelRatio );
-    renderer.setSize( width, height );
+    renderer.setSize(container.width, 400);
     renderer.shadowMap.enabled = params.enableShadowMap;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-    document.body.appendChild( renderer.domElement );
+    //document.body.appendChild( renderer.domElement );
+    container.appendChild( renderer.domElement );
+    // document.body.replaceChild(renderer.domElement, container);
 
     return renderer;
 };
