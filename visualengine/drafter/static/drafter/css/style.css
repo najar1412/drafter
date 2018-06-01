@@ -27,6 +27,7 @@
 
 #blocker {
   position: absolute;
+  z-index:1000;
   top: inherit;
   width: 100%;
   height: inherit;

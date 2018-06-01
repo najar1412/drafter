@@ -4,101 +4,68 @@
 {% include 'engine/engine_imports.html' %}
 
 <div class="interactive">
-<div id="webgltarget"></div>
 
-<div id="blocker">
-        <div id="instructions">
-                <span style="font-size:40px">click to exit menu</span>
-                <br /> menu test
-                <br> (W, A, S, D = Move. R, F = Up and Down. MOUSE = Look around)
+                <div id="webgltarget"></div>
+
+                <div id="blocker">
+                                <div id="instructions">
+                                        <span style="font-size:40px">click to exit menu</span>
+                                        <br /> menu test
+                                        <br> (W, A, S, D = Move. R, F = Up and Down. MOUSE = Look around)
+                                </div>
+                        </div>
+                        
+
+<div style="margin:20px;position:absolute; z-index:5000">
+                <small style="background:white;">
+                        <a href="/drafter/{{client.id}}">{{client.name}}</a> > <a href="/drafter/{{client.id}}/{{project.id}}">{{project.name}}</a> > {{map.name}}
+                        </small>
+
+                        <br>
+                        <br>
+                <h1 style="font-size:40px;background:rgba(255, 255, 255, .8); padding:10px;" class="display-4">map: {{map.name}}</h1>
         </div>
-</div>
+
+        <div style="margin:20px;position:relative; z-index:5000;top:275px;">
+                        <button type="button" style="margin-bottom:5px;" class="btn btn-success btn-block">Fullscreen</button>
+               
+                       
+
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Cameras (3)
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                              <a class="dropdown-item" href="#">Action</a>
+                              <a class="dropdown-item" href="#">Another action</a>
+                              <a class="dropdown-item" href="#">Something else here</a>
+                            </div>
+            
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Annotations (2)
+                              </button>
+                              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="#">Action</a>
+                                <a class="dropdown-item" href="#">Another action</a>
+                              </div>
+            
+            
+                          </div>
+
+        </div>
+               
 
 
-</div>
+
+
+
+
+        </div>
 
 {% include 'engine/dev_engine2.html' %}
 
 
-<!--
-<div id="wrapper">
-        <div style="margin:20px;position:absolute; z-index:100">
-                <small style="background:white;">
-                        <a href="/drafter/{{client.id}}">{{client.name}}</a> > <a href="/drafter/{{client.id}}/{{project.id}}">{{project.name}}</a> > {{map.name}}
-                    </small>
 
-                    <br>
-                    <br>
-                <h1 style="background:rgba(255, 255, 255, .8); padding:10px;" class="display-4">map: {{map.name}}</h1>
-        </div>
-
-
-        <div style="margin:20px;position:absolute; z-index:100;bottom:0;">
-           
-
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Cameras (3)
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Annotations (2)
-                  </button>
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                  </div>
-
-
-              </div>
-
-
-
-
-
-
-
-
-        </div>
-
--->
-
-<!--
-        <div id="overlay"></div>
--->
-
-
-
-
-<!-- 
-
-<div>
-        <canvas id="rendererTarget"></canvas>
-              
-        
-
-
-
-        </div>
--->
-<!--
-
-
-        <div style="background-position: center center; background-size: 100% auto; background-image: url(/static/drafter/img/{{map.image}});
-        height: 100%; position: absolute; width: 100%; z-index: 1;">
-    -->
-    
-    
-
-<!--
-
-    </div>
-    
 
 
     <div class="content">
@@ -155,8 +122,7 @@
 
   <h3>tooling</h3>
   [cameras] [annotations] [Request Quote]
-  
-   -->
+
 
 
 {% endblock %}
