@@ -40,7 +40,7 @@ function buildDefaultRenderer(document, container, params) {
     console.log(container);
     renderer = new THREE.WebGLRenderer( { antialias: params.antialias } );
     renderer.setPixelRatio( window.devicePixelRatio );
-    renderer.setSize(container.width, 400);
+    renderer.setSize(window.innerWidth, container.offsetHeight);
     renderer.shadowMap.enabled = params.enableShadowMap;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 

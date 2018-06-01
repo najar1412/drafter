@@ -16,23 +16,25 @@
     padding-top:20px;
 }
 .interactive {
-  width:100%; 
-  height:300px;
+  width:100%;
+  height:400px;
   display:flex;
 }
-.webgltarget {
+#webgltarget {
   position: absolute;
+  height:inherit;
 }
 
 #blocker {
   position: absolute;
+  top: inherit;
   width: 100%;
-  height: 100%;
+  height: inherit;
   background-color: rgba(0,0,0,0.5);
 }
 #instructions {
   width: 100%;
-  height: 100%;
+  height: inherit;
   display: -webkit-box;
   display: -moz-box;
   display: box;
