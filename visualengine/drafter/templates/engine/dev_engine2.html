@@ -97,13 +97,15 @@
 		};
 
 		var userCameraParams = {
-			fov: 55
+			fov: 40,
+			pos: [650, 250, -900],
+			rot: [0, -180, 0]
 		};
 
 		var defaultGeometry = {
 			landmass: 'landmass.obj',
 			named: 'nyc_named.obj',
-			// blocks: 'test_blocks.obj',
+			blocks: 'test_blocks.obj',
 			parks: 'nyc_parks.obj'
 		};
 
@@ -155,21 +157,21 @@
 
 		updateSun(scene, renderer, cubeCamera, envSun, sky, water, sunPosParams);
 
-		camera = new THREE.PerspectiveCamera(40, rendererTarget.offsetWidth / rendererTarget.offsetHeight, 1, 20000);
-		controls = new THREE.PointerLockControls(camera);
+		camera = new THREE.PerspectiveCamera(userCameraParams.fov, rendererTarget.offsetWidth / rendererTarget.offsetHeight, 1, 20000);
+		controls = new THREE.PointerLockControls(camera, userCameraParams);
 		scene.add(controls.getObject());
 
 		parseGeometryParams(defaultGeometry, m_context, scene, WORLD_ROOT, envmap=cubeCamera.renderTarget.texture);
 		parseGeometryParams(heroGeometry, m_hy, scene, WORLD_ROOT, envmap=cubeCamera.renderTarget.texture);
 
 				window.addEventListener( 'resize', onWindowResize, false );
-			}
+	}
 
-			function onWindowResize() {
-				camera.aspect = window.innerWidth / rendererTarget.offsetHeight;
-				camera.updateProjectionMatrix();
-				renderer.setSize( window.innerWidth, rendererTarget.offsetHeight );
-			}
+	function onWindowResize() {
+		camera.aspect = window.innerWidth / rendererTarget.offsetHeight;
+		camera.updateProjectionMatrix();
+		renderer.setSize( window.innerWidth, rendererTarget.offsetHeight );
+	}
 
 	function animate() {
 		requestAnimationFrame(animate);
