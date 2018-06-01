@@ -1,4 +1,11 @@
-<script>
+<script type="text/javascript">
+	var mapCameras = {{ params|safe }};
+	console.log(mapCameras);
+	console.log(typeof mapCameras)
+</script>
+
+<script type="text/javascript">
+
 	var camera, scene, renderer, controls;
 	var envSun, water, sphere;
 	var WORLD_ROOT = 80.0;
@@ -94,12 +101,6 @@
 			size: .1
 		};
 
-		var userCameraParams = {
-			fov: 40,
-			pos: [650, 250, -900],
-			rot: [0, -180, 0]
-		};
-
 		var defaultGeometry = {
 			landmass: 'landmass.obj',
 			named: 'nyc_named.obj',
@@ -155,8 +156,8 @@
 
 		updateSun(scene, renderer, cubeCamera, envSun, sky, water, sunPosParams);
 
-		camera = new THREE.PerspectiveCamera(userCameraParams.fov, rendererTarget.offsetWidth / rendererTarget.offsetHeight, 1, 20000);
-		controls = new THREE.PointerLockControls(camera, userCameraParams);
+		camera = new THREE.PerspectiveCamera(mapCameras.cameras.default.fov, rendererTarget.offsetWidth / rendererTarget.offsetHeight, 1, 20000);
+		controls = new THREE.PointerLockControls(camera, mapCameras.cameras.default);
 		scene.add(controls.getObject());
 
 		parseGeometryParams(defaultGeometry, m_context, scene, WORLD_ROOT, envmap=cubeCamera.renderTarget.texture);

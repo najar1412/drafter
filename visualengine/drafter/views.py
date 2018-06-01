@@ -1,3 +1,6 @@
+import json
+
+from django.core.serializers.json import DjangoJSONEncoder
 from django.shortcuts import render
 from django.urls import reverse
 
@@ -38,25 +41,30 @@ def client(request, client_id):
 
 
 def project_map(request, client_id, project_id, instancemap_id):
-    threejs_params = {
-        'cameras': [
+    # TODO: flesh out json object that has all scene data per map.
+    # TODO: seems i cant send one object from django and convert to 
+    # both an object (for templating) and object for javascript on the client side?
+    params = {
+        'cameras': 
             {
                 'default': {
                     'fov': 40,
-                    'pos': [0, 0, 0],
-                    'rot': [0, 0, 0]
+                    'pos': [650, 250, -900],
+                    'rot': [0, -180, 0]
                 },
                 'cam01': {},
                 'cam02': {}
             },
-        ]
+        
     }
+
+    params_json = json.dumps(dict(params), cls=DjangoJSONEncoder)
 
     context = {
         'map': InstanceMapHandler().get(instancemap_id),
         'project': ProjectHandler().get(project_id),
         'client': ClientHandler().get(client_id),
-        'params': threejs_params
+        'params': params_json
     }
 
     return render(request, 'instancemap.html', context)

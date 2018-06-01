@@ -3,6 +3,8 @@
 
 {% include 'engine/engine_imports.html' %}
 
+
+
 <div class="interactive">
         <div id="webgltarget"></div>
 
@@ -48,9 +50,7 @@
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
                                         {% for x in params.cameras %}
-                                        {% for y in x %}
-                                        <a class="dropdown-item" href="#">{{y}}</a>
-                                        {% endfor %}
+                                        <a class="dropdown-item" href="#">{{x}}</a>
                                         {% endfor %}
 
                         </div>
