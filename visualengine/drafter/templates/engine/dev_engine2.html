@@ -23,7 +23,6 @@
 	var rendererTarget = document.getElementById('webgltarget');
 	rendererTarget.width=window.innerWidth;
 
-
 	// Cursor Locking
 	var havePointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
 	if (havePointerLock) {
@@ -61,7 +60,6 @@
 	} else {
 		instructions.innerHTML = 'Your browser doesn\'t seem to support Pointer Lock API';
 	}
-
 
 	init();
 	animate();
@@ -105,7 +103,7 @@
 		var defaultGeometry = {
 			landmass: 'landmass.obj',
 			named: 'nyc_named.obj',
-			blocks: 'test_blocks.obj',
+			// blocks: 'test_blocks.obj',
 			parks: 'nyc_parks.obj'
 		};
 

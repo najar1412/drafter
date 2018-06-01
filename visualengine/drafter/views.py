@@ -7,6 +7,7 @@ from .helpers import ClientHandler, ProjectHandler, InstanceMapHandler, HeroGeom
 def index(request):
     return render(request, 'index.html')
 
+
 def dev_engine(request):
     return render(request, 'dev_engine.html')
 
@@ -37,10 +38,25 @@ def client(request, client_id):
 
 
 def project_map(request, client_id, project_id, instancemap_id):
+    threejs_params = {
+        'cameras': [
+            {
+                'default': {
+                    'fov': 40,
+                    'pos': [0, 0, 0],
+                    'rot': [0, 0, 0]
+                },
+                'cam01': {},
+                'cam02': {}
+            },
+        ]
+    }
+
     context = {
         'map': InstanceMapHandler().get(instancemap_id),
         'project': ProjectHandler().get(project_id),
-        'client': ClientHandler().get(client_id)
+        'client': ClientHandler().get(client_id),
+        'params': threejs_params
     }
 
     return render(request, 'instancemap.html', context)

@@ -1,66 +1,85 @@
-{% extends "base.html" %}
-{% block content %}
+{% extends "base.html" %} 
+{% block content %} 
 
 {% include 'engine/engine_imports.html' %}
 
 <div class="interactive">
+        <div id="webgltarget"></div>
 
-                <div id="webgltarget"></div>
+        <div id="blocker">
+                <div id="instructions">
+                        <span style="font-size:20px">Click to Activate.</span>
+                        <br>
+                        <small>W, A, S, D = Move. R, F = Up and Down. MOUSE = Look around
+                </div>
+        </div>
 
-                <div id="blocker">
-                                <div id="instructions">
-                                        <span style="font-size:20px">Click to Activate.</span>
-                                        <br>
-                                        <small>W, A, S, D = Move. R, F = Up and Down. MOUSE = Look around
-                                </div>
-                        </div>
-                        
 
-<div style="margin:20px;position:absolute; z-index:5000">
+        <div style="margin:20px;position:absolute; z-index:5000">
                 <small style="background:white;">
-                        <a href="/drafter/{{client.id}}">{{client.name}}</a> > <a href="/drafter/{{client.id}}/{{project.id}}">{{project.name}}</a> > {{map.name}}
-                        </small>
+                        <a href="/drafter/{{client.id}}">{{client.name}}</a> >
+                        <a href="/drafter/{{client.id}}/{{project.id}}">{{project.name}}</a> > {{map.name}}
+                </small>
 
-                        <br>
-                        <br>
+                <br>
+                <br>
                 <h1 style="font-size:40px;background:rgba(255, 255, 255, .8); padding:10px;" class="display-4">map: {{map.name}}</h1>
         </div>
 
-        <div style="margin:20px;position:relative; z-index:5000;top:275px;">
-                        <button type="button" style="margin-bottom:5px;" class="btn btn-success btn-block">Fullscreen</button>
-               
-                       
 
-                        <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              Cameras (3)
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                              <a class="dropdown-item" href="#">Action</a>
-                              <a class="dropdown-item" href="#">Another action</a>
-                              <a class="dropdown-item" href="#">Something else here</a>
-                            </div>
-            
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Annotations (2)
-                              </button>
-                              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#">Another action</a>
-                              </div>
-            
-            
-                          </div>
+        <div style="margin:20px;position:relative; z-index:5000;top:278px;">
+        <button type="button" style="margin-bottom:5px;" class="btn btn-success btn-block">Fullscreen</button>
+</div>
+
+
+
+        <div style="display:flex;margin:20px;position:relative; z-index:5000;top:260px;">
+                
+
+
+
+                <div class="dropdown" style="margin-right:2px;">
+
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                Cameras (3)
+                        </button>
+
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+                                        {% for x in params.cameras %}
+                                        {% for y in x %}
+                                        <a class="dropdown-item" href="#">{{y}}</a>
+                                        {% endfor %}
+                                        {% endfor %}
+
+                        </div>
+
+
+                </div>
+
+                <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                Annotations (2)
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+        </div>
+
+
+</div>
 
         </div>
-               
 
 
 
 
 
 
-        </div>
+
+</div>
 
 {% include 'engine/dev_engine2.html' %}
 
@@ -68,29 +87,21 @@
 
 
 
-    <div class="content">
-
-            <div style="margin:5px;" class="card">
+<div class="content">
+        <div style="margin:5px;" class="card">
                 <div class="card-body">
-           
-        
-        <div style="display:flex; justify-content: space-between;">
-        
-        
-        <div style="padding-right:20px;">
-        
-            <img style="width: 50px; height: 50px;"src="/static/drafter/img/default_user_image.jpg">
-        
-        </div>
-        
-        <div style="margin-right: auto;">description</div>
-        
-        
-        </div>
+                        <div style="display:flex; justify-content: space-between;">
+                                <div style="padding-right:20px;">
+                                        <img style="width: 50px; height: 50px;" src="/static/drafter/img/default_user_image.jpg">
+                                </div>
+
+                                <div style="margin-right: auto;">description</div>
+
+                        </div>
                 </div>
-              </div>
-        
-            </div>
+        </div>
+
+</div>
 
 
 <hr>
@@ -103,27 +114,16 @@
 <div class="content">
 
 
-        <small style="color:gray;">FILTER: <strong>latest</strong>, current camera</small>
+        <small style="color:gray;">FILTER:
+                <strong>latest</strong>, current camera</small>
 
 
-    {% for x in 'ooooo' %}
-
-    {% include 'comment_template.html' %}
-
-
-
-
-{% endfor %}
+        {% for x in 'ooooo' %} {% include 'comment_template.html' %} {% endfor %}
 
 
 
-  </div>
+</div>
 
 
-  <h3>tooling</h3>
-  [cameras] [annotations] [Request Quote]
-
-
-
-{% endblock %}
-
+<h3>tooling</h3>
+[cameras] [annotations] [Request Quote] {% endblock %}
