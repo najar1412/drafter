@@ -1,9 +1,3 @@
-
-
-
-
-
-
 <script>
 	var camera, scene, renderer, controls;
 	var envSun, water, sphere;
@@ -161,7 +155,7 @@
 
 		updateSun(scene, renderer, cubeCamera, envSun, sky, water, sunPosParams);
 
-		camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 1, 20000);
+		camera = new THREE.PerspectiveCamera(55, rendererTarget.offsetWidth / rendererTarget.offsetHeight, 1, 20000);
 		controls = new THREE.PointerLockControls(camera);
 		scene.add(controls.getObject());
 
