@@ -4,6 +4,13 @@
 {% include 'engine/engine_imports.html' %}
 
 
+<script>
+function cameraSelect(text) {
+        console.log(String(text));
+        console.log(camera)
+}
+</script>
+
 
 <div class="interactive">
         <div id="webgltarget"></div>
@@ -50,7 +57,7 @@
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
                                         {% for x in scene_cameras.cameras %}
-                                        <a class="dropdown-item" href="#">{{x}}</a>
+                                        <a class="dropdown-item" href="#" onclick="cameraSelect('{{x}}')">{{x}}</a>
                                         {% endfor %}
 
                         </div>
@@ -72,10 +79,6 @@
 </div>
 
         </div>
-
-
-
-
 
 
 
@@ -127,3 +130,5 @@
 
 <h3>tooling</h3>
 [cameras] [annotations] [Request Quote] {% endblock %}
+
+
