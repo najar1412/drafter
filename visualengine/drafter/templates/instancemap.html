@@ -11,8 +11,162 @@ function cameraSelect(text) {
 }
 </script>
 
+<script>
 
-<div class="interactive">
+
+if (document.addEventListener) {
+            document.addEventListener('webkitfullscreenchange', exitHandler, false);
+            document.addEventListener('mozfullscreenchange', exitHandler, false);
+            document.addEventListener('fullscreenchange', exitHandler, false);
+            document.addEventListener('MSFullscreenChange', exitHandler, false);
+        }
+
+
+
+
+function goFullScreen(){
+    var canvas = document.getElementById("interactive");
+    var miniUi = document.getElementById("mini-ui");
+    var fullScreenUi = document.getElementById("fullscreen-ui");
+    if(canvas.requestFullScreen) {
+        miniUi.style.display = "none";
+        canvas.style.height = "100%";
+        fullScreenUi.style.display = "inline";
+        canvas.requestFullScreen();
+    }
+    else if(canvas.webkitRequestFullScreen) {
+        miniUi.style.display = "none";
+        canvas.style.height = "100%";
+        fullScreenUi.style.display = "inline";
+        canvas.webkitRequestFullScreen();
+}
+    else if(canvas.mozRequestFullScreen) {
+        miniUi.style.display = "none";
+        canvas.style.height = "100%";
+        fullScreenUi.style.display = "inline";
+        canvas.mozRequestFullScreen();
+    }
+
+    else if(canvas.MSFullscreenChange) {
+        miniUi.style.display = "none";
+        canvas.style.height = "100%";
+        fullScreenUi.style.display = "inline";
+        canvas.MSFullscreenChange();
+    }
+}
+
+
+
+function exitFullScreen(){
+    var canvas = document.getElementById("interactive");
+    var miniUi = document.getElementById("mini-ui");
+    var fullScreenUi = document.getElementById("fullscreen-ui");
+
+    if(document.exitFullscreen) {
+        miniUi.style.display = "inline";
+        canvas.style.height = "400px";
+        fullScreenUi.style.display = "none";
+        document.exitFullscreen();
+    }
+    else if(document.webkitExitFullscreen) {
+        miniUi.style.display = "inline";
+        canvas.style.height = "400px";
+        fullScreenUi.style.display = "none";
+        document.webkitExitFullscreen();
+}
+    else if(document.mozCancelFullScreen) {
+        miniUi.style.display = "inline";
+        canvas.style.height = "400px";
+        fullScreenUi.style.display = "none";
+        document.mozCancelFullScreen();
+    }
+
+    else if(document.MSFullscreenChange) {
+        miniUi.style.display = "inline";
+        canvas.style.height = "400px";
+        fullScreenUi.style.display = "none";
+        document.MSFullscreenChange();
+    }
+}
+
+
+function exitHandler() {
+        if (!document.webkitIsFullScreen && !document.mozFullScreen && !document.msFullscreenElement) {
+                var canvas = document.getElementById("interactive");
+                var miniUi = document.getElementById("mini-ui");
+                var fullScreenUi = document.getElementById("fullscreen-ui");
+                miniUi.style.display = "inline";
+        canvas.style.height = "400px";
+        fullScreenUi.style.display = "none";
+        }
+    }
+
+
+
+</script>
+
+
+<div id="interactive">
+
+<div id="fullscreen-ui">
+                <div style="margin:20px;position:relative; z-index:5000;top:278px;">
+                                <button onclick="exitFullScreen();" type="button" style="margin-bottom:5px;" class="btn btn-success btn-block">Exit</button>
+                        </div>
+
+                </div>
+
+
+
+                <div id="mini-ui">
+
+                                <div style="margin:20px;position:relative; z-index:5000;top:278px;">
+                                                <button onclick="goFullScreen();" type="button" style="margin-bottom:5px;" class="btn btn-success btn-block">Fullscreen</button>
+                                        </div>
+                                        
+                                        
+                                        
+                                                <div style="display:flex;margin:20px;position:relative; z-index:5000;top:260px;">
+                                                        
+                                        
+                                        
+                                        
+                                                        <div class="dropdown" style="margin-right:2px;">
+                                        
+                                                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                                                        aria-expanded="false">
+                                                                        Cameras (3)
+                                                                </button>
+                                        
+                                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        
+                                                                                {% for x in scene_cameras.cameras %}
+                                                                                <a class="dropdown-item" href="#" onclick="cameraSelect('{{x}}')">{{x}}</a>
+                                                                                {% endfor %}
+                                        
+                                                                </div>
+                                        
+                                        
+                                                        </div>
+                                        
+                                                        <div class="dropdown">
+                                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                        Annotations (2)
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                        <a class="dropdown-item" href="#">Action</a>
+                                                        <a class="dropdown-item" href="#">Another action</a>
+                                                </div>
+                                        
+                                        
+                                        </div>
+                                        
+                                                </div>
+
+                                </div>
+
+
+
         <div id="webgltarget"></div>
 
         <div id="blocker">
@@ -36,49 +190,6 @@ function cameraSelect(text) {
         </div>
 
 
-        <div style="margin:20px;position:relative; z-index:5000;top:278px;">
-        <button type="button" style="margin-bottom:5px;" class="btn btn-success btn-block">Fullscreen</button>
-</div>
-
-
-
-        <div style="display:flex;margin:20px;position:relative; z-index:5000;top:260px;">
-                
-
-
-
-                <div class="dropdown" style="margin-right:2px;">
-
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false">
-                                Cameras (3)
-                        </button>
-
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-
-                                        {% for x in scene_cameras.cameras %}
-                                        <a class="dropdown-item" href="#" onclick="cameraSelect('{{x}}')">{{x}}</a>
-                                        {% endfor %}
-
-                        </div>
-
-
-                </div>
-
-                <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                aria-expanded="false">
-                Annotations (2)
-        </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-        </div>
-
-
-</div>
-
-        </div>
 
 
 
