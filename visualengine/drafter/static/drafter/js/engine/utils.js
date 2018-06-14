@@ -7,7 +7,16 @@ function geometryHandler(objFile, material, scene, WORLD_ROOT, envmap=false, cas
             var childMesh = mesh.children[i];
             childMesh.receiveShadow = true;
             childMesh.rotation.y = WORLD_ROOT;
-            childMesh.material = material;
+
+            if (childMesh.name.endsWith("_glass")) {
+                childMesh.material = defaultGlass;
+            } else if (childMesh.name.endsWith("_metal")) {
+                childMesh.material = defaultSteel;
+            } else if (childMesh.name.endsWith("_louvers")) {
+                childMesh.material = defaultSteelBlack;
+            } else {
+                childMesh.material = material;
+            }
             
             if (envmap !== false) {
                 childMesh.material.envMap = envmap;
@@ -37,7 +46,6 @@ function geometryHandler(objFile, material, scene, WORLD_ROOT, envmap=false, cas
 };
 
 function buildDefaultRenderer(document, container, params) {
-    console.log(container);
     renderer = new THREE.WebGLRenderer( { antialias: params.antialias } );
     renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize(window.innerWidth, container.offsetHeight);

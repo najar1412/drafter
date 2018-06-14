@@ -81,7 +81,7 @@
 
 		var sceneParams = {
 			sceneFogColor: 0xF2F5F8,
-			sceneFogDensity: 0.0001,
+			sceneFogDensity: 0.0002,
 			sceneSkyLightColor: 0x404040,
 			sceneSkyLightIntensity: 1
 		};
@@ -95,6 +95,7 @@
 		var sunParams = {
 			enableShadows: true,
 		};
+
 		var waterParams = {
 			alpha: 1.0,
 			distortionScale: 3.7,
@@ -113,26 +114,6 @@
 			hy: 'hy_hy.obj'
 		};
 
-		var materialParams = {
-			defaultHero: {
-				color: 0x6AD4EB,
-				roughness: 0,
-				metalness: 0.2,
-				flatShading: true
-			},
-			defaultContext: {
-				color: 0xE2E2E2,
-				roughness: .1,
-				metalness: .2,
-				flatShading: true
-			},
-			defaultLandMass: {
-				color: 0xc7c7c7,
-				roughness: .9,
-				metalness: 0,
-				flatShading: true
-			},
-		};
 
 		// regular used container sizes with aspect.
 		// visualcontainers.exampleRes = [width, height, aspect]
@@ -163,7 +144,7 @@
 		parseGeometryParams(defaultGeometry, m_context, scene, WORLD_ROOT, envmap=cubeCamera.renderTarget.texture);
 		parseGeometryParams(heroGeometry, m_hy, scene, WORLD_ROOT, envmap=cubeCamera.renderTarget.texture);
 
-				window.addEventListener( 'resize', onWindowResize, false );
+		window.addEventListener( 'resize', onWindowResize, false );
 	}
 
 	function onWindowResize() {
