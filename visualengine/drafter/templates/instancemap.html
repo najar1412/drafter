@@ -1,195 +1,72 @@
-{% extends "base.html" %} 
-{% block content %} 
-
-{% include 'engine/engine_imports.html' %}
-
+{% extends "base.html" %} {% block content %} {% include 'engine/engine_imports.html' %}
 
 <script>
-function cameraSelect(text) {
-        console.log(String(text));
-        console.log(camera)
-}
-</script>
-
-<script>
-
-
-if (document.addEventListener) {
-            document.addEventListener('webkitfullscreenchange', exitHandler, false);
-            document.addEventListener('mozfullscreenchange', exitHandler, false);
-            document.addEventListener('fullscreenchange', exitHandler, false);
-            document.addEventListener('MSFullscreenChange', exitHandler, false);
+        // event listeners
+        if (document.addEventListener) {
+                document.addEventListener('webkitfullscreenchange', exitHandler, false);
+                document.addEventListener('mozfullscreenchange', exitHandler, false);
+                document.addEventListener('fullscreenchange', exitHandler, false);
+                document.addEventListener('MSFullscreenChange', exitHandler, false);
         }
-
-
-
-
-function goFullScreen(){
-    var canvas = document.getElementById("interactive");
-    var miniUi = document.getElementById("mini-ui");
-    var fullScreenUi = document.getElementById("fullscreen-ui");
-    if(canvas.requestFullScreen) {
-        miniUi.style.display = "none";
-        canvas.style.height = "100%";
-        fullScreenUi.style.display = "inline";
-        canvas.requestFullScreen();
-    }
-    else if(canvas.webkitRequestFullScreen) {
-        miniUi.style.display = "none";
-        canvas.style.height = "100%";
-        fullScreenUi.style.display = "inline";
-        canvas.webkitRequestFullScreen();
-}
-    else if(canvas.mozRequestFullScreen) {
-        miniUi.style.display = "none";
-        canvas.style.height = "100%";
-        fullScreenUi.style.display = "inline";
-        canvas.mozRequestFullScreen();
-    }
-
-    else if(canvas.MSFullscreenChange) {
-        miniUi.style.display = "none";
-        canvas.style.height = "100%";
-        fullScreenUi.style.display = "inline";
-        canvas.MSFullscreenChange();
-    }
-}
-
-
-
-function exitFullScreen(){
-    var canvas = document.getElementById("interactive");
-    var miniUi = document.getElementById("mini-ui");
-    var fullScreenUi = document.getElementById("fullscreen-ui");
-
-    if(document.exitFullscreen) {
-        miniUi.style.display = "inline";
-        canvas.style.height = "400px";
-        fullScreenUi.style.display = "none";
-        document.exitFullscreen();
-    }
-    else if(document.webkitExitFullscreen) {
-        miniUi.style.display = "inline";
-        canvas.style.height = "400px";
-        fullScreenUi.style.display = "none";
-        document.webkitExitFullscreen();
-}
-    else if(document.mozCancelFullScreen) {
-        miniUi.style.display = "inline";
-        canvas.style.height = "400px";
-        fullScreenUi.style.display = "none";
-        document.mozCancelFullScreen();
-    }
-
-    else if(document.MSFullscreenChange) {
-        miniUi.style.display = "inline";
-        canvas.style.height = "400px";
-        fullScreenUi.style.display = "none";
-        document.MSFullscreenChange();
-    }
-}
-
-
-function exitHandler() {
-        if (!document.webkitIsFullScreen && !document.mozFullScreen && !document.msFullscreenElement) {
-                var canvas = document.getElementById("interactive");
-                var miniUi = document.getElementById("mini-ui");
-                var fullScreenUi = document.getElementById("fullscreen-ui");
-                miniUi.style.display = "inline";
-        canvas.style.height = "400px";
-        fullScreenUi.style.display = "none";
-        }
-    }
-
-
-
 </script>
-
 
 <div id="interactive">
-
-
-                <div style="display: flex; flex-direction: column; position:relative; z-index:5000">
-                                <div>
-                
-                
-                                                <small style="background:rgba(255, 255, 255, .8);">
-                                                                <a href="/drafter/{{client.id}}">{{client.name}}</a> >
-                                                                <a href="/drafter/{{client.id}}/{{project.id}}">{{project.name}}</a> > {{map.name}}
-                                                        </small>
-                
-                
-                                </div>
-                                <div>
-                                                <h1 style="font-size:40px;background:rgba(255, 255, 255, .8); padding:10px;" class="display-4">map: {{map.name}}</h1>
-                
-                        </div>
-                         
-                       
-
-                        
-                <div id="mini-ui">
-
-                                <div>
-                                                <button onclick="goFullScreen();" type="button" style="margin-bottom:5px;" class="btn btn-success">Fullscreen</button>
-                                        </div>
-                                        
-                                        
-                                        
-                                                <div>
-                                                        
-                                        
-                                        
-                                        
-                                                        <div class="dropdown" style="margin-right:2px;">
-                                        
-                                                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                                                        aria-expanded="false">
-                                                                        Cameras (3)
-                                                                </button>
-                                        
-                                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        
-                                                                                {% for x in scene_cameras.cameras %}
-                                                                                <a class="dropdown-item" href="#" onclick="cameraSelect('{{x}}')">{{x}}</a>
-                                                                                {% endfor %}
-                                        
-                                                                </div>
-                                        
-                                        
-                                                        </div>
-                                        
-                                                        <div class="dropdown">
-                                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                                        aria-expanded="false">
-                                                        Annotations (2)
-                                                </button>
-                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                        <a class="dropdown-item" href="#">Action</a>
-                                                        <a class="dropdown-item" href="#">Another action</a>
-                                                </div>
-                                        
-                                        
-                                        </div>
-                                        
-                                                </div>
-
-                                </div>
-
-                        </div>
-
-
-<div id="fullscreen-ui">
-                <div style="margin:20px;position:relative; z-index:5000;top:278px;">
-                                <button onclick="exitFullScreen();" type="button" style="margin-bottom:5px;" class="btn btn-success btn-block">Exit</button>
-                        </div>
-
+        <div id="mapinfo">
+                <div style="padding-bottom:10px;">
+                        <span style="background:rgba(255, 255, 255, .8); font-size:10px;">
+                                <a href="/drafter/{{client.id}}">{{client.name}}</a> >
+                                <a href="/drafter/{{client.id}}/{{project.id}}">{{project.name}}</a> > {{map.name}}
+                        </span>
                 </div>
 
+                <div style="padding-bottom:10px;">
+                        <span style="font-size:35px;background:rgba(255, 255, 255, .8);" class="display-4">
+                                map: {{map.name}}
+                        </span>
+                </div>
+        </div>
 
+        <div id="mini-ui">
+                <div>
+                        <button onclick="goFullScreen();" type="button" style="margin-bottom:5px;" class="btn btn-success">Fullscreen</button>
+                </div>
 
+                <div>
+                        <div class="dropdown" style="margin-right:2px;">
 
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                        Cameras (3)
+                                </button>
 
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+                                        {% for x in scene_cameras.cameras %}
+                                        <a class="dropdown-item" href="#" onclick="cameraSelect('{{x}}')">{{x}}</a>
+                                        {% endfor %}
+
+                                </div>
+                        </div>
+
+                        <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                        Annotations (2)
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="#">Action</a>
+                                        <a class="dropdown-item" href="#">Another action</a>
+                                </div>
+                        </div>
+                </div>
+        </div>
+
+        <div id="fullscreen-ui">
+                <div style="margin:20px;position:relative; z-index:5000;top:278px;">
+                        <button onclick="exitFullScreen();" type="button" style="margin-bottom:5px;" class="btn btn-success btn-block">Exit</button>
+                </div>
+
+        </div>
 
         <div id="webgltarget"></div>
 
@@ -202,17 +79,9 @@ function exitHandler() {
         </div>
 
 
-
-
-
-
-
 </div>
 
 {% include 'engine/dev_engine2.html' %}
-
-
-
 
 
 <div class="content">
@@ -231,29 +100,14 @@ function exitHandler() {
 
 </div>
 
-
 <hr>
 
-
-
-
-
-
 <div class="content">
-
-
         <small style="color:gray;">FILTER:
                 <strong>latest</strong>, current camera</small>
-
-
         {% for x in 'ooooo' %} {% include 'comment_template.html' %} {% endfor %}
-
-
 
 </div>
 
-
 <h3>tooling</h3>
 [cameras] [annotations] [Request Quote] {% endblock %}
-
-

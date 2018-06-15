@@ -16,6 +16,8 @@ function geometryHandler(objFile, material, scene, WORLD_ROOT, envmap=false, cas
                 childMesh.material = defaultSteelBlack;
             } else if (childMesh.name.endsWith("_core") || childMesh.name.endsWith("_floor")) {
                 childMesh.material = defaultConcrete;
+            } else if (childMesh.name.endsWith("_jetmist")) {
+                childMesh.material = defaultJetMist;
             } else {
                 childMesh.material = material;
             }
@@ -133,3 +135,101 @@ function parseGeometryParams(params, material, scene, WORLD_ROOT, envmap) {
     }
 
 };
+
+function parseCameras(params, scene) {
+    cameras = params["cameras"]
+    for (var camName in cameras) {
+        // create cameras here
+        // use key for camera name
+        //new THREE.PerspectiveCamera(cameras[camName].fov, )
+        // console.log(camName);
+        // console.log(cameras[camName])
+    }
+};
+
+
+
+
+function getCameraTranslation(params, cameraName) {
+    cameras = params["cameras"]
+    if (cameraName in cameras) {
+        console.log(cameras[cameraName])
+    }
+};
+
+function goFullScreen() {
+    var canvas = document.getElementById("interactive");
+    var miniUi = document.getElementById("mini-ui");
+    var fullScreenUi = document.getElementById("fullscreen-ui");
+    if (canvas.requestFullScreen) {
+            miniUi.style.display = "none";
+            canvas.style.height = "100%";
+            fullScreenUi.style.display = "inline";
+            canvas.requestFullScreen();
+    }
+    else if (canvas.webkitRequestFullScreen) {
+            miniUi.style.display = "none";
+            canvas.style.height = "100%";
+            fullScreenUi.style.display = "inline";
+            canvas.webkitRequestFullScreen();
+    }
+    else if (canvas.mozRequestFullScreen) {
+            miniUi.style.display = "none";
+            canvas.style.height = "100%";
+            fullScreenUi.style.display = "inline";
+            canvas.mozRequestFullScreen();
+    }
+
+    else if (canvas.MSFullscreenChange) {
+            miniUi.style.display = "none";
+            canvas.style.height = "100%";
+            fullScreenUi.style.display = "inline";
+            canvas.MSFullscreenChange();
+    }
+}
+
+
+
+function exitFullScreen() {
+    var canvas = document.getElementById("interactive");
+    var miniUi = document.getElementById("mini-ui");
+    var fullScreenUi = document.getElementById("fullscreen-ui");
+
+    if (document.exitFullscreen) {
+            miniUi.style.display = "inline";
+            canvas.style.height = "400px";
+            fullScreenUi.style.display = "none";
+            document.exitFullscreen();
+    }
+    else if (document.webkitExitFullscreen) {
+            miniUi.style.display = "inline";
+            canvas.style.height = "400px";
+            fullScreenUi.style.display = "none";
+            document.webkitExitFullscreen();
+    }
+    else if (document.mozCancelFullScreen) {
+            miniUi.style.display = "inline";
+            canvas.style.height = "400px";
+            fullScreenUi.style.display = "none";
+            document.mozCancelFullScreen();
+    }
+
+    else if (document.MSFullscreenChange) {
+            miniUi.style.display = "inline";
+            canvas.style.height = "400px";
+            fullScreenUi.style.display = "none";
+            document.MSFullscreenChange();
+    }
+}
+
+
+function exitHandler() {
+    if (!document.webkitIsFullScreen && !document.mozFullScreen && !document.msFullscreenElement) {
+            var canvas = document.getElementById("interactive");
+            var miniUi = document.getElementById("mini-ui");
+            var fullScreenUi = document.getElementById("fullscreen-ui");
+            miniUi.style.display = "inline";
+            canvas.style.height = "400px";
+            fullScreenUi.style.display = "none";
+    }
+}

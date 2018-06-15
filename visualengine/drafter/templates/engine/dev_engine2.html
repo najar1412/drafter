@@ -1,12 +1,29 @@
 <script type="text/javascript">
 	var mapCameras = {{ scene_cameras |safe }};
-	console.log(mapCameras);
-	console.log(typeof mapCameras)
+
+	function cameraSelect(cameraName) {
+		cameras = mapCameras["cameras"]
+		if (cameraName in cameras) {
+			selected = cameras[cameraName];
+			console.log("testing changing camera")
+			console.log(selected);
+			console.log(camera);
+
+			camera.position.z = selected["pos"][0];
+			camera.position.x = selected["pos"][1];
+			camera.position.y = selected["pos"][2];
+			
+			console.log(selected["pos"]);
+			console.log(camera);
+
+		} else {
+			console.log("no such camera");
+		}
+	}
+
 </script>
 
 <script type="text/javascript">
-
-	var camera, scene, renderer, controls;
 	var envSun, water, sphere;
 	var WORLD_ROOT = 80.0;
 
@@ -72,7 +89,7 @@
 	animate();
 
 	function init() {
-		// params
+		// params, eventually json from django backend
 		var sunPosParams = {
 			distance: 400,
 			inclination: -0.1749,
@@ -114,15 +131,6 @@
 			hy: 'hy_hy.obj'
 		};
 
-
-		// regular used container sizes with aspect.
-		// visualcontainers.exampleRes = [width, height, aspect]
-		//
-		//visualContainers = {
-		//	fullScreen = [window.innerWidth, window.innerHeight, window.innerWidth / window.innerHeight],
-		//	mapPage = [width.innerWidth, 500, window.innerWidth / window.innerHeight]
-		//};
-
 		// default Environment
 		renderer = buildDefaultRenderer(document, rendererTarget, rendererParams)
 		keyBindings(document)
@@ -134,6 +142,7 @@
 
 		updateSun(scene, renderer, CUBECAMERA, envSun, sky, water, sunPosParams);
 
+		// cameras
 		camera = new THREE.PerspectiveCamera(mapCameras.cameras.default.fov, rendererTarget.offsetWidth / rendererTarget.offsetHeight, 1, 20000);
 		controls = new THREE.PointerLockControls(camera, mapCameras.cameras.default);
 		scene.add(controls.getObject());
@@ -180,4 +189,5 @@
 
 		renderer.render(scene, camera);
 	}
+
 </script>

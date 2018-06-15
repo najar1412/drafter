@@ -6,7 +6,13 @@ CUBECAMERA.renderTarget.texture.minFilter = THREE.LinearMipMapLinearFilter;
 var TEXTURE = new THREE.TextureLoader();
 
 var textureConcrete = TEXTURE.load( "/static/drafter/js/engine/assets/concrete.jpg", function ( texture ) {
+    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+    texture.offset.set( 0, 0 );
+    texture.repeat.set( 100, 100 );
 
+} );
+
+var textureJetMist = TEXTURE.load( "/static/drafter/js/engine/assets/jetmist.jpg", function ( texture ) {
     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
     texture.offset.set( 0, 0 );
     texture.repeat.set( 100, 100 );
@@ -23,7 +29,6 @@ var m_hy = new THREE.MeshStandardMaterial({
 var m_context = new THREE.MeshStandardMaterial({
     color: 0xE2E2E2,
     roughness: 1,
-    metalness: .1,
     flatShading: true
 });
 
@@ -43,7 +48,8 @@ var defaultGlass = new THREE.MeshPhysicalMaterial( {
     envMap: CUBECAMERA,
     envMapIntensity: 3,
     reflectivity: 0,
-    roughness:0.6
+    roughness:0.6,
+    flatShading: true
     // TODO: Add custom blend mode that modulates background color by this materials color.
 } );
 
@@ -63,10 +69,11 @@ var defaultSteelBlack = new THREE.MeshPhysicalMaterial ({
 var defaultConcrete = new THREE.MeshPhysicalMaterial ({
     map: textureConcrete,
     flatShading: true
-    
-    // specularMap: textureLoader.load( "static/textures/earth_specular_2048.jpg" ),
-    // normalMap: textureLoader.load( "static/textures/earth_normal_2048.jpg" ),
-    // normalScale: new THREE.Vector2( 0.85, 0.85 )
+} );
+
+var defaultJetMist = new THREE.MeshPhysicalMaterial ({
+    map: textureJetMist,
+    flatShading: true
 } );
 
 var defaultGhost = new THREE.MeshPhysicalMaterial ({
