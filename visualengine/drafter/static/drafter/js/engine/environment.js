@@ -3,8 +3,8 @@ function buildSun(scene, params) {
     light.castShadow = params.enableShadows;
 
     //Set up shadow properties for the light
-    light.shadow.mapSize.width = 1024;  // default
-    light.shadow.mapSize.height = 1024; // default
+    light.shadow.mapSize.width = 4096;  // default
+    light.shadow.mapSize.height = 4096; // default
     light.shadow.camera.near = 0;    // default
     light.shadow.camera.far = 600000;     // default
 

@@ -132,17 +132,14 @@
 		envSun = buildSun(scene, sunParams);
 		var waterGeometry = buildDefaultWater(scene, envSun, waterParams);
 
-		var cubeCamera = new THREE.CubeCamera(1, 20000, 256);
-		cubeCamera.renderTarget.texture.minFilter = THREE.LinearMipMapLinearFilter;
-
-		updateSun(scene, renderer, cubeCamera, envSun, sky, water, sunPosParams);
+		updateSun(scene, renderer, CUBECAMERA, envSun, sky, water, sunPosParams);
 
 		camera = new THREE.PerspectiveCamera(mapCameras.cameras.default.fov, rendererTarget.offsetWidth / rendererTarget.offsetHeight, 1, 20000);
 		controls = new THREE.PointerLockControls(camera, mapCameras.cameras.default);
 		scene.add(controls.getObject());
 
-		parseGeometryParams(defaultGeometry, m_context, scene, WORLD_ROOT, envmap=cubeCamera.renderTarget.texture);
-		parseGeometryParams(heroGeometry, m_hy, scene, WORLD_ROOT, envmap=cubeCamera.renderTarget.texture);
+		parseGeometryParams(defaultGeometry, m_context, scene, WORLD_ROOT, envmap=CUBECAMERA.renderTarget.texture);
+		parseGeometryParams(heroGeometry, m_hy, scene, WORLD_ROOT, envmap=CUBECAMERA.renderTarget.texture);
 
 		window.addEventListener( 'resize', onWindowResize, false );
 	}

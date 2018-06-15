@@ -14,6 +14,8 @@ function geometryHandler(objFile, material, scene, WORLD_ROOT, envmap=false, cas
                 childMesh.material = defaultSteel;
             } else if (childMesh.name.endsWith("_louvers")) {
                 childMesh.material = defaultSteelBlack;
+            } else if (childMesh.name.endsWith("_core") || childMesh.name.endsWith("_floor")) {
+                childMesh.material = defaultConcrete;
             } else {
                 childMesh.material = material;
             }

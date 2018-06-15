@@ -108,24 +108,35 @@ function exitHandler() {
 
 <div id="interactive">
 
-<div id="fullscreen-ui">
-                <div style="margin:20px;position:relative; z-index:5000;top:278px;">
-                                <button onclick="exitFullScreen();" type="button" style="margin-bottom:5px;" class="btn btn-success btn-block">Exit</button>
+
+                <div style="display: flex; flex-direction: column; position:relative; z-index:5000">
+                                <div>
+                
+                
+                                                <small style="background:rgba(255, 255, 255, .8);">
+                                                                <a href="/drafter/{{client.id}}">{{client.name}}</a> >
+                                                                <a href="/drafter/{{client.id}}/{{project.id}}">{{project.name}}</a> > {{map.name}}
+                                                        </small>
+                
+                
+                                </div>
+                                <div>
+                                                <h1 style="font-size:40px;background:rgba(255, 255, 255, .8); padding:10px;" class="display-4">map: {{map.name}}</h1>
+                
                         </div>
+                         
+                       
 
-                </div>
-
-
-
+                        
                 <div id="mini-ui">
 
-                                <div style="margin:20px;position:relative; z-index:5000;top:278px;">
-                                                <button onclick="goFullScreen();" type="button" style="margin-bottom:5px;" class="btn btn-success btn-block">Fullscreen</button>
+                                <div>
+                                                <button onclick="goFullScreen();" type="button" style="margin-bottom:5px;" class="btn btn-success">Fullscreen</button>
                                         </div>
                                         
                                         
                                         
-                                                <div style="display:flex;margin:20px;position:relative; z-index:5000;top:260px;">
+                                                <div>
                                                         
                                         
                                         
@@ -165,6 +176,19 @@ function exitHandler() {
 
                                 </div>
 
+                        </div>
+
+
+<div id="fullscreen-ui">
+                <div style="margin:20px;position:relative; z-index:5000;top:278px;">
+                                <button onclick="exitFullScreen();" type="button" style="margin-bottom:5px;" class="btn btn-success btn-block">Exit</button>
+                        </div>
+
+                </div>
+
+
+
+
 
 
         <div id="webgltarget"></div>
@@ -178,16 +202,6 @@ function exitHandler() {
         </div>
 
 
-        <div style="margin:20px;position:absolute; z-index:5000">
-                <small style="background:white;">
-                        <a href="/drafter/{{client.id}}">{{client.name}}</a> >
-                        <a href="/drafter/{{client.id}}/{{project.id}}">{{project.name}}</a> > {{map.name}}
-                </small>
-
-                <br>
-                <br>
-                <h1 style="font-size:40px;background:rgba(255, 255, 255, .8); padding:10px;" class="display-4">map: {{map.name}}</h1>
-        </div>
 
 
 
