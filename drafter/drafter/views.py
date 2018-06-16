@@ -37,7 +37,7 @@ def project_map(request, client_id, project_id, instancemap_id):
         'scene_cameras': scene_cameras
     }
 
-    return render(request, 'components/map.html', context)
+    return render(request, 'map.html', context)
 
 
 def project_geometries(request, client_id, project_id):
