@@ -8,40 +8,16 @@ var mapCameras = {{ scene_cameras |safe }};
 	var rendererTarget = document.getElementById('webgltarget');
 	rendererTarget.width=window.innerWidth;
 
-// variable to use for changing camers
-var currentCamera = new THREE.PerspectiveCamera(40, rendererTarget.offsetWidth / rendererTarget.offsetHeight, 1, 20000);
-currentCamera.name = "currentCamera";
-
 // data from backend
 var mapCameras = {{ scene_cameras |safe }};
 
-function cameraSelect(cameraName) {currentCamera
+function cameraSelect(cameraName) {
 	cameras = mapCameras["cameras"]
 	if (cameraName in cameras) {
 		cameraData = cameras[cameraName];
-		console.log("------------");
-		console.log(currentCamera);
-		console.log("------------");
-		console.log(cameraData);
-		console.log("------------");
-		console.log(camera);
 
-		// save current camera
-		console.log("------------");
-		console.log("------------");
-		console.log(currentCamera.position);
-		console.log(camera.getWorldPosition(new THREE.Vector3()));
-		currentCamera.position.copy(new THREE.Vector3(cameraData['pos'][0], cameraData['pos'][1], cameraData['pos'][2]));
-		currentCamera.rotation.copy(new THREE.Vector3(cameraData['rot'][0], cameraData['rot'][1], cameraData['rot'][2]));
-
-		// set new camera
-		// camera = new THREE.PerspectiveCamera(cameraData.fov, rendererTarget.offsetWidth / rendererTarget.offsetHeight, 1, 20000);
-		// camera.position.copy(currentCamera.position);
-		// camera.rotation.copy(currentCamera.rotation);
-		
 		controls = new THREE.PointerLockControls(camera);
 		controls.getObject().position.set(cameraData['pos'][0], cameraData['pos'][1], cameraData['pos'][2]);
-
 		controls.getObject().rotation.y = cameraData["rot"][1]; // Rotates Yaw Object
 		controls.getObject().children[0].rotation.x = cameraData["rot"][0]; // Rotates the Pitch Object
 		scene.add(controls.getObject());
@@ -172,7 +148,11 @@ function cameraSelect(cameraName) {currentCamera
 
 		// cameras
 		camera = new THREE.PerspectiveCamera(mapCameras.cameras.default.fov, rendererTarget.offsetWidth / rendererTarget.offsetHeight, 1, 20000);
+		
 		controls = new THREE.PointerLockControls(camera, mapCameras.cameras.default);
+		controls.getObject().position.set(mapCameras.cameras.default.pos[0], mapCameras.cameras.default.pos[1], mapCameras.cameras.default.pos[2]);
+		controls.getObject().rotation.y = mapCameras.cameras.default.rot[1]; // Rotates Yaw Object
+		controls.getObject().children[0].rotation.x = mapCameras.cameras.default.rot[0]; // Rotates the Pitch Object
 		scene.add(controls.getObject());
 
 		parseGeometryParams(defaultGeometry, m_context, scene, WORLD_ROOT, envmap=CUBECAMERA.renderTarget.texture);
