@@ -1,6 +1,8 @@
 # app spec_dev
 test_blocks.obj
 
+.vscode/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
