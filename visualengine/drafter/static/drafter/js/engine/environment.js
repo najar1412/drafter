@@ -20,6 +20,7 @@ function buildSun(scene, params) {
     return light;
 };
 
+
 function buildDefaultSky(scene) {
     // Skybox
     var sky = new THREE.Sky();
@@ -48,6 +49,7 @@ function buildDefaultScene(params) {
 
 };
 
+
 function updateSun(scene, renderer, cubeCamera, lightSource, sky, water, params) {
     var theta = Math.PI * ( params.inclination - 0.5 );
     var phi = 2 * Math.PI * ( params.azimuth - 0.5 );
@@ -60,6 +62,7 @@ function updateSun(scene, renderer, cubeCamera, lightSource, sky, water, params)
     
     cubeCamera.update( renderer, scene );
 };
+
 
 function buildDefaultWater(scene, lightSource, params) {
     var waterGeometry = new THREE.PlaneBufferGeometry( 100000, 100000 );

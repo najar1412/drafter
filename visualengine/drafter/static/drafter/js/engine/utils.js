@@ -136,27 +136,6 @@ function parseGeometryParams(params, material, scene, WORLD_ROOT, envmap) {
 
 };
 
-function parseCameras(params, scene) {
-    cameras = params["cameras"]
-    for (var camName in cameras) {
-        // create cameras here
-        // use key for camera name
-        //new THREE.PerspectiveCamera(cameras[camName].fov, )
-        // console.log(camName);
-        // console.log(cameras[camName])
-    }
-};
-
-
-
-
-function getCameraTranslation(params, cameraName) {
-    cameras = params["cameras"]
-    if (cameraName in cameras) {
-        console.log(cameras[cameraName])
-    }
-};
-
 function goFullScreen() {
     var canvas = document.getElementById("interactive");
     var miniUi = document.getElementById("mini-ui");
@@ -187,8 +166,6 @@ function goFullScreen() {
             canvas.MSFullscreenChange();
     }
 }
-
-
 
 function exitFullScreen() {
     var canvas = document.getElementById("interactive");
@@ -222,7 +199,6 @@ function exitFullScreen() {
     }
 }
 
-
 function exitHandler() {
     if (!document.webkitIsFullScreen && !document.mozFullScreen && !document.msFullscreenElement) {
             var canvas = document.getElementById("interactive");
@@ -233,3 +209,25 @@ function exitHandler() {
             fullScreenUi.style.display = "none";
     }
 }
+
+//
+// in dev methods
+//
+
+function parseCameras(params, scene) {
+    cameras = params["cameras"]
+    for (var camName in cameras) {
+        // create cameras here
+        // use key for camera name
+        //new THREE.PerspectiveCamera(cameras[camName].fov, )
+        // console.log(camName);
+        // console.log(cameras[camName])
+    }
+};
+
+function getCameraTranslation(params, cameraName) {
+    cameras = params["cameras"]
+    if (cameraName in cameras) {
+        console.log(cameras[cameraName])
+    }
+};

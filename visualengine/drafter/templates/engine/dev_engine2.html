@@ -1,25 +1,53 @@
 <script type="text/javascript">
-	var mapCameras = {{ scene_cameras |safe }};
+	// data from backend
+var mapCameras = {{ scene_cameras |safe }};
 
-	function cameraSelect(cameraName) {
-		cameras = mapCameras["cameras"]
-		if (cameraName in cameras) {
-			selected = cameras[cameraName];
-			console.log("testing changing camera")
-			console.log(selected);
-			console.log(camera);
+		// dom elements
+		var blocker = document.getElementById('blocker');
+	var instructions = document.getElementById('instructions');
+	var rendererTarget = document.getElementById('webgltarget');
+	rendererTarget.width=window.innerWidth;
 
-			camera.position.z = selected["pos"][0];
-			camera.position.x = selected["pos"][1];
-			camera.position.y = selected["pos"][2];
-			
-			console.log(selected["pos"]);
-			console.log(camera);
+// variable to use for changing camers
+var currentCamera = new THREE.PerspectiveCamera(40, rendererTarget.offsetWidth / rendererTarget.offsetHeight, 1, 20000);
+currentCamera.name = "currentCamera";
 
-		} else {
-			console.log("no such camera");
-		}
+// data from backend
+var mapCameras = {{ scene_cameras |safe }};
+
+function cameraSelect(cameraName) {currentCamera
+	cameras = mapCameras["cameras"]
+	if (cameraName in cameras) {
+		cameraData = cameras[cameraName];
+		console.log("------------");
+		console.log(currentCamera);
+		console.log("------------");
+		console.log(cameraData);
+		console.log("------------");
+		console.log(camera);
+
+		// save current camera
+		console.log("------------");
+		console.log("------------");
+		console.log(currentCamera.position);
+		console.log(camera.getWorldPosition(new THREE.Vector3()));
+		currentCamera.position.copy(new THREE.Vector3(cameraData['pos'][0], cameraData['pos'][1], cameraData['pos'][2]));
+		currentCamera.rotation.copy(camera.rotation);
+
+		// set new camera
+		camera = new THREE.PerspectiveCamera(cameraData.fov, rendererTarget.offsetWidth / rendererTarget.offsetHeight, 1, 20000);
+		camera.position.copy(currentCamera.position);
+		camera.rotation.copy(currentCamera.rotation);
+		
+		controls = new THREE.PointerLockControls(camera, mapCameras.cameras.default);
+		scene.add(controls.getObject());
+
+		return camera;
+
+	} else {
+		console.log("no such camera");
 	}
+};
 
 </script>
 
@@ -41,11 +69,6 @@
 	var velocity = new THREE.Vector3();
 	var direction = new THREE.Vector3();
 
-	// dom elements
-	var blocker = document.getElementById('blocker');
-	var instructions = document.getElementById('instructions');
-	var rendererTarget = document.getElementById('webgltarget');
-	rendererTarget.width=window.innerWidth;
 
 	// Cursor Locking
 	var havePointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
@@ -74,6 +97,7 @@
 		document.addEventListener('pointerlockerror', pointerlockerror, false);
 		document.addEventListener('mozpointerlockerror', pointerlockerror, false);
 		document.addEventListener('webkitpointerlockerror', pointerlockerror, false);
+
 		instructions.addEventListener('click', function (event) {
 			instructions.style.display = 'none';
 			// Ask the browser to lock the pointer
