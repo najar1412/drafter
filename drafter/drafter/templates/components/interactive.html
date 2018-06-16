@@ -31,7 +31,7 @@
                         <button onclick="goFullScreen();" type="button" style="margin-bottom:5px;" class="btn btn-success">Fullscreen</button>
                 </div>
 
-                <div>
+                <div style="display:flex;padding-bottom:5px;">
                         <div class="dropdown" style="margin-right:2px;">
 
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
@@ -48,16 +48,25 @@
                                 </div>
                         </div>
 
-                        <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false">
-                                        Annotations (2)
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="#">Action</a>
-                                        <a class="dropdown-item" href="#">Another action</a>
-                                </div>
+                        <div>
+                                <button class="btn btn-secondary" type="button" onclick="saveNewCamera()" id="saveViewBtn">Save View</button>
                         </div>
+
+                        
+                </div>
+
+                <div>
+                                <div class="dropdown">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                        Annotations (2)
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                        <a class="dropdown-item" href="#">Action</a>
+                                                        <a class="dropdown-item" href="#">Another action</a>
+                                                </div>
+                                        </div>
+
                 </div>
         </div>
 
