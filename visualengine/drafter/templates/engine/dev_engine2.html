@@ -32,14 +32,18 @@ function cameraSelect(cameraName) {currentCamera
 		console.log(currentCamera.position);
 		console.log(camera.getWorldPosition(new THREE.Vector3()));
 		currentCamera.position.copy(new THREE.Vector3(cameraData['pos'][0], cameraData['pos'][1], cameraData['pos'][2]));
-		currentCamera.rotation.copy(camera.rotation);
+		currentCamera.rotation.copy(new THREE.Vector3(cameraData['rot'][0], cameraData['rot'][1], cameraData['rot'][2]));
 
 		// set new camera
-		camera = new THREE.PerspectiveCamera(cameraData.fov, rendererTarget.offsetWidth / rendererTarget.offsetHeight, 1, 20000);
-		camera.position.copy(currentCamera.position);
-		camera.rotation.copy(currentCamera.rotation);
+		// camera = new THREE.PerspectiveCamera(cameraData.fov, rendererTarget.offsetWidth / rendererTarget.offsetHeight, 1, 20000);
+		// camera.position.copy(currentCamera.position);
+		// camera.rotation.copy(currentCamera.rotation);
 		
-		controls = new THREE.PointerLockControls(camera, mapCameras.cameras.default);
+		controls = new THREE.PointerLockControls(camera);
+		controls.getObject().position.set(cameraData['pos'][0], cameraData['pos'][1], cameraData['pos'][2]);
+
+		controls.getObject().rotation.y = cameraData["rot"][1]; // Rotates Yaw Object
+		controls.getObject().children[0].rotation.x = cameraData["rot"][0]; // Rotates the Pitch Object
 		scene.add(controls.getObject());
 
 		return camera;
