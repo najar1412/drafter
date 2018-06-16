@@ -7,28 +7,12 @@ from django.urls import reverse
 from .helpers import ClientHandler, ProjectHandler, InstanceMapHandler, HeroGeometryHandler
 from .modules import SceneData
 
-def index(request):
-    return render(request, 'index.html')
+def login(request):
+    return render(request, 'login.html')
 
 
 def dev_engine(request):
     return render(request, 'dev_engine.html')
-
-
-def upload(request):
-    if 'POST' in request:
-        # this is not how to look for a post request. fix.
-        upload_type = request.POST['choice']
-
-        return render(request, 'uploadsuccess.html', {'upload_type': upload_type})
-
-
-    else:
-        context = {
-            'upload_type': ['project', 'map', 'geometry', 'client']
-        }
-
-        return render(request, 'upload.html', context)
 
 
 def client(request, client_id):
@@ -53,7 +37,7 @@ def project_map(request, client_id, project_id, instancemap_id):
         'scene_cameras': scene_cameras
     }
 
-    return render(request, 'instancemap.html', context)
+    return render(request, 'components/map.html', context)
 
 
 def project_geometries(request, client_id, project_id):
@@ -70,14 +54,6 @@ def project_geometry(request, client_id, project_id, geometry_id):
 
     return render(request, 'geometry.html', context)
 
-
-def projects(request, client_id):
-    context = {
-        'projects': ProjectHandler().all(orderby='init_date', quantity=5),
-        'client': ClientHandler().get(pk=client_id)
-        }
-
-    return render(request, 'projects.html', context)
 
 
 def project(request, client_id, project_id):
