@@ -30,7 +30,15 @@ function cameraSelect(cameraName) {
 };
 
 function saveNewCamera() {
-	console.log(camera.getWorldPosition(new THREE.Vector3()));
+	pos = camera.getWorldPosition(new THREE.Vector3());
+	rot = controls.getObject().rotation;
+	data = {
+		'pos': [pos.x, pos.y, pos.z],
+		'rot': [rot.x, rot.y, rot.z]
+	};
+	console.log(data);
+
+	return data;
 };
 
 </script>
@@ -130,7 +138,7 @@ function saveNewCamera() {
 		var defaultGeometry = {
 			landmass: 'landmass.obj',
 			named: 'nyc_named.obj',
-			// blocks: 'test_blocks.obj',
+			blocks: 'test_blocks.obj',
 			parks: 'nyc_parks.obj'
 		};
 
