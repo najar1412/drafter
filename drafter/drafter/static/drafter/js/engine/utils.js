@@ -141,26 +141,26 @@ function goFullScreen() {
     var miniUi = document.getElementById("mini-ui");
     var fullScreenUi = document.getElementById("fullscreen-ui");
     if (canvas.requestFullScreen) {
-            miniUi.style.display = "none";
+            // miniUi.style.display = "none";
             canvas.style.height = "100%";
             fullScreenUi.style.display = "inline";
             canvas.requestFullScreen();
     }
     else if (canvas.webkitRequestFullScreen) {
-            miniUi.style.display = "none";
+            // miniUi.style.display = "none";
             canvas.style.height = "100%";
             fullScreenUi.style.display = "inline";
             canvas.webkitRequestFullScreen();
     }
     else if (canvas.mozRequestFullScreen) {
-            miniUi.style.display = "none";
+            // miniUi.style.display = "none";
             canvas.style.height = "100%";
             fullScreenUi.style.display = "inline";
             canvas.mozRequestFullScreen();
     }
 
     else if (canvas.MSFullscreenChange) {
-            miniUi.style.display = "none";
+            // miniUi.style.display = "none";
             canvas.style.height = "100%";
             fullScreenUi.style.display = "inline";
             canvas.MSFullscreenChange();
