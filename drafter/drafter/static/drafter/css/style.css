@@ -33,17 +33,26 @@
   height:inherit;
 }
 
-#fullscreen-ui {
-  display: none;
-}
-#mini-ui {
+#ui {
   display: flex; 
-  flex-direction: column; 
+  flex-direction: row; 
   position:relative; 
   z-index:5000;
   margin-top: auto;
   padding: 10px;
+  justify-content: space-between;
 }
+
+#fullscreen-ui {
+  display: none;
+}
+#mini-ui {
+}
+#env-ui {
+  color: white;
+  font-size:10px;
+}
+
 
 #blocker {
   position: absolute;
