@@ -107,8 +107,8 @@ function saveNewCamera() {
 	function init() {
 		// params, eventually json from django backend
 		var sunPosParams = {
-			distance: 400,
-			inclination: -0.1749,
+			distance: 400, // this does strange stuff
+			inclination: -0.4, // -0.5 sunset east, 0.0 noon, 0.5 sunset west
 			azimuth: 0.214
 		};
 
@@ -116,7 +116,7 @@ function saveNewCamera() {
 			sceneFogColor: 0xF2F5F8,
 			sceneFogDensity: 0.0002,
 			sceneSkyLightColor: 0x404040,
-			sceneSkyLightIntensity: 1
+			sceneSkyLightIntensity: .9
 		};
 
 		var rendererParams = {
@@ -132,7 +132,7 @@ function saveNewCamera() {
 		var waterParams = {
 			alpha: 1.0,
 			distortionScale: 3.7,
-			size: .1
+			size: 1
 		};
 
 		var defaultGeometry = {

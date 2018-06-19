@@ -81,8 +81,12 @@ function buildDefaultWater(scene, lightSource, params) {
             fog: scene.fog
         }
     );
-    //water.material.uniforms.size = params.size;
+
+    // water.material.uniforms.size = params.size;
+    console.log("testing WATER SIZE")
+    console.log(water.material.uniforms.size);
     water.rotation.x = - Math.PI / 2;
+
     scene.add( water );
 
     return water;

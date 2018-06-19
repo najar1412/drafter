@@ -8,6 +8,8 @@
  */
 
 THREE.Water = function ( geometry, options ) {
+	console.log('TESTING WATER PARAMS');
+	console.log(options);
 
 	THREE.Mesh.call( this, geometry );
 
@@ -26,7 +28,7 @@ THREE.Water = function ( geometry, options ) {
 	var sunColor = new THREE.Color( options.sunColor !== undefined ? options.sunColor : 0xffffff );
 	var waterColor = new THREE.Color( options.waterColor !== undefined ? options.waterColor : 0x7F7F7F );
 	var eye = options.eye !== undefined ? options.eye : new THREE.Vector3( 0, 0, 0 );
-	var distortionScale = options.distortionScale !== undefined ? options.distortionScale : 20.0;
+	var distortionScale = options.distortionScale !== undefined ? options.distortionScale : 20;
 	var side = options.side !== undefined ? options.side : THREE.FrontSide;
 	var fog = options.fog !== undefined ? options.fog : false;
 
