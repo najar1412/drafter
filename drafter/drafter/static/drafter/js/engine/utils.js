@@ -209,3 +209,15 @@ function exitHandler() {
             fullScreenUi.style.display = "none";
     }
 }
+
+function onSunChange(params) {
+    // console.log(envSun);
+    // var uniforms = sky.material.uniforms;
+
+    // uniforms.turbidity.value = 10;
+    // uniforms.rayleigh.value = 0;
+    // uniforms.luminance.value = 1;
+    // uniforms.mieCoefficient.value = 0.005;
+    // uniforms.mieDirectionalG.value = 0.8;
+    updateSun(scene, renderer, CUBECAMERA, envSun, sky, water, params);
+}

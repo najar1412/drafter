@@ -77,28 +77,51 @@
         </div>
 
 
-
-
-
-
         <div id="env-ui">
+     
+                        <div id="env-ui-sun">
+
+
+
+
+
+
+
+
+
+
+
+<p class="display-4;" style="font-size: 20px;">Sun</p>
+Inclination<br>
+
+                                        <input type="range"  min="-0.5" max='0.5' value="0.0" step="0.01" id="env-inclination">
+                                        <script>
+                                                        var updatedSunParams = {
+                                                                distance: 400,
+                                                                inclination: 0,
+                                                                azimuth: 0.214
+                                                        };
+                
+                                                      var inclinationSlider = document.getElementById("env-inclination");
+                
+                                                      inclinationSlider.oninput = function() {
+                                                        updatedSunParams.inclination = this.value;
+                                                        onSunChange(updatedSunParams);
+                                                      }
+                                                      </script>
+
+
+                                      </div>
+                                       
+                               
+
+
+                <br>
                         sun/time controls<br>
                         river/sea controls<br>
                         quality controls<br>
                         hero scheme controls<br>
                 </div>
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         <div id="fullscreen-ui">

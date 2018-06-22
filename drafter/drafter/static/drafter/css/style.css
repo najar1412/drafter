@@ -52,6 +52,10 @@
   color: white;
   font-size:10px;
 }
+#env-ui-sun {
+  padding: 5px;
+  background-color: rgba(0,0,0,0.2);
+}
 
 
 #blocker {

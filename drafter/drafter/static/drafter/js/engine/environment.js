@@ -53,6 +53,7 @@ function buildDefaultScene(params) {
 function updateSun(scene, renderer, cubeCamera, lightSource, sky, water, params) {
     var theta = Math.PI * ( params.inclination - 0.5 );
     var phi = 2 * Math.PI * ( params.azimuth - 0.5 );
+
     lightSource.position.x = params.distance * Math.cos( phi );
     lightSource.position.y = params.distance * Math.sin( phi ) * Math.sin( theta );
     lightSource.position.z = params.distance * Math.sin( phi ) * Math.cos( theta );
@@ -62,7 +63,6 @@ function updateSun(scene, renderer, cubeCamera, lightSource, sky, water, params)
     
     cubeCamera.update( renderer, scene );
 };
-
 
 function buildDefaultWater(scene, lightSource, params) {
     var waterGeometry = new THREE.PlaneBufferGeometry( 100000, 100000 );
