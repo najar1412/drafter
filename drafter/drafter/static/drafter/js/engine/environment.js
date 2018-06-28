@@ -51,6 +51,13 @@ function buildDefaultScene(params) {
 
 
 function updateSun(scene, renderer, cubeCamera, lightSource, sky, water, params) {
+    console.log(params);
+    console.log(sky);
+    sky.material.uniforms.rayleigh.value = params.rayleigh;
+    // sky.material.uniforms.turbidity.value = params.turbidity;
+    // sky.material.uniforms.luminance.value = params.luminance;
+    // sky.material.uniforms.mieDirectionalG.value = params.mieDirectionalG;
+    
     var theta = Math.PI * ( params.inclination - 0.5 );
     var phi = 2 * Math.PI * ( params.azimuth - 0.5 );
 

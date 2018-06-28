@@ -1,4 +1,51 @@
+<script>
+		// params, eventually json from django backend
+		var sunPosParams = {
+			distance: 400, // this does strange stuff
+			inclination: -0.45, // -0.5 sunset east, 0.0 noon, 0.5 sunset west
+			azimuth: 0.214,
+                        rayleigh: 2,
+                        turbidity: 0,
+                        luminance: 0,
+                        mieDirectionG: 0
+		};
 
+		var sceneParams = {
+			sceneFogColor: 0xF2F5F8,
+			sceneFogDensity: 0.0002,
+			sceneSkyLightColor: 0x404040,
+			sceneSkyLightIntensity: .9
+		};
+
+		var rendererParams = {
+			antialias: true,
+			enableShadowMap: true,
+		};
+
+		var skyParams = {};
+		var sunParams = {
+			enableShadows: true,
+		};
+
+		var waterParams = {
+			alpha: 1.0,
+			distortionScale: 3.7,
+			size: 1
+		};
+
+		var defaultGeometry = {
+			landmass: 'landmass.obj',
+			named: 'nyc_named.obj',
+			// blocks: 'test_blocks.obj',
+			parks: 'nyc_parks.obj'
+		};
+
+		var heroGeometry = {
+			ery: 'hy_ery.obj',
+			// hy: 'hy_hy.obj'
+		};
+
+</script>
 
 <script>
         // event listeners
@@ -77,41 +124,77 @@
         </div>
 
 
-        <div id="env-ui">
+<div id="env-ui">
      
-                        <div id="env-ui-sun">
-
-
-
-
-
-
-
-
-
-
+<div id="env-ui-sun">
 
 <p class="display-4;" style="font-size: 20px;">Sun</p>
+
 Inclination<br>
+<input type="range"  min="-0.5" max='0.5' value="0.0" step="0.01" id="env-inclination">
+<br>
 
-                                        <input type="range"  min="-0.5" max='0.5' value="0.0" step="0.01" id="env-inclination">
-                                        <script>
-                                                        var updatedSunParams = {
-                                                                distance: 400,
-                                                                inclination: 0,
-                                                                azimuth: 0.214
-                                                        };
-                
-                                                      var inclinationSlider = document.getElementById("env-inclination");
-                
-                                                      inclinationSlider.oninput = function() {
-                                                        updatedSunParams.inclination = this.value;
-                                                        onSunChange(updatedSunParams);
-                                                      }
-                                                      </script>
+Rayleigh<br>
+<input type="range"  min="0" max='3' value="2" step="0.01" id="env-rayleigh">
+<br>
+
+Turbidity<br>
+<input type="range"  min="1" max='20' value="10" step="0.01" id="env-turbidity">
+<br>
+
+Luminance<br>
+<input type="range"  min="0" max='2' value="1" step="0.01" id="env-luminance">
+<br>
+
+MieDirectionG<br>
+<input type="range"  min="0" max='1' value="0.8" step="0.01" id="env-mieDirectionG">
+<br>
+
+Azimuth<br>
+<input type="range"  min="0" max='1' value="0.25" step="0.01" id="env-azimuth">
+<br>
 
 
-                                      </div>
+        <script>
+                var inclinationSlider = document.getElementById("env-inclination");
+                inclinationSlider.oninput = function() {
+                sunPosParams.inclination = this.value;
+                onSunChange(sunPosParams);
+                }
+
+                var rayleighSlider = document.getElementById("env-rayleigh");
+                rayleighSlider.oninput = function() {
+                sunPosParams.rayleigh = this.value;
+                onSunChange(sunPosParams);
+                }
+
+                var turbiditySlider = document.getElementById("env-turbidity");
+                turbiditySlider.oninput = function() {
+                sunPosParams.turbidity = this.value;
+                onSunChange(sunPosParams);
+                }
+
+                var luminanceSlider = document.getElementById("env-luminance");
+                luminanceSlider.oninput = function() {
+                sunPosParams.luminance = this.value;
+                onSunChange(sunPosParams);
+                }
+
+                var mieDirectionGSlider = document.getElementById("env-mieDirectionG");
+                mieDirectionGSlider.oninput = function() {
+                sunPosParams.mieDirectionG = this.value;
+                onSunChange(sunPosParams);
+                }
+
+                var azimuthSlider = document.getElementById("env-azimuth");
+                azimuthSlider.oninput = function() {
+                sunPosParams.azimuth = this.value;
+                onSunChange(sunPosParams);
+                }
+
+        </script>
+
+</div>
                                        
                                
 
@@ -121,7 +204,7 @@ Inclination<br>
                         river/sea controls<br>
                         quality controls<br>
                         hero scheme controls<br>
-                </div>
+</div>
 
 
         <div id="fullscreen-ui">

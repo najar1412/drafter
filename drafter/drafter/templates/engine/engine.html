@@ -105,48 +105,6 @@ function saveNewCamera() {
 	animate();
 
 	function init() {
-		// params, eventually json from django backend
-		var sunPosParams = {
-			distance: 400, // this does strange stuff
-			inclination: -0.45, // -0.5 sunset east, 0.0 noon, 0.5 sunset west
-			azimuth: 0.214
-		};
-
-		var sceneParams = {
-			sceneFogColor: 0xF2F5F8,
-			sceneFogDensity: 0.0002,
-			sceneSkyLightColor: 0x404040,
-			sceneSkyLightIntensity: .9
-		};
-
-		var rendererParams = {
-			antialias: true,
-			enableShadowMap: true,
-		};
-
-		var skyParams = {};
-		var sunParams = {
-			enableShadows: true,
-		};
-
-		var waterParams = {
-			alpha: 1.0,
-			distortionScale: 3.7,
-			size: 1
-		};
-
-		var defaultGeometry = {
-			landmass: 'landmass.obj',
-			named: 'nyc_named.obj',
-			// blocks: 'test_blocks.obj',
-			parks: 'nyc_parks.obj'
-		};
-
-		var heroGeometry = {
-			ery: 'hy_ery.obj',
-			// hy: 'hy_hy.obj'
-		};
-
 		// default Environment
 		renderer = buildDefaultRenderer(document, rendererTarget, rendererParams)
 		keyBindings(document)
