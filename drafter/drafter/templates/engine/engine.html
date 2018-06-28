@@ -110,7 +110,7 @@ function saveNewCamera() {
 		keyBindings(document)
 
 		scene = buildDefaultScene(sceneParams);
-		sky = buildDefaultSky(scene)
+		sky = buildDefaultSky(scene, sunPosParams)
 		envSun = buildSun(scene, sunParams);
 		var waterGeometry = buildDefaultWater(scene, envSun, waterParams);
 

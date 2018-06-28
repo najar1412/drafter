@@ -5,12 +5,13 @@
 			inclination: -0.45, // -0.5 sunset east, 0.0 noon, 0.5 sunset west
 			azimuth: 0.214,
                         rayleigh: 2,
-                        turbidity: 0,
-                        luminance: 0,
-                        mieDirectionG: 0
+                        turbidity: 10,
+                        luminance: 1,
+                        mieDirectionG: 0.8
 		};
 
 		var sceneParams = {
+                        fog: false,
 			sceneFogColor: 0xF2F5F8,
 			sceneFogDensity: 0.0002,
 			sceneSkyLightColor: 0x404040,
@@ -42,7 +43,7 @@
 
 		var heroGeometry = {
 			ery: 'hy_ery.obj',
-			// hy: 'hy_hy.obj'
+			hy: 'hy_hy.obj'
 		};
 
 </script>

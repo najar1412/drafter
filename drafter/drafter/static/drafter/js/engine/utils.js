@@ -174,26 +174,26 @@ function exitFullScreen() {
 
     if (document.exitFullscreen) {
             miniUi.style.display = "inline";
-            canvas.style.height = "400px";
+            canvas.style.height = "600px";
             fullScreenUi.style.display = "none";
             document.exitFullscreen();
     }
     else if (document.webkitExitFullscreen) {
             miniUi.style.display = "inline";
-            canvas.style.height = "400px";
+            canvas.style.height = "600px";
             fullScreenUi.style.display = "none";
             document.webkitExitFullscreen();
     }
     else if (document.mozCancelFullScreen) {
             miniUi.style.display = "inline";
-            canvas.style.height = "400px";
+            canvas.style.height = "600px";
             fullScreenUi.style.display = "none";
             document.mozCancelFullScreen();
     }
 
     else if (document.MSFullscreenChange) {
             miniUi.style.display = "inline";
-            canvas.style.height = "400px";
+            canvas.style.height = "600px";
             fullScreenUi.style.display = "none";
             document.MSFullscreenChange();
     }
@@ -205,7 +205,7 @@ function exitHandler() {
             var miniUi = document.getElementById("mini-ui");
             var fullScreenUi = document.getElementById("fullscreen-ui");
             miniUi.style.display = "inline";
-            canvas.style.height = "400px";
+            canvas.style.height = "600px";
             fullScreenUi.style.display = "none";
     }
 }

@@ -3,10 +3,10 @@ function buildSun(scene, params) {
     light.castShadow = params.enableShadows;
 
     //Set up shadow properties for the light
-    light.shadow.mapSize.width = 4096;  // default
-    light.shadow.mapSize.height = 4096; // default
+    light.shadow.mapSize.width = 2048;  // default
+    light.shadow.mapSize.height = 2048; // default
     light.shadow.camera.near = 0;    // default
-    light.shadow.camera.far = 600000;     // default
+    light.shadow.camera.far = 60000;     // default
 
     light.shadow.camera.left = -1000;
     light.shadow.camera.right = 1000;
@@ -21,18 +21,18 @@ function buildSun(scene, params) {
 };
 
 
-function buildDefaultSky(scene) {
+function buildDefaultSky(scene, params) {
     // Skybox
     var sky = new THREE.Sky();
     sky.scale.setScalar( 10000 );
     scene.add( sky );
 
     var uniforms = sky.material.uniforms;
-    uniforms.turbidity.value = 10;
-    uniforms.rayleigh.value = 2;
-    uniforms.luminance.value = 1;
+    uniforms.turbidity.value = params.turbidity;
+    uniforms.rayleigh.value = params.rayleigh;
+    uniforms.luminance.value = params.luminance;
     uniforms.mieCoefficient.value = 0.005;
-    uniforms.mieDirectionalG.value = 0.8;
+    uniforms.mieDirectionalG.value = params.mieDirectionG;
 
     return sky;
 };
@@ -40,7 +40,9 @@ function buildDefaultSky(scene) {
 
 function buildDefaultScene(params) {
     scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2( params.sceneFogColor, params.sceneFogDensity );
+    if (params.fog) {
+        scene.fog = new THREE.FogExp2( params.sceneFogColor, params.sceneFogDensity );
+    };
 
     var skyLight = new THREE.AmbientLight( params.sceneSkyLightColor, params.sceneSkyLightIntensity ); // soft white light
     scene.add( skyLight );
@@ -51,12 +53,10 @@ function buildDefaultScene(params) {
 
 
 function updateSun(scene, renderer, cubeCamera, lightSource, sky, water, params) {
-    console.log(params);
-    console.log(sky);
     sky.material.uniforms.rayleigh.value = params.rayleigh;
-    // sky.material.uniforms.turbidity.value = params.turbidity;
-    // sky.material.uniforms.luminance.value = params.luminance;
-    // sky.material.uniforms.mieDirectionalG.value = params.mieDirectionalG;
+    sky.material.uniforms.turbidity.value = params.turbidity;
+    sky.material.uniforms.luminance.value = params.luminance;
+    sky.material.uniforms.mieDirectionalG.value = params.mieDirectionG;
     
     var theta = Math.PI * ( params.inclination - 0.5 );
     var phi = 2 * Math.PI * ( params.azimuth - 0.5 );
@@ -85,7 +85,7 @@ function buildDefaultWater(scene, lightSource, params) {
             sunColor: 0xffffff,
             waterColor: 0x001e0f,
             distortionScale:  params.distortionScale,
-            fog: scene.fog
+            // fog: scene.fog
         }
     );
 
