@@ -41,6 +41,19 @@ function saveNewCamera() {
 	return data;
 };
 
+function interactiveControlSun() {
+	var elem = document.getElementById('env-ui');
+	
+	if (window.getComputedStyle(elem).display === 'block') {
+		elem.style.display = 'none';
+		return;
+	} else {
+		elem.style.display = 'block';
+		return;
+	}
+};
+
+
 </script>
 
 <script type="text/javascript">
