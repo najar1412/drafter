@@ -1,4 +1,7 @@
 {% extends "base.html" %}
+
+{% load static %}
+
 {% block content %}
 
 <div id="wrapper">
@@ -6,13 +9,14 @@
                 <h1 style="background:rgba(255, 255, 255, .8); padding:10px;" class="display-4">{{client.name}}</h1>
         </div>
         <div id="overlay"></div>
-        <div style="background-position: center center; background-size: 100% auto; background-image: url(/static/drafter/img/{{client.image}});
-        height: 100%; position: absolute; width: 100%; z-index: 1;">
-        
+
+
+        <div style="background-position: center center; background-size: 100% auto; background-image: url('{% static 'drafter/img/'|add:client.image %}'); height: 100%; position: absolute; width: 100%; z-index: 1;">
+
+
     </div>
     
     </div>
-
 
 
 <h1 style="padding:30px;" class="display-4">projects</h1>
@@ -28,7 +32,7 @@
 
 <div style="margin:15px;width:200px;height:200px;overflow:hidden;">
         <a href="/drafter/{{client.id}}/{{proj.id}}">
-<div style="width:200px; height:200px;background-position: center center; background-size: 100% auto; background-image: url(/static/drafter/img/{{proj.image}});">
+<div style="width:200px; height:200px;background-position: center center; background-size: 100% auto; background-image: url('{% static 'drafter/img/'|add:proj.image %}');">
     <div style="padding:15px;position:relative;">
             <span style="background:white;margin:0;padding:0;border:0;">{{proj.name}}</span> <br>
             <small style="background:white;margin:0;padding:0;border:0;">{{proj.init_date}}</small>

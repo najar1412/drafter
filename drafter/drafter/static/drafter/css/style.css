@@ -1,6 +1,5 @@
 #wrapper {position:relative; height:500px; width:100%;}
 #overlay {
-  background: url('/static/drafter/img/image_overlay.png') repeat scroll left top;
   opacity: 0.3;
   height: 100%;
   left: 0;

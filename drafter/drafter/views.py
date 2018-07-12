@@ -7,6 +7,12 @@ from django.urls import reverse
 from .helpers import ClientHandler, ProjectHandler, InstanceMapHandler, HeroGeometryHandler
 from .modules import SceneData
 
+# DJANGO s£ setup
+# https://simpleisbetterthancomplex.com/tutorial/2017/08/01/how-to-setup-amazon-s3-in-a-django-project.html
+
+#TODO: Figure out why static files wont load from local while running in debug mode..
+
+
 def login(request):
     return render(request, 'login.html')
 
@@ -53,7 +59,6 @@ def project_geometry(request, client_id, project_id, geometry_id):
     }
 
     return render(request, 'geometry.html', context)
-
 
 
 def project(request, client_id, project_id):

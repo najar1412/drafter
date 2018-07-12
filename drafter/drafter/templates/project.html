@@ -1,6 +1,7 @@
-
-
 {% extends "base.html" %}
+
+{% load static %}
+
 {% block content %}
 
 
@@ -19,8 +20,7 @@
         </div>
 
         <div id="overlay"></div>
-        <div style="background-position: center center; background-size: 100% auto; background-image: url(/static/drafter/img/{{project.image}});
-        height: 100%; position: absolute; width: 100%; z-index: 1;">
+        <div style="background-position: center center; background-size: 100% auto; background-image: url('{% static 'drafter/img/'|add:project.image %}'); height: 100%; position: absolute; width: 100%; z-index: 1;">
         
         
     </div>
@@ -38,7 +38,7 @@
 
 <div style="padding-right:20px;">
 
-    <img style="width: 50px; height: 50px;"src="/static/drafter/img/default_user_image.jpg">
+    <img style="width: 50px; height: 50px;" src='{% static 'drafter/img/default_user_image.jpg' %}'>
 
 </div>
 
@@ -64,7 +64,7 @@
 
     <div style="margin:15px;width:200px;height:200px;overflow:hidden;">
             <a href="/drafter/{{client.id}}/{{project.id}}/map/{{map.id}}">
-    <div style="width:200px; height:200px;background-position: center center; background-size: 100% auto; background-image: url(/static/drafter/img/{{client.image}});">
+    <div style="width:200px; height:200px;background-position: center center; background-size: 100% auto; background-image: url('{% static 'drafter/img/'|add:project.image %}');">
         <div style="padding:15px;position:relative;">
                 {{map.name}}<br>
                 <small>{{map.init_date}}</small>
@@ -92,7 +92,7 @@
 
     <div style="margin:15px;width:200px;height:200px;overflow:hidden;">
             <a href="/drafter/{{client.id}}/{{project.id}}/geometry/{{geo.id}}">
-    <div style="width:200px; height:200px;background-position: center center; background-size: 100% auto; background-image: url(/static/drafter/img/{{geo.image}});">
+                <div style="width:200px; height:200px;background-position: center center; background-size: 100% auto; background-image: url('{% static 'drafter/img/'|add:geo.image %}');">
         <div style="padding:15px;position:relative;">
                 {{geo.obj_name}}<br>
                 <small>{{geo.init_date}}</small>
