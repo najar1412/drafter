@@ -8,9 +8,6 @@
  */
 
 THREE.Water = function ( geometry, options ) {
-	console.log('TESTING WATER PARAMSsssSSS');
-	console.log(options);
-
 	THREE.Mesh.call( this, geometry );
 
 	var scope = this;

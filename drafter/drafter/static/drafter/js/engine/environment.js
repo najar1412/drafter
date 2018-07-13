@@ -77,7 +77,7 @@ function buildDefaultWater(scene, lightSource, params) {
         {
             textureWidth: 512,
             textureHeight: 512,
-            waterNormals: new THREE.TextureLoader().load( '/static/drafter/js/engine/assets/waternormals.jpg', function ( texture ) {
+            waterNormals: new THREE.TextureLoader().load( engineTextureStore + 'waternormals.jpg', function ( texture ) {
                 texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
             }),
             alpha: params.alpha,
@@ -89,9 +89,6 @@ function buildDefaultWater(scene, lightSource, params) {
         }
     );
 
-    // water.material.uniforms.size = params.size;
-    console.log("testing WATER SIZE")
-    console.log(water.material.uniforms.size);
     water.rotation.x = - Math.PI / 2;
 
     scene.add( water );

@@ -1,9 +1,6 @@
-var objStorage = "https://s3.amazonaws.com/drafter-static/drafter/mesh/"
-
-
 function geometryHandler(objFile, material, scene, WORLD_ROOT, envmap=false, castshadow=true) {
     var objMesh = new THREE.OBJLoader();
-    objMesh.load(objStorage + objFile, function (mesh) {
+    objMesh.load(engineMeshStore + objFile, function (mesh) {
         for (i=0; i < mesh.children.length; i++) {
             var childMesh = mesh.children[i];
             childMesh.receiveShadow = true;
@@ -42,7 +39,6 @@ function geometryHandler(objFile, material, scene, WORLD_ROOT, envmap=false, cas
         },
         // called when loading has errors
         function ( error ) {
-            console.log('come on');
             console.log( 'An error happened' );
         }
 

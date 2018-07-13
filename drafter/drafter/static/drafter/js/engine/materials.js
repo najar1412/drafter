@@ -5,14 +5,14 @@ CUBECAMERA.renderTarget.texture.minFilter = THREE.LinearMipMapLinearFilter;
 // textures
 var TEXTURE = new THREE.TextureLoader();
 
-var textureConcrete = TEXTURE.load( "/static/drafter/js/engine/assets/concrete.jpg", function ( texture ) {
+var textureConcrete = TEXTURE.load( engineTextureStore + "concrete.jpg", function ( texture ) {
     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
     texture.offset.set( 0, 0 );
     texture.repeat.set( 100, 100 );
 
 } );
 
-var textureJetMist = TEXTURE.load( "/static/drafter/js/engine/assets/jetmist.jpg", function ( texture ) {
+var textureJetMist = TEXTURE.load( engineTextureStore + "jetmist.jpg", function ( texture ) {
     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
     texture.offset.set( 0, 0 );
     texture.repeat.set( 100, 100 );

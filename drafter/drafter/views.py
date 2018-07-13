@@ -7,7 +7,7 @@ from django.urls import reverse
 from .helpers import ClientHandler, ProjectHandler, InstanceMapHandler, HeroGeometryHandler
 from .modules import SceneData
 
-# DJANGO s£ setup
+# DJANGO s3 setup
 # https://simpleisbetterthancomplex.com/tutorial/2017/08/01/how-to-setup-amazon-s3-in-a-django-project.html
 
 #TODO: Figure out why static files wont load from local while running in debug mode..
