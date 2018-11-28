@@ -117,6 +117,11 @@ function interactiveControlSun() {
 	init();
 	animate();
 
+	function testy(camera) {
+		// logging of camera pos, rot
+		console.log(camera.rotation);
+	};
+
 	function init() {
 		// default Environment
 		renderer = buildDefaultRenderer(document, rendererTarget, rendererParams)
@@ -174,6 +179,10 @@ function interactiveControlSun() {
 			controls.getObject().translateX(velocity.x * delta);
 			controls.getObject().translateY(velocity.y * delta);
 			controls.getObject().translateZ(velocity.z * delta);
+
+			// console.log('-------------------------')
+			// testy(controls.getObject());
+			// console.log('-------------------------')
 
 			prevTime = time;
 		}

@@ -18,7 +18,7 @@ var meshes_static = "{% static "drafter/mesh/" %}";
 		// params, eventually json from django backend
 		var sunPosParams = {
 			distance: 400, // this does strange stuff
-			inclination: -0.45, // -0.5 sunset east, 0.0 noon, 0.5 sunset west
+			inclination: -0.2, // -0.5 sunset east, 0.0 noon, 0.5 sunset west
 			azimuth: 0.214,
                         rayleigh: 2,
                         turbidity: 10,
@@ -27,9 +27,9 @@ var meshes_static = "{% static "drafter/mesh/" %}";
 		};
 
 		var sceneParams = {
-                        fog: false,
+                        fog: true,
 			sceneFogColor: 0xF2F5F8,
-			sceneFogDensity: 0.0002,
+			sceneFogDensity: 0.0001,
 			sceneSkyLightColor: 0x404040,
 			sceneSkyLightIntensity: .9
 		};
@@ -58,8 +58,8 @@ var meshes_static = "{% static "drafter/mesh/" %}";
 		};
 
 		var heroGeometry = {
-			ery: 'hy_ery.obj',
-			// hy: 'hy_hy.obj'
+			wry: 'hy_wry.obj',
+			ery: 'hy_ery.obj'
 		};
 
 </script>
